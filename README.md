@@ -26,3 +26,12 @@ Follow this project board to know the latest status of the project: [https://git
 - Specify additional library to download if needed 
 - What file and target to compile and run. 
 - What is expected to happen when the app start. 
+
+
+# TO OPEN THE WEBSITE
+cd PurrfectPets
+npm install
+npm run dev
+
+click http://localhost:5173/
+
