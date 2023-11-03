@@ -29,9 +29,9 @@ Follow this project board to know the latest status of the project: [https://git
 
 
 # TO OPEN THE WEBSITE
-cd PurrfectPets
-npm install
-npm run dev
+- cd PurrfectPets
+- npm install
+- npm run dev
 
 click http://localhost:5173/
 
