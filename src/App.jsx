@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Petfinder from'./Utils/Petfinder'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -9,6 +9,15 @@ import logo from './assets/PetFinderLogo.png'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [pets, setPets] = useState([]);
+
+  useEffect(() => {
+    Petfinder.getAccessToken().then(() => {
+      Petfinder.getPets().then(pets => {
+        setPets(pets);
+      });
+    });
+  }, []);
 
   return (
     <>
@@ -23,6 +32,18 @@ function App() {
           count is {count}
         </button>
       </div>
+      <li>
+        <ul>
+          {pets.map(pet => (
+            <li key={pet.id}>
+              <img src={pet.photos[0]?.medium} alt={pet.name} />
+              <p>Name: {pet.name}</p>
+              <p>Type: {pet.type}</p>
+              <p>Age: {pet.age}</p>
+            </li>
+          ))}
+        </ul>
+      </li>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
