@@ -33,13 +33,22 @@ function App() {
         </button>
       </div>
       <li>
-        <ul>
-          {pets.map(pet => (
-            <li key={pet.id}>
-              <img src={pet.photos[0]?.medium} alt={pet.name} />
-              <p>Name: {pet.name}</p>
-              <p>Type: {pet.type}</p>
-              <p>Age: {pet.age}</p>
+        <ul style={{listStyle: 'none'}}>
+          {pets.filter(pet => pet.photos[0]?.medium).map(pet => (
+            <li key={pet.id} className="pet-details">
+              <div className="pet-image-container">
+                <img 
+                src={pet.photos[0]?.medium} 
+                alt={pet.name} 
+                onError={(e) => {
+              e.target.style.display = 'none'; // Hide the image on error
+          }}/>
+              </div>
+              <div className="pet-info">
+                <p><strong>Name: {pet.name}</strong></p>
+                <p><strong>Type: {pet.type}</strong></p>
+                <p><strong>Age: {pet.age}</strong></p>
+              </div>
             </li>
           ))}
         </ul>
