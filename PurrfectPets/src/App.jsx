@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
+import NavBar from './components/navbar'
 
 
 
@@ -23,6 +24,7 @@ function App() {
       <p className="read-the-docs">
         Click on PetFinder to learn more
       </p>
+      <NavBar />
     </>
   )
 }
