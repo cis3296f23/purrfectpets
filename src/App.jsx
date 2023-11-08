@@ -48,6 +48,7 @@ function App() {
                 <p><strong>Name: {pet.name}</strong></p>
                 <p><strong>Type: {pet.type}</strong></p>
                 <p><strong>Age: {pet.age}</strong></p>
+                <a href={pet.url} target="_blank" rel="noopener noreferrer">Learn More</a>
               </div>
             </li>
           ))}
