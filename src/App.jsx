@@ -32,6 +32,9 @@ function App() {
         <button onClick={Petfinder.getPets}>
           I changed the text of the button
         </button>
+        <button onClick={Petfinder.getPets}>
+          Hey, look! A second button! :D 
+        </button>
       </div>
       <li>
         <ul style={{listStyle: 'none'}}>
