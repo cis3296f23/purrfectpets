@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Petfinder from'./Utils/Petfinder'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import logo from './assets/PetFinderLogo.png'
+
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,7 +30,7 @@ function App() {
       <h1>Find your Purrfect Pet</h1>
       <div className="card">
         <button onClick={Petfinder.getPets}>
-          count is {count}
+          I changed the text of the button
         </button>
       </div>
       <li>
