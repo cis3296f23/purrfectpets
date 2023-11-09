@@ -20,7 +20,6 @@ export const Petfinder = {
     },
     async getPets() {
         await Petfinder.getAccessToken()
-        console.log(accessToken)
         const requestURL = 'https://api.petfinder.com/v2/animals?type=dog&page=2';
         return fetch(requestURL, {
             headers: {
