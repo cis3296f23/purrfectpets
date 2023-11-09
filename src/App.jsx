@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import Petfinder from './Utils/Petfinder'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
 
@@ -28,12 +26,6 @@ function App() {
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
-      <div className="card">
-        <button onClick={Petfinder.getPets}>
-          count is {count}
-        </button>
-      </div>
-      <li>
         <ul style={{ listStyle: 'none' }}>
           {pets.filter(pet => pet.photos[0]?.medium).map(pet => (
             <li key={pet.id} className="pet-details">
@@ -54,7 +46,6 @@ function App() {
             </li>
           ))}
         </ul>
-      </li>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
