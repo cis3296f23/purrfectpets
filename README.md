@@ -20,7 +20,6 @@ npm run dev
 click on http://localhost:5173/
 ```
 
-
 # How to contribute
 Follow this project board to know the latest status of the project: [https://github.com/orgs/cis3296f23/projects/118](https://github.com/orgs/cis3296f23/projects/118)  
 - 
@@ -31,3 +30,5 @@ Follow this project board to know the latest status of the project: [https://git
 - Before you can start running the application, please follow the steps in 'How to run'
 - As of right there no specified libraries you need to install
 - Application started correctly when you can see a collection of cute dogs.
+
+click http://localhost:5173/
