@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .logo {
@@ -39,4 +42,25 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.navBar{
+  display: flex;
+  gap: 50px;
+  justify-content: space-around;
+}
+
+.pet-details {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.pet-image-container{
+  flex: 1;
+  margin-right: 10px;
+}
+
+.pet-info {
+  flex: 2;
 }
