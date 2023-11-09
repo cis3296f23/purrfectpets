@@ -20,18 +20,27 @@ export const Petfinder = {
     },
     async getPets() {
         await Petfinder.getAccessToken()
-        console.log(accessToken)
-        const requestUrl = 'https://api.petfinder.com/v2/types';
-        const headers = {
-            Authorization: `Bearer ${accessToken}`
-        };
-        const response = await fetch(requestUrl, {
-            headers: headers
+        const requestURL = 'https://api.petfinder.com/v2/animals?type=dog&page=2';
+        return fetch(requestURL, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            }
+        })
+        .then(response => {
+            if(!response.ok) {
+                throw new Error('Request failed!');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const pets = data.animals;
+            return pets;
+        })
+        .catch(error => {
+            console.error('Error fetching pets: ', error);
+            return [];
         });
-        const jsonResponse = await response.json();
-        console.log(jsonResponse)
-        return jsonResponse.animals;
     }
-};
+}
 
 export default Petfinder
