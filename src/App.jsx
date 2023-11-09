@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Petfinder from'./Utils/Petfinder'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
