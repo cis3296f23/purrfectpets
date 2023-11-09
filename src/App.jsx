@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Petfinder from'./Utils/Petfinder'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
@@ -11,6 +11,7 @@ function App() {
     Petfinder.getAccessToken().then(() => {
       Petfinder.getPets().then(pets => {
         setPets(pets);
+        console.log(pets);
       });
     });
   }, []);
@@ -23,7 +24,7 @@ function App() {
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
-      <div>
+    
       <div className="card">
         <button onClick={Petfinder.getPets}>
           Adopt!
@@ -51,7 +52,6 @@ function App() {
           ))}
         </ul>
       </li>
-      </div>
     </>
   )
 }
