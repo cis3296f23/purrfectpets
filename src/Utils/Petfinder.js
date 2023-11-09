@@ -41,10 +41,7 @@ export const Petfinder = {
             console.error('Error fetching pets: ', error);
             return [];
         });
-        const jsonResponse = await response.json();
-        console.log(jsonResponse)
-        return jsonResponse.animals;
     }
-};
+}
 
 export default Petfinder

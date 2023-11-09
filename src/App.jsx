@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Petfinder from'./Utils/Petfinder'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
@@ -93,4 +93,4 @@ function App() {
 );
 }
 
-export default App;
+export default App
