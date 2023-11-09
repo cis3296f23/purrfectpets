@@ -10,7 +10,6 @@
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
-  border-radius: 70px;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
@@ -40,19 +39,4 @@
 
 .read-the-docs {
   color: #888;
-}
-
-.pet-details {
-  display: flex;
-  align-items: center;
-  margin: 10px;
-}
-
-.pet-image-container{
-  flex: 1;
-  margin-right: 10px;
-}
-
-.pet-info {
-  flex: 2;
 }
