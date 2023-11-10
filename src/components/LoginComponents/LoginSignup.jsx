@@ -13,6 +13,26 @@ function LoginSignup() {
 
 
     const [Login, setLogin] = useState("Create an Account")
+
+    const[passwordInput,setPasswordInput] = useState('')
+    const[passwordInput2,setPasswordInput2] = useState('')
+
+    const passwordValue = (event) =>{
+        setPasswordInput(event.target.value);
+    }
+    const passwordValue2 = (event) =>{
+        setPasswordInput2(event.target.value);
+    }
+
+    // checks if the passwords match before continuing
+    const arePasswordsEqual = () =>{
+        return passwordInput === passwordInput2
+    }
+    
+
+
+
+
     return (
         <div className="container">
             <div className="loginDiv">
@@ -25,7 +45,7 @@ function LoginSignup() {
                     {Login === "Create an Account" ? <div className="input-div">
                         <img src= {ProfilePic} alt="" />
                         <input className="input" type="text" placeholder="Username" />
-                    </div> : <div > </div>}
+                    </div> : <div> </div>}
 
 
                     <div className="input-div">
@@ -35,21 +55,33 @@ function LoginSignup() {
 
                     <div className="input-div">
                         <img src={Password} alt="" />
-                        <input className="input" type="text" placeholder="Password" />
+                        <input
+                            className="input" 
+                            type="text" 
+                            placeholder="Password"
+                            value={passwordInput2}
+                            onChange={passwordValue2} />
                     </div>
 
                     {Login === "Create an Account" ? <div className="input-div">
                         <img src={Password} alt="" />
-                        <input className="input" type="text" placeholder="Repeat Password" />
-                    </div> : <div ></div>}
+                        <input 
+                            className="input" 
+                            type="text" 
+                            placeholder="Repeat Password"
+                            value = {passwordInput}
+                            onChange={passwordValue}/>
+                    </div>
+                    :  
+                    <div></div>}
+
                 </div>
 
                 <div className="submit-div">
                     <button className="submit" onClick={() => {
                         {Login==='Login'? alert("need to verify their account against the DB")
                         :
-                        alert("add their creds into the DB and render the user preferences")}
-
+                        alert(` ${arePasswordsEqual()? 'passwords match \n add their creds into the DB and render the user preferences' : 'passwords dont match'}`)}
                     }}>
                         Continue</button>
                     {/* Either display the sign up page or login page depending on what they click */}
