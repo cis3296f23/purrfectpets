@@ -1,0 +1,14 @@
+.loginDiv{
+    border-color: rgb(15, 15, 16);
+    border: solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .logo{
+        min-width: 70px;
+        min-height: 70px;
+    }
+    
+}
+
