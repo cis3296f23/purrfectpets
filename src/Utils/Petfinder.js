@@ -18,9 +18,10 @@ export const Petfinder = {
         const expiresIn = jsonResponse.expires_in;
         window.setTimeout(() => accessToken = '', expiresIn);
     },
-    async getPets() {
+    async getPets(page=1) {
         await Petfinder.getAccessToken()
-        const requestURL = 'https://api.petfinder.com/v2/animals?type=dog&page=2';
+        const requestURL = `https://api.petfinder.com/v2/animals?page=${page}`;
+        console.log("URL:" + requestURL)
         return fetch(requestURL, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,

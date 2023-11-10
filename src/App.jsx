@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import Petfinder from'./Utils/Petfinder'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
 
@@ -10,53 +8,68 @@ import logo from './assets/PetFinderLogo.png'
 function App() {
   const [count, setCount] = useState(0)
   const [pets, setPets] = useState([]);
+  const [currentPetIndex, setCurrentPetIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     Petfinder.getAccessToken().then(() => {
-      Petfinder.getPets().then(pets => {
+      Petfinder.getPets(currentPage).then(pets => {
         setPets(pets);
         console.log(pets);
       });
     });
-  }, []);
+  }, [currentPage]);
+
+  const nextPet = () => {
+    if (currentPetIndex < pets.length - 1) {
+      console.log(currentPetIndex)
+      console.log(pets[currentPetIndex]);
+      setCurrentPetIndex(currentPetIndex + 1);
+    }else{
+      console.log("Current Page:" + currentPage)
+      setCurrentPage(currentPage + 1);
+      setCurrentPetIndex(0);
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://www.petfinder.com/" target="_blank">
-          <img src= {logo} className="logo" alt="PetFinder logo" />
-        </a>
-      </div>
-      <h1>Find your Purrfect Pet</h1>
-      <div className="card">
-        <button onClick={Petfinder.getPets}>
-          count is {count}
-        </button>
-      </div>
-      <li>
-        <ul style={{listStyle: 'none'}}>
-          {pets.filter(pet => pet.photos[0]?.medium).map(pet => (
-            <li key={pet.id} className="pet-details">
-              <div className="pet-image-container">
-                <img 
-                src={pet.photos[0]?.medium} 
-                alt={pet.name} 
-                onError={(e) => {
-              e.target.style.display = 'none'; // Hide the image on error
-          }}/>
-              </div>
-              <div className="pet-info">
-                <p><strong>Name: {pet.name}</strong></p>
-                <p><strong>Type: {pet.type}</strong></p>
-                <p><strong>Age: {pet.age}</strong></p>
-                <a href={pet.url} target="_blank" rel="noopener noreferrer">Learn More</a>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </li>
-    </>
-  )
+    <div>
+      <a href="https://www.petfinder.com/" target="_blank">
+        <img src={logo} className="logo" alt="PetFinder logo" />
+      </a>
+    </div>
+    <h1>Find your Purrfect Pet</h1>
+    <div className="card">
+      <button onClick={nextPet}>
+        Show Next Pet
+      </button>
+    </div>
+    <ul style={{ listStyle: 'none' }}>
+      {pets[currentPetIndex] && (
+        <li key={pets[currentPetIndex].id} className="pet-details">
+          <div className="pet-image-container">
+            <img
+              src={pets[currentPetIndex].photos[0]?.medium}
+              alt={pets[currentPetIndex].name}
+              onError={(e) => {
+                e.target.style.display = 'none'; // Hide the image on error
+              }}
+            />
+          </div>
+          <div className="pet-info">
+            <p><strong>Name: {pets[currentPetIndex].name}</strong></p>
+            <p><strong>Type: {pets[currentPetIndex].type}</strong></p>
+            <p><strong>Age: {pets[currentPetIndex].age}</strong></p>
+            <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
+              Learn More
+            </a>
+          </div>
+        </li>
+      )}
+    </ul>
+  </>
+);
 }
 
-export default App
+export default App;
