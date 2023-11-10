@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Petfinder from'./Utils/Petfinder'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
@@ -24,16 +24,7 @@ function App() {
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={Petfinder.getPets}>
-        </button>
       </div>
         <ul style={{listStyle: 'none'}}>
           {pets.filter(pet => pet.photos[0]?.medium).map(pet => (
