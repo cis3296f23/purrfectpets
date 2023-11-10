@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .logo {
@@ -10,7 +13,6 @@
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
-  border-radius: 70px;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
@@ -40,6 +42,12 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.navBar{
+  display: flex;
+  gap: 50px;
+  justify-content: space-around;
 }
 
 .pet-details {
