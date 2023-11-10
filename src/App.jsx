@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Petfinder from'./Utils/Petfinder'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
-
-
+import NavBar from './components/navbar'
 
 function App() {
-  const [count, setCount] = useState(0)
   const [pets, setPets] = useState([]);
 
   useEffect(() => {
@@ -24,29 +20,31 @@ function App() {
     <>
       <div>
         <a href="https://www.petfinder.com/" target="_blank">
-          <img src= {logo} className="logo" alt="PetFinder logo" />
+          <img src={logo} className="logo" alt="PetFinder logo" />
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      <h1>Vite + React</h1>
       <div className="card">
         <button onClick={Petfinder.getPets}>
-          I changed the text of the button
-        </button>
-        <button onClick={Petfinder.getPets}>
-          Hey, look! A second button! :D 
         </button>
       </div>
-      <li>
         <ul style={{listStyle: 'none'}}>
           {pets.filter(pet => pet.photos[0]?.medium).map(pet => (
             <li key={pet.id} className="pet-details">
               <div className="pet-image-container">
-                <img 
-                src={pet.photos[0]?.medium} 
-                alt={pet.name} 
-                onError={(e) => {
-              e.target.style.display = 'none'; // Hide the image on error
-          }}/>
+                <img
+                  src={pet.photos[0]?.medium}
+                  alt={pet.name}
+                  onError={(e) => {
+                    e.target.style.display = 'none'; // Hide the image on error
+                  }} />
               </div>
               <div className="pet-info">
                 <p><strong>Name: {pet.name}</strong></p>
@@ -57,10 +55,12 @@ function App() {
             </li>
           ))}
         </ul>
-      </li>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <footer>
+        <a href="https://www.flaticon.com/free-icons/cats" title="cats icons">Cats icons created by Freepik - Flaticon</a>
+      </footer>
     </>
   )
 }
