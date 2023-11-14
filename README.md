@@ -16,6 +16,7 @@ Discover your ideal furry companion at PurrfectPets – the ultimate destination
 - In your terminal type:
 ```
 npm install
+npm install -g sass
 npm run dev
 click on http://localhost:5173/
 ```
