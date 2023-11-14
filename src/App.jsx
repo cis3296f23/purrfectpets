@@ -48,7 +48,6 @@ function App() {
           ))}
         </ul>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
       </p>
       <footer>
         <a href="https://www.flaticon.com/free-icons/cats" title="cats icons">Cats icons created by Freepik - Flaticon</a>

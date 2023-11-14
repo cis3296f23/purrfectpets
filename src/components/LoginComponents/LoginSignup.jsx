@@ -13,9 +13,9 @@ function LoginSignup() {
 
 
     const [Login, setLogin] = useState("Create an Account")
-
     const[passwordInput,setPasswordInput] = useState('')
     const[passwordInput2,setPasswordInput2] = useState('')
+    const [validPassword, setValidPassword] = useState('valid')
 
     const passwordValue = (event) =>{
         setPasswordInput(event.target.value);
@@ -75,13 +75,42 @@ function LoginSignup() {
                     :  
                     <div></div>}
 
+                    {Login === "Create an Account" ? 
+                        validPassword === 'valid'? 
+                            <div></div>
+                            :
+                            <p className="invalidPassword">Passwords do not match</p>
+                        :
+                        <div></div>}
+                    
                 </div>
 
                 <div className="submit-div">
                     <button className="submit" onClick={() => {
-                        {Login==='Login'? alert("need to verify their account against the DB")
-                        :
-                        alert(` ${arePasswordsEqual()? 'passwords match \n add their creds into the DB and render the user preferences' : 'passwords dont match'}`)}
+
+                        if(Login === 'Login'){
+                            alert("need to verify their account against the DB")
+                            setValidPassword('valid')
+                        }
+
+                        else{
+                            if (arePasswordsEqual()){
+                                setValidPassword("valid")
+                                alert(`passwords match \n add their creds into the DB and render the user preferences`)
+                            }
+                            else{
+                                setValidPassword("invalid")
+                            }
+                            // alert(` ${arePasswordsEqual()? 'passwords match \n add their creds into the DB and render the user preferences' : 'passwords dont match'}`)
+                            // setValidPassword("invalid")
+                        }
+                        // {Login==='Login'? alert("need to verify their account against the DB")
+                
+                        // :
+                        // alert(` ${arePasswordsEqual()? 'passwords match \n add their creds into the DB and render the user preferences' : 'passwords dont match'}`)
+                        
+                        // }
+
                     }}>
                         Continue</button>
                     {/* Either display the sign up page or login page depending on what they click */}
