@@ -36,7 +36,7 @@ function SideBar(){
         {
             title: "Logout",
             icon: <img src={ProfilePic} alt="" />,
-            link: '/Login'
+            link: '/'
 
         }
         
