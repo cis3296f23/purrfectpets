@@ -34,8 +34,8 @@ export const Petfinder = {
             return response.json();
         })
         .then(data => {
-            const pets = data.animals;
-            return pets;
+            const petsWithImages = data.animals.filter(pet => pet.photos.length > 0);
+            return petsWithImages;
         })
         .catch(error => {
             console.error('Error fetching pets: ', error);
