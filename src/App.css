@@ -36,23 +36,42 @@
   color: #888;
 }
 
+.navBar{
+  display: flex;
+  gap: 50px;
+  justify-content: space-around;
+}
+
 .pet-details {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: 10px;
 }
 
 .pet-image-container{
   flex: 1;
-  margin-right: 10px;
 }
 
 .pet-info {
   flex: 2;
 }
 
-.navBar{
+.app-container {
   display: flex;
-  gap: 50px;
-  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+body, ul {
+  margin: 0;
+  padding: 0;
 }
