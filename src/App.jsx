@@ -17,7 +17,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className='app-container'>
       <div>
         <a href="https://www.petfinder.com/" target="_blank">
           <img src={logo} className="logo" alt="PetFinder logo" />
@@ -52,7 +52,7 @@ function App() {
       <footer>
         <a href="https://www.flaticon.com/free-icons/cats" title="cats icons">Cats icons created by Freepik - Flaticon</a>
       </footer>
-    </>
+    </div>
   )
 }
 

@@ -31,9 +31,9 @@ function LoginSignup() {
     
 
     return (
-        <div className="container">
+        <div className="login-container">
             <div className="loginDiv">
-                <img className="logo " src={DogPaw} alt=" SignUp Logo" />
+                <img className="account-logo " src={DogPaw} alt=" SignUp Logo" />
                 <div className="header">
                     <h1>{Login}</h1>
                 </div>
