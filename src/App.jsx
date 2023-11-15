@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Petfinder from'./Utils/Petfinder'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
-import NavBar from './components/navbar'
+
 
 function App() {
   const [pets, setPets] = useState([]);

@@ -9,11 +9,18 @@ function SideBar(){
 
     const sideBarItems = [
         {
+            title: "Home",
+            icon: <img src={ProfilePic} alt="" />,
+            link: "/App"
+
+        },
+        {
             title: "Account",
             icon: <img src={ProfilePic} alt="" />,
             link: "/Account"
 
         },
+        
         {
             title: "Settings",
             icon: <img src={ProfilePic} alt="" />,
@@ -29,7 +36,7 @@ function SideBar(){
         {
             title: "Logout",
             icon: <img src={ProfilePic} alt="" />,
-            link: '/LoginSignup'
+            link: '/Login'
 
         }
         
@@ -51,7 +58,6 @@ function SideBar(){
 
                             <div id="icon">{val.icon}</div>
                             <div id = 'title'>{val.title}</div>
-                            
                             </li>
                     )
                 })}
