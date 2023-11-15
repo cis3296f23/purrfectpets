@@ -7,8 +7,8 @@ import Account from './components/AccountComponents/Account.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App/>
-    <LoginSignup/>
-    {/* <Account/> */}
+    {/* <App/>
+    <LoginSignup/> */}
+    <Account/>
   </React.StrictMode>,
 )
