@@ -17,13 +17,14 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className='app-container'>
       <div>
         <a href="https://www.petfinder.com/" target="_blank">
           <img src={logo} className="logo" alt="PetFinder logo" />
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
+    
       <div className="card">
       </div>
         <ul style={{listStyle: 'none'}}>
@@ -47,12 +48,11 @@ function App() {
           ))}
         </ul>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
       </p>
       <footer>
         <a href="https://www.flaticon.com/free-icons/cats" title="cats icons">Cats icons created by Freepik - Flaticon</a>
       </footer>
-    </>
+    </div>
   )
 }
 
