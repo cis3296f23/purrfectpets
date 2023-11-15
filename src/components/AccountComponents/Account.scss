@@ -1,0 +1,77 @@
+.account-container{
+    background-color: aliceblue;
+    height: 100%;
+    width: 100vw;
+    max-width: 100%;
+    
+
+
+    .account{
+
+    }
+
+    .sideBar{
+    
+        background-color: rgb(172, 179, 179);
+        margin: 0;
+        padding: 0;
+        width: 200px;
+        height: 100vh;
+
+
+
+        .list-group{
+            list-style-type: none;
+            width: auto;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+
+            .list-item{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgb(172, 179, 179);
+                height: 60px;
+                gap: 20px;
+                color:white;
+                
+
+                img{
+                    height: 25px;
+
+                }
+                #icon{
+                
+                    flex: 30%;
+                    text-align: right;
+                    margin-left: 25px;
+                    
+                }
+
+                #title{
+                    
+                    flex: 70%;
+                    text-align: left;
+                }
+            
+                
+            }
+
+            #active{
+                background-color:rgb(97, 95, 93) ;
+            }
+            
+
+
+            .list-item:hover{
+                background-color:rgb(97, 95, 93) ;
+                cursor: pointer;
+            }
+        }
+
+    }
+    
+    
+}
+

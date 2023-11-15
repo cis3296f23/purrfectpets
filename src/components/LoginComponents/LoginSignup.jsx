@@ -30,9 +30,6 @@ function LoginSignup() {
     }
     
 
-
-
-
     return (
         <div className="container">
             <div className="loginDiv">
@@ -74,7 +71,7 @@ function LoginSignup() {
                     </div>
                     :  
                     <div></div>}
-
+                    {/* checks if the user is the sign up page and then checks if the user entered the same password twice */}
                     {Login === "Create an Account" ? 
                         validPassword === 'valid'? 
                             <div></div>
@@ -91,25 +88,20 @@ function LoginSignup() {
                         if(Login === 'Login'){
                             alert("need to verify their account against the DB")
                             setValidPassword('valid')
+                            // need to write code here to check against the DB
                         }
 
                         else{
                             if (arePasswordsEqual()){
                                 setValidPassword("valid")
                                 alert(`passwords match \n add their creds into the DB and render the user preferences`)
+                                // add the creds into the DB
                             }
                             else{
                                 setValidPassword("invalid")
                             }
-                            // alert(` ${arePasswordsEqual()? 'passwords match \n add their creds into the DB and render the user preferences' : 'passwords dont match'}`)
-                            // setValidPassword("invalid")
+            
                         }
-                        // {Login==='Login'? alert("need to verify their account against the DB")
-                
-                        // :
-                        // alert(` ${arePasswordsEqual()? 'passwords match \n add their creds into the DB and render the user preferences' : 'passwords dont match'}`)
-                        
-                        // }
 
                     }}>
                         Continue</button>
