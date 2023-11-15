@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import Petfinder from'./Utils/Petfinder'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
+import checkmark from './assets/checkmark.png'
+import xmark from './assets/xmark.png'
 
 
 
@@ -10,6 +12,7 @@ function App() {
   const [pets, setPets] = useState([]);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [userPreferences, setUserPreferences] = useState([]);
 
   useEffect(() => {
     Petfinder.getAccessToken().then(() => {
@@ -26,11 +29,25 @@ function App() {
       console.log(pets[currentPetIndex]);
       setCurrentPetIndex(currentPetIndex + 1);
     }else{
-      console.log("Current Page:" + currentPage)
       setCurrentPage(currentPage + 1);
       setCurrentPetIndex(0);
     }
   };
+
+  const handleDislike = () => {
+    setUserPreferences([...userPreferences, {id: pets[currentPetIndex].id, preference: 'dislike'}])
+    nextPet();
+  }
+  const handleLike = () => {
+    setUserPreferences([...userPreferences, {id: pets[currentPetIndex].id, preference: 'like'}])
+    nextPet();
+  }
+
+  //console log userPreferences
+  useEffect(() => {
+    console.log(userPreferences)
+  }, [userPreferences]) //only runs when userPreferences changes, console log userPreferences
+
 
   return (
     <>
@@ -68,6 +85,10 @@ function App() {
         </li>
       )}
     </ul>
+    <div className="button-options">
+      <img src={xmark} width="300" onClick={handleDislike} alt="Dislike"></img>
+      <img src={checkmark} width="300" onClick={handleLike} alt="Like"></img>
+    </div>
   </>
 );
 }
