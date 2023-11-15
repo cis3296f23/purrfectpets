@@ -83,7 +83,9 @@ function LoginSignup() {
                 </div>
 
                 <div className="submit-div">
+                    
                     <button className="submit" onClick={() => {
+                        window.location.pathname = '/app'
 
                         if(Login === 'Login'){
                             alert("need to verify their account against the DB")
@@ -105,6 +107,8 @@ function LoginSignup() {
 
                     }}>
                         Continue</button>
+
+
                     {/* Either display the sign up page or login page depending on what they click */}
                     <p>{Login === "Create an Account"? "Have an Account?": "Don't have an Account?"}</p>
                     <p className="btn"onClick={() => {Login === "Create an Account"? setLogin("Login"):setLogin("Create an Account")}}>
