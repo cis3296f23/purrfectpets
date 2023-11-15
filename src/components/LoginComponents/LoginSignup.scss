@@ -1,4 +1,4 @@
-.container{
+.login-container{
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -15,7 +15,7 @@
     justify-content: start;
     align-items: center;
     width: 500px;
-    height: 750px;
+    height: 700px;
     opacity: .8;
     border-radius: 50px;
     background-color: rgb(170, 136, 136);
@@ -24,7 +24,7 @@
         color:white;
     }
     
-    .logo{
+    .account-logo{
         width: 80px;
         height: 80px;
     }
@@ -45,7 +45,10 @@
 
         img{
             height: 30px;
+            
         }
+
+        
         
         .input{
             color: black;
@@ -57,8 +60,9 @@
             font-size: 20px;
             outline: none;
             
-
         }
+
+        
 
     }
     .invalidPassword{
