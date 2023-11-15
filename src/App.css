@@ -44,15 +44,34 @@
 
 .pet-details {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: 10px;
 }
 
 .pet-image-container{
   flex: 1;
-  margin-right: 10px;
 }
 
 .pet-info {
   flex: 2;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+body, ul {
+  margin: 0;
+  padding: 0;
 }
