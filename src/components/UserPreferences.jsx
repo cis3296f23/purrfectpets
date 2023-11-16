@@ -41,6 +41,7 @@ function UserPreferences() {
 function Dropdown(props){
     const[display, setDisplay] = useState('none')
     function handleClick(){
+
         if (display == 'none'){
             setDisplay('block')
         }else{
