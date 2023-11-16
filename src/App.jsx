@@ -16,7 +16,6 @@ function App() {
     Petfinder.getAccessToken().then(() => {
       Petfinder.getPets(currentPage).then(pets => {
         setPets(pets);
-        console.log(pets);
       });
     });
   }, [currentPage]);
@@ -52,7 +51,7 @@ function App() {
     <div className="app-container">
       <div>
         <a href="https://www.petfinder.com/" target="_blank">
-          <img src={logo} className="logo" alt="PetFinder logo" />
+          <img src= {logo} className="logo" alt="PetFinder logo" />
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
