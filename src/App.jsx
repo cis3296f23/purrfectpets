@@ -5,6 +5,7 @@ import logo from './assets/PetFinderLogo.png'
 import checkmark from './assets/checkmark.png'
 import xmark from './assets/xmark.png'
 import NavBar from './components/navbar'
+import UserPreferences from './components/UserPreferences'
 
 function App() {
   const [pets, setPets] = useState([]);
