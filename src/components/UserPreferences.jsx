@@ -1,5 +1,6 @@
 import React from "react"
 import {useState} from "react"
+import {Component} from "react"
 
 
 function UserPreferences() {
@@ -7,7 +8,16 @@ function UserPreferences() {
     return <up className=" userPreferences">
             <>
                 <Dropdown>
-                <Element/>
+                <Element
+                name = "Dog">
+                    <Preferences
+                    name = "Big"
+                    />
+                </Element>
+                <Element
+                    name = "Cat"/>
+                <Element
+                    name = "Fish"/>
                 </Dropdown>
             </>
         </up>
@@ -19,32 +29,55 @@ function UserPreferences() {
 function Dropdown(props){
     const[display, setDisplay] = useState('none')
     function handleClick(){
+
         if (display == 'none'){
             setDisplay('block')
         }else{
             setDisplay('none')
         }
+
     }
-    onClick = {this:handleClick}
     return(
-        <div>
+        <div onClick={handleClick}>
             User Preferences
             <div style = {{display:display}}>
-                props.children
+                {props.children}
             </div>
         </div>
     )
 
 }
 
-function Element(){
+function Element(props){
+    const[display, setDisplay] = useState('none')
+    function handleClick(){
+        if (display == 'none'){
+            setDisplay('none')
+        }else{
+            setDisplay('block')
+        }
+
+    }
+    var content = props.name
+    return(
+        <div onClick={handleClick}>
+            {content}
+            <div style = {{display:display}}>
+                {props.children}
+            </div>
+
+        </div>
+    )
+}
+
+function Preferences(props){
     var content = props.name
     return(
         <div>
-            GET https://api.petfinder.com/v2/animals
             {content}
         </div>
     )
+
 }
 
 function DropDownButton (props){
@@ -60,8 +93,10 @@ function DropDownButton (props){
 }
 
 
+
 export {DropDownButton}
 export {Element}
+export{Preferences}
 
 export {Dropdown}
 
