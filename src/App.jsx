@@ -3,6 +3,7 @@ import Petfinder from'./Utils/Petfinder'
 import './App.css'
 import logo from './assets/PetFinderLogo.png'
 import NavBar from './components/navbar'
+import UserPreferences from './components/UserPreferences'
 
 function App() {
   const [pets, setPets] = useState([]);
@@ -24,6 +25,7 @@ function App() {
       </div>
       <h1>Find your Purrfect Pet</h1>
       <div>
+      <UserPreferences />
       <div className="card">
         <button onClick={Petfinder.getPets}>
           Adopt!
