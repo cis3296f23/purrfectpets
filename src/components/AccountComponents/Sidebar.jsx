@@ -16,13 +16,13 @@ function SideBar(){
     const sideBarItems = [
         {
             title: "Home",
-            icon: <img src={ProfilePic} alt="" />,
+            icon: <HomeIcon/>,
             link: "/App"
 
         },
         {
             title: "Account",
-            icon: <img src={ProfilePic} alt="" />,
+            icon : <AccountBoxIcon/>,
             link: "/Account"
 
         },
