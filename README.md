@@ -21,12 +21,12 @@ click on http://localhost:5173/
 Follow this project board to know the latest status of the project: [https://github.com/orgs/cis3296f23/projects/118](https://github.com/orgs/cis3296f23/projects/118)  
 - 
 ### How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 
+- Clone this github repository:
+- Create your own branch off of Production or Dev. Please don't work off Production or Dev. These branches are protected, any pushes to these branches will be void.
+- Use any IDE of your choice.
+- Before you can start running the application, please follow the steps in 'How to run'
+- As of right there no specified libraries you need to install
+- Application started correctly when you can see a collection of cute dogs.
 
 
 # TO OPEN THE WEBSITE
