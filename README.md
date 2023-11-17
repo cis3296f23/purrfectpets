@@ -13,7 +13,6 @@ Discover your ideal companion at PurrfectPets – the ultimate destination for p
 - In your terminal type:
 ```
 npm install
-npm install -g sass
 npm run dev
 click on http://localhost:5173/
 ```
