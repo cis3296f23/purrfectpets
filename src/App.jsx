@@ -85,6 +85,7 @@ function App() {
       </div>
       <p className="read-the-docs">
       </p>
+      <NavBar/>
       <footer>
         <a href="https://www.flaticon.com/free-icons/cats" title="cats icons">Cats icons created by Freepik - Flaticon</a>
       </footer>
