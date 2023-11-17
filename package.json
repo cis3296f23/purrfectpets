@@ -10,8 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.18",
+    "@mui/material": "^5.14.18",
+    "@mui/styled-engine": "^5.14.18",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.6",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0", 
+    "react-router-dom": "^6.18.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -21,8 +28,9 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "vite": "^4.4.5",
-    "react-error-overlay": "6.0.9"
+    "react-error-overlay": "6.0.9",
+    "sass": "^1.69.5",
+    "vite": "^4.4.5"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"

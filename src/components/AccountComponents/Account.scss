@@ -1,0 +1,162 @@
+.account-container{
+    display: flex;
+    height: 100%;
+    width: 100vw;
+    max-width: 100%;
+    margin: 0;
+    padding:0;
+    
+
+    .account{
+        color: white;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        width: 90vw;
+        text-align: center;
+        margin-top: 50px;
+        gap: 50px;
+        
+
+        .account-user,.account-info{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(245, 222, 179, 0.234);
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        
+        }
+        .account-user{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 20vw;
+            height: 100%;
+
+
+            .account-edit{
+                display: flex;
+                background-color: rgb(185, 165, 165);
+                border-radius: 50%;
+            }
+
+            
+            .account-pic-container{
+                display: flex;
+                align-items: end;
+
+                .account-pic{
+                    margin-top: 20px;
+                    background-color: rgb(130, 119, 119);
+                    border-radius: 50%;
+                    height: 150px;
+                    width: 150px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+            }
+
+
+            .userName-container{
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                gap: 5px;
+
+                .account-username{
+                    width: 200px;
+                    
+                }
+            }
+
+
+        }
+        .account-info{
+            width: 60vw;
+            height: 100%;
+
+        }
+
+
+        
+        
+
+
+
+
+
+    }
+
+    
+
+
+
+
+
+
+
+}
+.sideBar{
+    
+        background-color: rgb(172, 179, 179);
+        margin: 0;
+        padding: 0;
+        width: 200px;
+        height: 100vh;
+
+
+
+        .list-group{
+            list-style-type: none;
+            width: auto;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+
+            .list-item{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgb(172, 179, 179);
+                height: 60px;
+                gap: 20px;
+                color:white;
+                
+                #icon{
+                
+                    flex: 30%;
+                    text-align: right;
+                    margin-left: 25px;
+                    
+                }
+
+                #title{
+                    
+                    flex: 70%;
+                    text-align: left;
+                }
+            
+                
+            }
+
+            #active{
+                background-color:rgb(97, 95, 93) ;
+            }
+            
+
+
+            .list-item:hover{
+                background-color:rgb(97, 95, 93) ;
+                cursor: pointer;
+            }
+        }
+
+    }
+
+
+
+

@@ -1,8 +1,5 @@
-
-
-
 # PurrfectPets
-Discover your ideal furry companion at PurrfectPets – the ultimate destination for pet adoption. Customize your preferences, and witness a delightful array of adorable pets right at your fingertips. Express your affection by liking your favorite pets, and with a simple click, we'll guide you to the PetFinder website, connecting you directly with the shelter or owner. Your journey to finding the perfect pet begins here.
+Discover your ideal companion at PurrfectPets – the ultimate destination for pet adoption. Customize your preferences, and witness a delightful array of adorable pets right at your fingertips. Express your affection by liking your favorite pets, and with a simple click, we'll guide you to the PetFinder website, connecting you directly with the shelter or owner. Your journey to finding the perfect pet begins here.
 
 ![](<src/assets/Screenshot 2023-11-09 at 1.53.01 PM.png>)
 # How to run
@@ -31,4 +28,7 @@ Follow this project board to know the latest status of the project: [https://git
 - As of right there no specified libraries you need to install
 - Application started correctly when you can see a collection of cute dogs.
 
-click http://localhost:5173/
+
+# TO OPEN THE WEBSITE
+- npm install
+- npm run dev
