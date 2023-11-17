@@ -1,15 +1,27 @@
 import React from "react"
-import {useState} from "react"
+import { useState, useEffect } from 'react'
+import Petfinder from'../Utils/Petfinder'
 import {Component} from "react"
+import './UserPreferences.css'
 
 
 function UserPreferences() {
+    const [pets, setPets] = useState([]);
+
+  useEffect(() => {
+    Petfinder.getAccessToken().then(() => {
+      Petfinder.getTypes().then(pets => {
+        setPets(pets);
+      });
+    });
+  }, []);
+    
 
     return <up className=" userPreferences">
             <>
                 <Dropdown>
                 <Element
-                name = "Dog">
+                name = "Dogs">
                     <Preferences
                     name = "Big"
                     />
