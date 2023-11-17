@@ -4,10 +4,15 @@ import React from "react"
 function NavBar() {
 
     return <nav className=" navBar">
-            <button className="home">home</button>
-            <button className="pet">pet</button>
-            <button className="settings">settings</button>
-            <button className="saved">saved</button>
+
+            <button className="account-nav" onClick={()=>{
+                window.location.pathname = '/account'
+
+            }}>Account</button>
+            <button className="login-nav" onClick={()=>{
+                window.location.pathname = '/'
+
+            }}>Logout</button>
         </nav>
 
 
