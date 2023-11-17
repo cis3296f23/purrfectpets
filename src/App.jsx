@@ -5,6 +5,7 @@ import logo from './assets/PetFinderLogo.png'
 import checkmark from './assets/checkmark.png'
 import xmark from './assets/xmark.png'
 import NavBar from './components/navbar'
+import UserPreferences from './components/UserPreferences'
 
 function App() {
   const [pets, setPets] = useState([]);
@@ -16,7 +17,6 @@ function App() {
     Petfinder.getAccessToken().then(() => {
       Petfinder.getPets(currentPage).then(pets => {
         setPets(pets);
-        console.log(pets);
       });
     });
   }, [currentPage]);
@@ -52,7 +52,7 @@ function App() {
     <div className="app-container">
       <div>
         <a href="https://www.petfinder.com/" target="_blank">
-          <img src={logo} className="logo" alt="PetFinder logo" />
+          <img src= {logo} className="logo" alt="PetFinder logo" />
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
