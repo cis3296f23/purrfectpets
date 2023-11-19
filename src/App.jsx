@@ -13,7 +13,7 @@ function App() {
   const [userPreferences, setUserPreferences] = useState([]);
 
   useEffect(() => {
-    fetch(`/Petfinder/getPets/${currentPage}`)
+    fetch(`/Petfinder/${currentPage}`)
       .then(res => res.json())
       .then(data => setPets(data))
   }, [currentPage]);
