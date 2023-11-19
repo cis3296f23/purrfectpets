@@ -3,7 +3,7 @@ import Petfinder from'./Petfinder.js'
 
 const router = express.Router();
 
-router.get("/Petfinder/GetPets/:page", async (req, res) => {
+router.get("/:page", async (req, res) => {
     try {
         const pets = await Petfinder.getPets(req.params.page);
         res.send(pets)
