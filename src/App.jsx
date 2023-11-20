@@ -4,6 +4,7 @@ import logo from './assets/PetFinderLogo.png'
 import checkmark from './assets/checkmark.png'
 import xmark from './assets/xmark.png'
 import NavBar from './components/navbar'
+import prefsToInt from '../utils/encodeUserPrefs'
 //import UserPreferences from './components/UserPreferences'
 
 function App() {
@@ -13,7 +14,11 @@ function App() {
   const [userPreferences, setUserPreferences] = useState([]);
 
   useEffect(() => {
-    fetch(`/Petfinder/${currentPage}`)
+    // temp user prefs
+    let userPrefs = ['Dog', 'Cat', 'Small & Furry', 'Scales, Fins & Other', 'Barnyard', 'good_with_children', 'house_trained'];
+    let prefs = prefsToInt(userPrefs);
+    //
+    fetch(`/Petfinder/${currentPage}/${prefs}`) // 2507 is temp test value
       .then(res => res.json())
       .then(data => setPets(data))
   }, [currentPage]);
