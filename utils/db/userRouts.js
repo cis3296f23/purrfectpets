@@ -5,9 +5,6 @@ import Database from './database.js';
 const router = express.Router();
 router.use(express.json());
 
-// Development only - don't do in production
-console.log(config);
-
 // Create database object
 const database = new Database(config);
 
