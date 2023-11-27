@@ -2,8 +2,11 @@
 // =============================================================
 import express from 'express';
 import cors from 'cors';
-import router from './utils/controller.js';
 import fs from 'node:fs/promises'
+
+// Import App routes
+import users from './utils/db/userRouts.js';
+import petfinder from './utils/petfinder/petfinderRouts.js'
 
 // Constants
 const isProduction = process.env.NODE_ENV === 'production'
@@ -20,8 +23,6 @@ const ssrManifest = isProduction
 
 // Create http server
 const app = express()
-
-
 
 // Add Vite or respective production middlewares
 let vite
@@ -43,7 +44,10 @@ if (!isProduction) {
 // Sets up the Express app to handle data parsing
 app.use(cors())
 app.use(express.json())
-app.use(router)
+
+// Connect App routes
+app.use('/Users', users);
+app.use('/Petfinder', petfinder);
 
 // Serve HTML
 app.use('*', async (req, res) => {
