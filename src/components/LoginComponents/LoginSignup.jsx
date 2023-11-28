@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DogPaw from '../.././assets/dog-paw.png'
 import './LoginSignup.scss'
 import ProfilePic from '../.././assets/ProfilePic.png'
@@ -9,8 +9,8 @@ import Password from '../.././assets/Password.png'
 
 
 
-function LoginSignup() {
 
+function LoginSignup() {
 
     const [Login, setLogin] = useState("Create an Account")
     const [usernameInput, setUsernameInput] = useState('')
@@ -106,6 +106,11 @@ function LoginSignup() {
                             alert("need to verify their account against the DB")
                             setValidPassword('valid')
                             // need to write code here to check against the DB
+                            // check if email is in the DB
+                            //if valid, save the username, so it can be fetched later on in account
+                            //if it is not valid ..ie undefined.. display that the creds are incorrect
+
+                            
                         }
                         else {
                             if (arePasswordsEqual()) {
@@ -123,13 +128,12 @@ function LoginSignup() {
                                     })
                                 }
                                 const response = fetch('/Users', options)
+
                                 response.then(res =>
                                     res.json()).then(d => {
                                         console.log(d)
                                     })
-
-                                //alert(`passwords match \n add their creds into the DB and render the user preferences`)
-                                // add the creds into the DB
+                                
 
                             }
                             else {
@@ -137,7 +141,7 @@ function LoginSignup() {
                             }
 
                         }
-                        window.location.pathname = '/app'
+                        //window.location.pathname = '/app'
                     }}>
                         Continue</button>
 
