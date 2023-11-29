@@ -4,7 +4,7 @@ import logo from './assets/PetFinderLogo.png'
 import checkmark from './assets/checkmark.png'
 import xmark from './assets/xmark.png'
 import NavBar from './components/navbar'
-import prefsToInt from '../utils/encodeUserPrefs'
+import { prefsToInt } from '../utils/encodeDecodeUserPrefs'
 //import UserPreferences from './components/UserPreferences'
 
 function App() {
