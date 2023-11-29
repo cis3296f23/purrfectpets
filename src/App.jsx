@@ -7,11 +7,13 @@ import NavBar from './components/navbar'
 import prefsToInt from '../utils/encodeUserPrefs'
 //import UserPreferences from './components/UserPreferences'
 
+
 function App() {
   const [pets, setPets] = useState([]);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [userPreferences, setUserPreferences] = useState([]);
+
 
   useEffect(() => {
     // temp user prefs

@@ -15,10 +15,13 @@
         width: 90vw;
         text-align: center;
         margin-top: 50px;
+        margin-bottom: 50px;
         gap: 50px;
+        height: 90vh;
+        //flex-wrap: wrap;
         
 
-        .account-user,.account-info{
+        .account-user, .user-pref{
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,13 +29,14 @@
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
             border-radius: 20px;
             margin-bottom: 40px;
+            height: 90vh;
         
         }
         .account-user{
             display: flex;
             flex-direction: column;
             gap: 20px;
-            width: 20vw;
+            width: 30vw;
             height: 100%;
 
 
@@ -69,37 +73,36 @@
 
                 .account-username{
                     text-align: center;
+                    overflow-wrap: break-word; 
                     
                 }
             }
 
 
         }
-        .account-info{
-            width: 60vw;
+        .user-pref{
+            width: 50vw;
             height: 100%;
 
         }
 
-
-        
-        
-
-
-
-
-
     }
 
-    
-
-
-
-
-
-
-
 }
+@media (max-width: 900px){
+    .sideBar{
+        display: none;
+    }
+    .account-container .account .account-user{
+        display: none;
+    }
+        
+}
+
+
+
+//The navigation side bar
+
 .sideBar{
     
         background-color: rgb(172, 179, 179);
@@ -147,7 +150,6 @@
                 background-color:rgb(97, 95, 93) ;
             }
             
-
 
             .list-item:hover{
                 background-color:rgb(97, 95, 93) ;

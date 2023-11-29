@@ -6,29 +6,25 @@ import FaceIcon from '@mui/icons-material/Face';
 import EditIcon from '@mui/icons-material/Edit';
 
 
-
-
-
-
-
 function Account(){
 
     const [userName, getUsername] = useState('')
     const [email, getEmail] = useState('')
     const [petLiked, getPetLiked] = useState('100')
-    const[currentLocation, getCurrentLocation] = useState('here')
+    const[currentLocation, getCurrentLocation] = useState('New Jersey')
+    const sessionUser = sessionStorage.getItem("userinfo");
 
-    const username = 'OwlHootHoot'; //fetch by specific username
-
+    let username =  sessionUser; //fetch by specific username
     
+
         useEffect(() => {
             const fetchUserData = async () => {
             try {
-            const response = await fetch(`/users/username/${username}`,{method: 'GET'});
-            const userData = await response.json();
-            console.log('User Data:', userData);
-            getUsername(userData.username);
-            getEmail(userData.email)
+                const response = await fetch(`/users/username/${username}`,{method: 'GET'});
+                const userData = await response.json();
+                console.log('User Data:', userData);
+                getUsername(userData.username);
+                getEmail(userData.email)
             } catch (error) {
             console.error('Error fetching user data:', error);
             }
@@ -38,13 +34,12 @@ function Account(){
         }, []);
 
 
-
     return (
     <div className="account-container">
         <SideBar />
         <div className="account">
 
-            <div className="account-info">
+            <div className="user-pref">
             </div>
 
             <div className="account-user">
@@ -54,6 +49,7 @@ function Account(){
                     {/* Not sure how to do profile picture, might assign the user a number
                     the number represents a preselected img */}
                     </div>
+
                 </div>
                 <div className="userName-container">
                     <div className="account-username"><h2>{userName}</h2></div>
@@ -67,12 +63,8 @@ function Account(){
                 <div className="userName-container">
                     <div className="account-username"><h2>{email}</h2></div>
                 </div>
-
-                
             
             </div>
-            
-
 
         </div>
 

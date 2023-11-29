@@ -10,15 +10,26 @@ import Password from '../.././assets/Password.png'
 
 
 
+
+
+
 function LoginSignup() {
 
+
+    //states
     const [Login, setLogin] = useState("Create an Account")
     const [usernameInput, setUsernameInput] = useState('')
     const [emailInput, setEmailInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
     const [passwordInput2, setPasswordInput2] = useState('')
     const [validPassword, setValidPassword] = useState('valid')
+    
 
+    const [verifyEmail, setVerifyEmail] = useState(false)
+    const [verifyPassword, setVerifyPassword] = useState('')
+    const [accountUsername, setAccountUsername] = useState('')
+    const [isTryingToLogin, setIsTryingToLogin] = useState(false)
+    
     const usernameValue = (event) => {
         setUsernameInput(event.target.value);
     }
@@ -33,14 +44,56 @@ function LoginSignup() {
         setPasswordInput2(event.target.value);
     }
 
-    // checks if the passwords match before continuing
+
+    //when registering, check if the passwords are the same
     const arePasswordsEqual = () => {
         return passwordInput === passwordInput2
     }
 
+    
+
+
+    // when logging in,checks if the password input matches the the password in the DB
+    const passwordDatabaseCheck = () =>{
+
+        return ((passwordInput === verifyPassword) && verifyEmail)
+    }
+
+    //fetches the user from the DB
+    useEffect(() => {
+        const fetchUserData = async () => {
+        try {
+            const response = await fetch(`/users/email/${emailInput}`,{method: 'GET'});
+            const userData = await response.json();
+            console.log('User Data:', userData);
+            setVerifyEmail(true)
+            setVerifyPassword(userData.password)
+            setAccountUsername(userData.username)
+            
+
+        } catch (error) {
+        //console.error('Error fetching user data:', error);
+        setVerifyEmail(false)
+        setVerifyPassword('')
+        }
+    };
+    if (isTryingToLogin) {
+        fetchUserData();
+        setIsTryingToLogin(false)
+        }
+        
+    },[isTryingToLogin, emailInput]);
+
+
+    
 
     return (
-        <div className="login-container">
+        <div className="login-container" 
+        onClick={() =>{
+            if (Login === 'Login'){
+                    setIsTryingToLogin(true)
+            }
+        }}>
             <div className="loginDiv">
                 <img className="account-logo " src={DogPaw} alt=" SignUp Logo" />
                 <div className="header">
@@ -65,7 +118,8 @@ function LoginSignup() {
                             type="text"
                             placeholder="Email"
                             value={emailInput}
-                            onChange={emailValue} />
+                            onChange={emailValue}
+                            />
                     </div>
 
                     <div className="input-div">
@@ -74,8 +128,8 @@ function LoginSignup() {
                             className="input"
                             type="text"
                             placeholder="Password"
-                            value={passwordInput2}
-                            onChange={passwordValue2} />
+                            value={passwordInput}
+                            onChange={passwordValue} />
                     </div>
 
                     {Login === "Create an Account" ? <div className="input-div">
@@ -84,8 +138,8 @@ function LoginSignup() {
                             className="input"
                             type="text"
                             placeholder="Repeat Password"
-                            value={passwordInput}
-                            onChange={passwordValue} />
+                            value={passwordInput2}
+                            onChange={passwordValue2} />
                     </div>
                         :
                         <div></div>}
@@ -102,17 +156,30 @@ function LoginSignup() {
 
                 <div className="submit-div">
                     <button className="submit" onClick={() => {
+                        //on the login page
                         if (Login === 'Login') {
-                            alert("need to verify their account against the DB")
+                            //stops display "passwords do not match"
                             setValidPassword('valid')
-                            // need to write code here to check against the DB
-                            // check if email is in the DB
-                            //if valid, save the username, so it can be fetched later on in account
-                            //if it is not valid ..ie undefined.. display that the creds are incorrect
 
-                            
+        
+                            //fetches the user from the DB
+                            setIsTryingToLogin(true)
+
+                            //if the password entered is correct, process to the the next page
+                            if(passwordDatabaseCheck()){
+                                console.log('passwords are a match')
+                                sessionStorage.setItem("userinfo", accountUsername);
+                                window.location.pathname = '/app'
+                            }
+                            else{
+                                alert("incorrect information")
+                                //add a useState to display incorrect info
+                            }
                         }
+                        //on the registration page 
                         else {
+                            //if the passwords match, add to DB
+                            //need to check if username and email already exists in the DB
                             if (arePasswordsEqual()) {
                                 setValidPassword("valid")
                                 let options = {
@@ -127,21 +194,25 @@ function LoginSignup() {
                                         "preferences": "0"
                                     })
                                 }
+                                
+                                
                                 const response = fetch('/Users', options)
 
                                 response.then(res =>
                                     res.json()).then(d => {
                                         console.log(d)
                                     })
-                                
+                                sessionStorage.setItem("userinfo", {usernameInput});
+                    
+                                window.location.pathname = '/app'
 
                             }
+                            
                             else {
                                 setValidPassword("invalid")
                             }
 
                         }
-                        //window.location.pathname = '/app'
                     }}>
                         Continue</button>
 
