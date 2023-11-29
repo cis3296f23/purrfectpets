@@ -9,10 +9,6 @@ import Password from '../.././assets/Password.png'
 
 
 
-
-
-
-
 function LoginSignup() {
 
 
@@ -28,7 +24,13 @@ function LoginSignup() {
     const [verifyEmail, setVerifyEmail] = useState(false)
     const [verifyPassword, setVerifyPassword] = useState('')
     const [accountUsername, setAccountUsername] = useState('')
+    
     const [isTryingToLogin, setIsTryingToLogin] = useState(false)
+
+    const [isTryingToSignUp, setIsTryingToSignUp] = useState(false)
+    const [checkUsernameAvailability, setUsernameAvailability] = useState('')
+    const [checkEmailAvailability, setEmailAvailability] = useState('')
+
     
     const usernameValue = (event) => {
         setUsernameInput(event.target.value);
@@ -61,28 +63,56 @@ function LoginSignup() {
 
     //fetches the user from the DB
     useEffect(() => {
-        const fetchUserData = async () => {
-        try {
-            const response = await fetch(`/users/email/${emailInput}`,{method: 'GET'});
-            const userData = await response.json();
-            console.log('User Data:', userData);
-            setVerifyEmail(true)
-            setVerifyPassword(userData.password)
-            setAccountUsername(userData.username)
-            
+        const fetchUserEmail = async () => {
+            try {
+                const response = await fetch(`/users/email/${emailInput}`,{method: 'GET'});
+                const userData = await response.json();
+                console.log('User Data:', userData);
+                if(isTryingToLogin){
+                    setVerifyEmail(true)
+                    setVerifyPassword(userData.password)
+                    setAccountUsername(userData.username)
+                }
+                if(isTryingToSignUp){
+                    setEmailAvailability(userData.email)
+                    setUsernameAvailability(userData.username)
 
-        } catch (error) {
-        //console.error('Error fetching user data:', error);
-        setVerifyEmail(false)
-        setVerifyPassword('')
-        }
-    };
-    if (isTryingToLogin) {
-        fetchUserData();
-        setIsTryingToLogin(false)
-        }
+                }
+
+            } catch (error) {
+                //console.error('Error fetching user data:', error);
+                setVerifyEmail(false)
+                setVerifyPassword('')
+            }
+        };
+
+        const fetchUserUsername = async () => {
+            try {
+                const response = await fetch(`/users/username/${usernameInput}`,{method: 'GET'});
+                const userData = await response.json();
+                console.log('User Data:', userData);
+            
+            } catch (error) {
+                //console.error('Error fetching user data:', error);
+                setVerifyEmail(false)
+                setVerifyPassword('')
+            }
+        };
+        if (isTryingToLogin) {
+                fetchUserEmail();
+                setIsTryingToLogin(false)
+            }
+        if(isTryingToSignUp){
+            fetchUserEmail()
+            fetchUserUsername()
+            console.log("AHHHHHHHHHH")
+            setIsTryingToSignUp(false)
         
-    },[isTryingToLogin, emailInput]);
+            
+        }
+
+        
+    });
 
 
     
@@ -126,7 +156,7 @@ function LoginSignup() {
                         <img src={Password} alt="" />
                         <input
                             className="input"
-                            type="text"
+                            type="password"
                             placeholder="Password"
                             value={passwordInput}
                             onChange={passwordValue} />
@@ -136,7 +166,7 @@ function LoginSignup() {
                         <img src={Password} alt="" />
                         <input
                             className="input"
-                            type="text"
+                            type="password"
                             placeholder="Repeat Password"
                             value={passwordInput2}
                             onChange={passwordValue2} />
@@ -178,40 +208,59 @@ function LoginSignup() {
                         }
                         //on the registration page 
                         else {
+                        
+                            setIsTryingToSignUp(true)
+                            //console.log(isTryingToSignUp)
                             //if the passwords match, add to DB
                             //need to check if username and email already exists in the DB
-                            if (arePasswordsEqual()) {
-                                setValidPassword("valid")
-                                let options = {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json;charset=utf-8'
-                                    },
-                                    body: JSON.stringify({
-                                        "username": usernameInput,
-                                        "email": emailInput,
-                                        "password": passwordInput,
-                                        "preferences": "0"
-                                    })
+                            //need to check username, email, passwords are empty
+                            if(emailInput == '' || usernameInput == '' || passwordInput == '' || passwordInput2 == ''){
+
+                            }
+                            else{
+                                console.log(checkEmailAvailability)
+                                if(checkEmailAvailability === emailInput){
+                                    alert('email already taken')
+                                }
+
+                                if (checkUsernameAvailability === usernameInput){
+                                    alert("username already taken")
+                                }
+                                if (checkEmailAvailability != emailInput && checkUsernameAvailability != usernameInput){
+                                    if (arePasswordsEqual()) {
+                                        setValidPassword("valid")
+                                        console.log("werafsdfasfsfdsf")
+                                        // let options = {
+                                        //     method: 'POST',
+                                        //     headers: {
+                                        //         'Content-Type': 'application/json;charset=utf-8'
+                                        //     },
+                                        //     body: JSON.stringify({
+                                        //         "username": usernameInput,
+                                        //         "email": emailInput,
+                                        //         "password": passwordInput,
+                                        //         "preferences": "0"
+                                        //     })
+                                        // }
+                                        
+                                        // const response = fetch('/Users', options)
+                                        // response.then(res =>
+                                        //     res.json()).then(d => {
+                                        //         console.log(d)
+                                        //     })
+                                        // sessionStorage.setItem("userinfo", {usernameInput});
+                                        // window.location.pathname = '/app'
+                                    }
+                                    
+                                    else {
+                                        setValidPassword("invalid")
+                                    }
+
                                 }
                                 
                                 
-                                const response = fetch('/Users', options)
-
-                                response.then(res =>
-                                    res.json()).then(d => {
-                                        console.log(d)
-                                    })
-                                sessionStorage.setItem("userinfo", {usernameInput});
-                    
-                                window.location.pathname = '/app'
-
                             }
                             
-                            else {
-                                setValidPassword("invalid")
-                            }
-
                         }
                     }}>
                         Continue</button>

@@ -60,6 +60,7 @@ function SideBar(){
                         id = {window.location.pathname == val.link? "active": ""}
                         onClick={() => {
                             window.location.pathname = val.link
+                            //logs the user out
                             if (val.link == '/'){
                                 sessionStorage.clear()
                             }
