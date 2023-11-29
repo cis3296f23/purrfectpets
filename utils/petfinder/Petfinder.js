@@ -5,6 +5,7 @@ dotenv.config();
 let accessToken = '';
 let userPrefs = 0;
 let userAnimals = [];
+let prefsURL = '';
 
 async function getAccessToken() {
     const requestUrl = `https://api.petfinder.com/v2/oauth2/token`;
@@ -21,14 +22,15 @@ async function getAccessToken() {
     setTimeout(() => accessToken = '', expiresIn);
 }
 export async function getPets(page = 1, prefs = 255) {
-    if (accessToken === '') {
+    if (!accessToken) {
         await getAccessToken()
     }
-    if (!userPrefs) {
+    if (!userPrefs || (userPrefs != prefs)) {
         userPrefs = prefs;
         userAnimals = getUserAnimalPrefsFromInt(userPrefs);
+        prefsURL = makeUserPrefsURL(userPrefs);
     }
-    return fetch(`https://api.petfinder.com/v2/animals?type=${userAnimals[Math.floor(Math.random() * userAnimals.length)]}&page=${page}${makeUserPrefsURL(userPrefs)}`, {
+    return fetch(`https://api.petfinder.com/v2/animals?type=${userAnimals[Math.floor(Math.random() * userAnimals.length)]}&page=${page}${prefsURL}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`,
         }
