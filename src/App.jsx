@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import logo from './assets/PetFinderLogo.png'
-import checkmark from './assets/checkmark.png'
-import xmark from './assets/xmark.png'
 import NavBar from './components/navbar'
 import { prefsToInt } from '../utils/encodeDecodeUserPrefs'
 import { library } from '@fortawesome/fontawesome-svg-core';
