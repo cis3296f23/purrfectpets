@@ -40,6 +40,8 @@ footer{
   border-width: 1px;
   border-style: solid;
   border-radius: 20px;
+  padding: 20px;
+  margin-left: 50px;
 }
 
 .pet-info{
@@ -50,12 +52,14 @@ footer{
   align-items: center;
 }
 
+
 .pet-image-container{
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+  border-radius: 20%;
 }
 
 .pet-name{
@@ -104,6 +108,7 @@ footer{
   display: grid;
   grid-template-columns: auto auto;
 }
+
 
 
 
