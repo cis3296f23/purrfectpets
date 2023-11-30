@@ -5,7 +5,11 @@ import checkmark from './assets/checkmark.png'
 import xmark from './assets/xmark.png'
 import NavBar from './components/navbar'
 import { prefsToInt } from '../utils/encodeDecodeUserPrefs'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import UserPreferences from './components/UserPreferences'
+library.add(faThumbsUp, faThumbsDown);
 
 function App() {
   const [pets, setPets] = useState([]);
@@ -57,7 +61,7 @@ function App() {
             <li key={pets[currentPetIndex].id}>
               <div className="pet-image-container">
                 <img
-                  src={pets[currentPetIndex].photos[0]?.large}
+                  src={pets[currentPetIndex].photos[0]?.medium}
                   alt={pets[currentPetIndex].name}
                   onError={(e) => {
                     e.target.style.display = 'none'; // Hide the image on error
@@ -70,6 +74,7 @@ function App() {
             </li>
           )}
         </ul>
+        <div className="info-like-dislike">
           <ul style={{ listStyle: 'none' }} className="pet-info">
           {pets[currentPetIndex] && (
             <li>
@@ -92,7 +97,7 @@ function App() {
                 <p><strong>Good with cats: {pets[currentPetIndex].environment.cats ? "Yes" : "No"}</strong></p>
                 <p><strong>Email: {pets[currentPetIndex].contact.email ? pets[currentPetIndex].contact.email : "N/A"}</strong></p>
                 <p><strong>Phone: {pets[currentPetIndex].contact.phone ? pets[currentPetIndex].contact.phone : "N/A"}</strong></p>
-                <p><strong>Address: {pets[currentPetIndex].contact.address.city}</strong></p>
+                <p><strong>City: {pets[currentPetIndex].contact.address.city}</strong></p>
                 <p><strong>State: {pets[currentPetIndex].contact.address.state}</strong></p>
                 <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
                 Learn More
@@ -101,11 +106,14 @@ function App() {
             </li>
             )}
           </ul>
-          <div className="button-options">
+          <div className="like-dislike">
+            <FontAwesomeIcon icon="thumbs-down" onClick={handleDislike} />
+            <FontAwesomeIcon icon="thumbs-up" onClick={handleLike} />
           </div>
           <p className="read-the-docs">
           </p>
         </div>
+      </div>
     </>
   );
 }
