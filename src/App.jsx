@@ -7,12 +7,15 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import UserPreferences from './components/UserPreferences'
 library.add(faThumbsUp, faThumbsDown);
+//import UserPreferences from './components/UserPreferences'
+
 
 function App() {
   const [pets, setPets] = useState([]);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [userPreferences, setUserPreferences] = useState([]);
+
 
   useEffect(() => {
     // temp user prefs
@@ -41,6 +44,7 @@ function App() {
   }
   const handleLike = () => {
     //change where we store the pet ID to store in DB for the user and reference later in the bookmark page
+
     setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'like' }])
     nextPet();
   }
@@ -57,6 +61,15 @@ function App() {
         <ul style={{ listStyle: 'none' }} className="pet-details">
           {pets[currentPetIndex] && (
             <li key={pets[currentPetIndex].id}>
+        <div>
+          <a href="https://www.petfinder.com/" target="_blank">
+            <img src={logo} className="logo" alt="PetFinder logo" />
+          </a>
+        </div>
+        <h1>Find your Purrfect Pet</h1>
+        <ul style={{ listStyle: 'none' }}>
+          {pets[currentPetIndex] && (
+            <li key={pets[currentPetIndex].id} className="pet-details">
               <div className="pet-image-container">
                 <img
                   src={pets[currentPetIndex].photos[0]?.medium}
@@ -119,6 +132,28 @@ function App() {
           <p className="read-the-docs">
           </p>
         </div>
+
+              <div className="pet-info">
+                <p><strong>Name: {pets[currentPetIndex].name}</strong></p>
+                <p><strong>Type: {pets[currentPetIndex].type}</strong></p>
+                <p><strong>Age: {pets[currentPetIndex].age}</strong></p>
+                <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
+                  Learn More
+                </a>
+              </div>
+            </li>
+          )}
+        </ul>
+        <div className="button-options">
+          <img src={xmark} width="300" onClick={handleDislike} alt="Dislike"></img>
+          <img src={checkmark} width="300" onClick={handleLike} alt="Like"></img>
+        </div>
+        <p className="read-the-docs">
+        </p>
+        <NavBar />
+        <footer>
+          <a href="https://www.flaticon.com/free-icons/cats" title="cats icons">Cats icons created by Freepik - Flaticon</a>
+        </footer>
       </div>
     </>
   );

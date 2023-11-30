@@ -60,13 +60,32 @@ export default class Database {
     return result.recordsets[0];
   }
 
-  async read(id) {
+  async readById(id) {
     await this.connect();
     const request = this.poolconnection.request();
     const result = await request
       .input('id', sql.Int, +id)
       .query(`SELECT * FROM dbo.users WHERE id = @id`);
 
+    return result.recordset[0];
+  }
+
+
+  async readByUsername(username) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('username', sql.VarChar, username)  
+      .query(`SELECT * FROM users WHERE username = @username`);
+    return result.recordset[0];
+  }
+
+  async readByEmail(email) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('email', sql.VarChar, email)  
+      .query(`SELECT * FROM users WHERE email = @email`);
     return result.recordset[0];
   }
 

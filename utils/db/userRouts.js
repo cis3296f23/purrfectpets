@@ -10,7 +10,7 @@ const database = new Database(config);
 
 router.get('/', async (_, res) => {
   try {
-    // Return a list of users
+
     const users = await database.readAll();
     console.log(`users: ${JSON.stringify(users)}`);
     res.status(200).json(users);
@@ -31,13 +31,15 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+
+router.get('/id/:id', async (req, res) => {
   try {
     // Get the user with the specified ID
     const userId = req.params.id;
     console.log(`userId: ${userId}`);
-    if (userId) {
-      const result = await database.read(userId);
+
+      const result = await database.readById(userId);
+
       console.log(`users: ${JSON.stringify(result)}`);
       res.status(200).json(result);
     } else {
@@ -47,6 +49,45 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
+
+router.get('/username/:username', async (req, res) => {
+  try {
+    // Get the user with the specified username
+    const username = req.params.username;
+    console.log(`username: ${username}`);
+  
+    if (username) {
+      const result = await database.readByUsername(username);
+      console.log(`users: ${JSON.stringify(result)}`);
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
+
+router.get('/email/:email', async (req, res) => {
+  try {
+    // Get the user with the specified email
+    const email = req.params.email;
+    console.log(`email: ${email}`);
+  
+    if (email) {
+      const result = await database.readByEmail(email);
+      console.log(`users: ${JSON.stringify(result)}`);
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
+
+
+
 
 router.put('/:id', async (req, res) => {
   try {

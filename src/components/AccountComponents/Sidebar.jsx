@@ -2,8 +2,7 @@ import React from "react";
 import './Account.scss'
 import ProfilePic from '../../assets/ProfilePic.png'
 import HomeIcon from '@mui/icons-material/Home';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import ChecklistIcon from '@mui/icons-material/Checklist';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -26,18 +25,10 @@ function SideBar(){
             link: "/Account"
 
         },
-        
         {
-            title: "Account",
-            icon : <AccountBoxIcon/>,
-            link: "/Account"
-
-        },
-        
-        {
-            title: "Preferences",
-            icon: <ChecklistIcon/>,
-            link: '/preferences'
+            title: "Bookmark",
+            icon: <BookmarkIcon/>,
+            link: '/Bookmark'
 
         },
         {
@@ -67,6 +58,10 @@ function SideBar(){
                         id = {window.location.pathname == val.link? "active": ""}
                         onClick={() => {
                             window.location.pathname = val.link
+                            //logs the user out
+                            if (val.link == '/'){
+                                sessionStorage.clear()
+                            }
                         }}>
 
                             <div id="icon">{val.icon}</div>
