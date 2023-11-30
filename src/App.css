@@ -87,9 +87,17 @@ footer{
   color: green; /* Change the color to green */
 }
 
+.like-dislike .fa-thumbs-up:active {
+  animation: pulse 0.5s;
+}
+
 .like-dislike .fa-thumbs-down:hover {
   transform: scale(1.1); /* Increase the size by 10% */
   color: red; /* Change the color to red */
+}
+
+.like-dislike .fa-thumbs-down:active {
+  animation: pulse 1s;
 }
 
 .info-like-dislike {
@@ -109,6 +117,17 @@ footer{
   grid-template-columns: auto auto;
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 
 
