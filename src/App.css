@@ -1,36 +1,11 @@
-
-
-.logo {
-  height: 6em;
-  will-change: filter;
-  transition: filter 300ms;
-  border-radius: 70px;;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
 
 .read-the-docs {
   color: #888;
@@ -39,39 +14,43 @@
 .navBar{
   display: flex;
   gap: 50px;
-  justify-content: space-around;
-}
-
-.pet-details {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.pet-image-container{
-  flex: 1;
-}
-
-.pet-info {
-  flex: 2;
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-}
-
-body {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  margin: 0;
+  width: 100%
 }
 
-body, ul {
-  margin: 0;
-  padding: 0;
+.app-container{
+  display: flex;
+    height: 100%;
+    width: 100vw;
+    max-width: 100%;
+    margin: 0;
+    padding:0;
+    justify-content:center;
+    align-items: center;
+    text-align: center;
+    margin-top: 50px;
+    gap: 50px;
 }
+
+.pet-info{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+.pet-name{
+  font-size: 40px;
+}
+
+.pet-desc{
+  font-size: 25px;
+}
+
+.pet-tags{
+  font-size: 20px;
+}
+
+
