@@ -3,8 +3,9 @@ import { getUserAnimalPrefsFromInt, makeUserPrefsURL } from "../encodeDecodeUser
 dotenv.config();
 
 let accessToken = '';
-let userPrefs = 0;
+let userPrefs = -1;
 let userAnimals = [];
+let prefsURL = '';
 
 async function getAccessToken() {
     const requestUrl = `https://api.petfinder.com/v2/oauth2/token`;
@@ -21,14 +22,22 @@ async function getAccessToken() {
     setTimeout(() => accessToken = '', expiresIn);
 }
 export async function getPets(page = 1, prefs = 255) {
-    if (accessToken === '') {
+    // if we do not have an access token, get one
+    if (!accessToken) {
         await getAccessToken()
     }
-    if (!userPrefs) {
+    // assign prefs default value of 255 if it is out of valid range
+    if (prefs < 1 || prefs >= 8192) {
+        prefs = 255;
+    }
+    // if first time checking prefs, or if user as changed their preferences since last call to petfinder, set variables to user prefs
+    if (userPrefs != prefs) {
         userPrefs = prefs;
         userAnimals = getUserAnimalPrefsFromInt(userPrefs);
+        prefsURL = makeUserPrefsURL(userPrefs);
     }
-    return fetch(`https://api.petfinder.com/v2/animals?type=${userAnimals[Math.floor(Math.random() * userAnimals.length)]}&page=${page}${makeUserPrefsURL(userPrefs)}`, {
+    // fetch a random type from the user's preferences conforming to the users other preferences
+    return fetch(`https://api.petfinder.com/v2/animals?type=${userAnimals[Math.floor(Math.random() * userAnimals.length)]}&page=${page}${prefsURL}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`,
         }
