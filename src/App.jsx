@@ -79,6 +79,7 @@ function App() {
               <div className="pet-info">
                 <div className="animal-info">
                   <h1>Pet Info</h1>
+                  <div className="info-list">
                   <p><strong>Type: {pets[currentPetIndex].type}</strong></p>
                   <p><strong>Age: {pets[currentPetIndex].age}</strong></p>
                   <p><strong>Gender: {pets[currentPetIndex].gender}</strong></p>
@@ -95,6 +96,7 @@ function App() {
                   <p><strong>Good with children: {pets[currentPetIndex].environment.children ? "Yes" : "No"}</strong></p>
                   <p><strong>Good with dogs: {pets[currentPetIndex].environment.dogs ? "Yes" : "No"}</strong></p>
                   <p><strong>Good with cats: {pets[currentPetIndex].environment.cats ? "Yes" : "No"}</strong></p>
+                  </div>
                 </div>
                 <div className="contact-info">
                   <h1>Additional Info</h1>

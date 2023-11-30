@@ -36,6 +36,10 @@ footer{
 .pet-details{
   flex: 1;
   min-width: 0;
+  background-color: rgba(245, 222, 179, 0.234);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 20px;
 }
 
 .pet-info{
@@ -89,7 +93,19 @@ footer{
   min-width: 0;
   justify-content: center;
   align-items: center;
+  border-width: 1px;
+  border-style: solid;
+  background-color: rgba(245, 222, 179, 0.234);
+  border-radius: 20px;
+  margin-right: 50px;
 }
+
+.info-list{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+
 
 
 
