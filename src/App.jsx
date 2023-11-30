@@ -79,29 +79,35 @@ function App() {
           {pets[currentPetIndex] && (
             <li>
               <div className="pet-info">
-                <p><strong>Type: {pets[currentPetIndex].type}</strong></p>
-                <p><strong>Age: {pets[currentPetIndex].age}</strong></p>
-                <p><strong>Gender: {pets[currentPetIndex].gender}</strong></p>
-                <p><strong>Primary Breed: {pets[currentPetIndex].breeds.primary}</strong></p>
-                <p><strong>Primary Color: {pets[currentPetIndex].colors.primary}</strong></p>
-                <p><strong>Size: {pets[currentPetIndex].size}</strong></p>
-                <p><strong>Coat: {pets[currentPetIndex].coat ? pets[currentPetIndex].coat : "N/A"}</strong></p>
-                <p><strong>House Trained: {pets[currentPetIndex].attributes.house_trained ? "Yes" : "No"}</strong></p>
-                <p><strong>Good With Children: {pets[currentPetIndex].attributes.good_with_children ? "Yes" : "No"}</strong></p>
-                <p><strong>Declawed: {pets[currentPetIndex].attributes.declawed ? "Yes" : "No"}</strong></p>
-                <p><strong>Special Needs: {pets[currentPetIndex].attributes.special_needs ? "Yes" : "No"}</strong></p>
-                <p><strong>Spayed/Neutered: {pets[currentPetIndex].attributes.spayed_neutered ? "Yes" : "No"}</strong></p>
-                <p><strong>Shots Current: {pets[currentPetIndex].attributes.shots_current ? "Yes" : "No"}</strong></p>
-                <p><strong>Good with children: {pets[currentPetIndex].environment.children ? "Yes" : "No"}</strong></p>
-                <p><strong>Good with dogs: {pets[currentPetIndex].environment.dogs ? "Yes" : "No"}</strong></p>
-                <p><strong>Good with cats: {pets[currentPetIndex].environment.cats ? "Yes" : "No"}</strong></p>
-                <p><strong>Email: {pets[currentPetIndex].contact.email ? pets[currentPetIndex].contact.email : "N/A"}</strong></p>
-                <p><strong>Phone: {pets[currentPetIndex].contact.phone ? pets[currentPetIndex].contact.phone : "N/A"}</strong></p>
-                <p><strong>City: {pets[currentPetIndex].contact.address.city}</strong></p>
-                <p><strong>State: {pets[currentPetIndex].contact.address.state}</strong></p>
-                <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
-                Learn More
-                </a>
+                <div className="animal-info">
+                  <h1>Pet Info</h1>
+                  <p><strong>Type: {pets[currentPetIndex].type}</strong></p>
+                  <p><strong>Age: {pets[currentPetIndex].age}</strong></p>
+                  <p><strong>Gender: {pets[currentPetIndex].gender}</strong></p>
+                  <p><strong>Primary Breed: {pets[currentPetIndex].breeds.primary}</strong></p>
+                  <p><strong>Primary Color: {pets[currentPetIndex].colors.primary}</strong></p>
+                  <p><strong>Size: {pets[currentPetIndex].size}</strong></p>
+                  <p><strong>Coat: {pets[currentPetIndex].coat ? pets[currentPetIndex].coat : "N/A"}</strong></p>
+                  <p><strong>House Trained: {pets[currentPetIndex].attributes.house_trained ? "Yes" : "No"}</strong></p>
+                  <p><strong>Good With Children: {pets[currentPetIndex].attributes.good_with_children ? "Yes" : "No"}</strong></p>
+                  <p><strong>Declawed: {pets[currentPetIndex].attributes.declawed ? "Yes" : "No"}</strong></p>
+                  <p><strong>Special Needs: {pets[currentPetIndex].attributes.special_needs ? "Yes" : "No"}</strong></p>
+                  <p><strong>Spayed/Neutered: {pets[currentPetIndex].attributes.spayed_neutered ? "Yes" : "No"}</strong></p>
+                  <p><strong>Shots Current: {pets[currentPetIndex].attributes.shots_current ? "Yes" : "No"}</strong></p>
+                  <p><strong>Good with children: {pets[currentPetIndex].environment.children ? "Yes" : "No"}</strong></p>
+                  <p><strong>Good with dogs: {pets[currentPetIndex].environment.dogs ? "Yes" : "No"}</strong></p>
+                  <p><strong>Good with cats: {pets[currentPetIndex].environment.cats ? "Yes" : "No"}</strong></p>
+                </div>
+                <div className="contact-info">
+                  <h1>Additional Info</h1>
+                  <p><strong>Email: {pets[currentPetIndex].contact.email ? pets[currentPetIndex].contact.email : "N/A"}</strong></p>
+                  <p><strong>Phone: {pets[currentPetIndex].contact.phone ? pets[currentPetIndex].contact.phone : "N/A"}</strong></p>
+                  <p><strong>City: {pets[currentPetIndex].contact.address.city}</strong></p>
+                  <p><strong>State: {pets[currentPetIndex].contact.address.state}</strong></p>
+                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
+                  Learn More
+                  </a>
+                </div>
               </div>
             </li>
             )}
