@@ -35,12 +35,24 @@
 .read-the-docs {
   color: #888;
 }
+/* navbar */
 
 .navBar{
-  display: flex;
-  gap: 50px;
-  justify-content: space-around;
+  text-align: center;
 }
+.menuIcon-Items{
+  text-align: center;
+}
+
+.menuIcon-Items{
+  text-decoration: underline;
+}
+
+.menuIcon-Items:hover{
+  cursor: pointer;
+}
+
+
 
 .pet-details {
   display: flex;
