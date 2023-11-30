@@ -40,6 +40,7 @@ function App() {
     nextPet();
   }
   const handleLike = () => {
+    //change where we store the pet ID to store in DB for the user and reference later in the bookmark page
     setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'like' }])
     nextPet();
   }
