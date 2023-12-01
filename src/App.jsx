@@ -5,7 +5,8 @@ import { prefsToInt } from '../utils/encodeDecodeUserPrefs'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import UserPreferences from './components/UserPreferences'
+//import UserPreferences from './components/UserPreferences';
+
 library.add(faThumbsUp, faThumbsDown);
 
 
@@ -61,6 +62,7 @@ function App() {
 
   return (
     <>
+      
       <div className="app-container">
         <ul style={{ listStyle: 'none' }} className="pet-details">
           {pets[currentPetIndex] && (

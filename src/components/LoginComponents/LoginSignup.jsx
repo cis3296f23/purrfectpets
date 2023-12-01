@@ -51,6 +51,16 @@ function LoginSignup() {
     }
 
 
+    const detectTabKeyDown = (e) => {
+        if (e.key === "Tab"){
+            setIsTryingToLogin(true)
+            
+        }
+    }
+
+
+
+
     //when registering, check if the passwords are the same
     const arePasswordsEqual = () => {
         return passwordInput === passwordInput2
@@ -144,7 +154,8 @@ function LoginSignup() {
                                     type="text"
                                     placeholder="Username"
                                     value={usernameInput}
-                                    onChange={usernameValue} />
+                                    onChange={usernameValue}
+                                    />
                             </div>
                             {Login === "Create an Account" ?
                         checkUsernameAvailabilityText === true ?
@@ -166,6 +177,7 @@ function LoginSignup() {
                                 placeholder="Email"
                                 value={emailInput}
                                 onChange={emailValue}
+                                onKeyDown={detectTabKeyDown}
                                 />
                         </div>
                             {Login === "Create an Account" ?
@@ -233,6 +245,8 @@ function LoginSignup() {
                             if(passwordDatabaseCheck()){
                                 console.log('passwords are a match')
                                 sessionStorage.setItem("userinfo", accountUsername);
+                                
+
                                 window.location.pathname = '/app'
                             }
                             else{
