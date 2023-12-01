@@ -65,40 +65,29 @@ function LoginSignup() {
         const fetchUserEmail = async () => {
             try {
                 if (isTryingToLogin) {
-                    let response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
+                    let response = fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     let userData = await response.json();
-                    console.log('EmailValid:', !userData);
                     setVerifyEmail(!userData);
                     if (!userData) {
-                        response = await fetch(`/users/salt/${emailInput}`, { method: 'GET' });
+                        response = fetch(`/users/salt/${emailInput}`, { method: 'GET' });
                         userData = await response.json();
-                        console.log('salt:', userData);
                         const hashedPass = bcrypt.hashSync(passwordInput, userData.salt);
-                        console.log('hash:', hashedPass);
                         const checkedPw = await passwordDatabaseCheck(hashedPass);
                         if (checkedPw) {
                             console.log("LOGGING IN")
-                            response = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
+                            response = fetch(`/users/username/${emailInput}`, { method: 'GET' });
                             userData = await response.json();
-                            setSessionEmail(userData.username);
+                            setAccountUsername(userData.username);
                         }
-                        console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
-                        }
-                    
-                    let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
-                    let user = await res.json();
-                    console.log('Username:', user);
-                    setSessionEmail(user.email);
-
-
-                    
+                    }
                 }
                 if (isTryingToSignUp) {
-                    const response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
+                    const response = fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     const userData = await response.json();
                     console.log('EmailAvailable:', userData);
                     setEmailAvailability(userData)
+                    setUsernameAvailability(userData)
                 }
             } catch (error) {
                 //console.error('Error fetching user data:', error);
@@ -238,7 +227,7 @@ function LoginSignup() {
                             //if the password entered is correct, process to the the next page
                             if (passwordDatabaseCheck()) {
                                 console.log('passwords are a match')
-                                sessionStorage.setItem("userinfo", sessionEmail);
+                                sessionStorage.setItem("userinfo", accountUsername);
                                 console.log(`this is the session user ${sessionStorage.getItem("userinfo")}`)
                                 window.location.pathname = '/app'
                             }
@@ -264,7 +253,6 @@ function LoginSignup() {
                                 if (checkEmailAvailability && checkUsernameAvailability) {
                                     setEmailAvailabilityText(true)
                                     setUsernameAvailabilityText(true)
-                                    //check if the two passwords are the same
                                     if (arePasswordsEqual()) {
                                         setValidPassword("valid")
                                         const salt = bcrypt.genSaltSync(10);

@@ -79,7 +79,7 @@ router.get('/checkusername/:username', async (req, res) => {
     console.log(`username: ${username}`);
     if (username) {
       const result = await database.checkUsernameAvailability(username);
-      console.log(`usernameCheck: ${JSON.stringify(result)}`);
+      console.log(`users: ${JSON.stringify(result)}`);
       res.status(200).json(result);
     } else {
       res.status(404);
@@ -143,6 +143,20 @@ router.get('/login/:hashedPass/:email', async (req, res) => {
 });
 
 //** POST routs **\\
+
+router.post('/', async (req, res) => {
+  try {
+    // Create a user
+    const user = req.body;
+    console.log(`user: ${JSON.stringify(user)}`);
+    const rowsAffected = await database.create(user);
+    res.status(201).json({ rowsAffected });
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
+
+//** PUT routs **\\
 
 router.post('/', async (req, res) => {
   try {
