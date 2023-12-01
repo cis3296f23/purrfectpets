@@ -7,6 +7,7 @@ import xmark from './assets/xmark.png'
 import NavBar from './components/navbar'
 import UserPreferences from './components/UserPreferences'
 
+
 function App() {
   const [pets, setPets] = useState([]);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
@@ -47,6 +48,12 @@ function App() {
   }, [userPreferences]) //only runs when userPreferences changes, console log userPreferences
 
 
+  const getPreferences = (pref_list) =>{
+    setUserPreferences(pref_list);
+  };
+
+
+
   return (
     <>
     <div className="app-container">
@@ -56,7 +63,7 @@ function App() {
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
-      <UserPreferences></UserPreferences>
+      <UserPreferences onSubmit = {getPreferences}/>
       <ul style={{ listStyle: 'none' }}>
         {pets[currentPetIndex] && (
           <li key={pets[currentPetIndex].id} className="pet-details">

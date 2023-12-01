@@ -5,19 +5,11 @@ import {Component} from "react"
 import './UserPreferences.css'
 import logo from '../assets/PetFinderLogo.png'
 
-/*
-    const [pets, setPets] = useState([]);
 
-  useEffect(() => {
-    Petfinder.getAccessToken().then(() => {
-      Petfinder.getTypes().then(pets => {
-        setPets(pets);
-      });
-    });
-  }, []);
-  */
 
-  function UserPreferences() {
+  var preference_list = [];
+
+  const UserPreferences = (props) => {
 
     const [open, setOpen] = useState(false);
     const[display, setDisplay] = useState('none')
@@ -47,6 +39,11 @@ import logo from '../assets/PetFinderLogo.png'
             return total + ", " + item;
         })
         : "";
+
+    const handleSubmit = () =>{
+        //console.log("The handle submit function is being used");
+        props.onSubmit(preference_list);
+    };
 
     function handleClick(){
 
@@ -93,69 +90,35 @@ import logo from '../assets/PetFinderLogo.png'
 
                     </div>
                 ))}
-            </ul>
-            <Element name = "Set Preference" preferences = {checkedItems}></Element>
+            </ul> 
+            <div onClick = {handleSubmit}>
+              <Element name = "Set Preference" preferences = {checkedItems}></Element>
+            </div>
           </div>
         </div>
       </div>
     );
   }
 
+
 function Element(props){
-
-  const[display, setDisplay] = useState('none')
-  function handleClick(){
-
-    if (display == 'none'){
-        setDisplay('block')
-    }else{
-        setDisplay('none')
-    }
-
-}
 
 return (
   <div>
-    <div>
-      <div className='Dropdown' onClick={handleClick}>
-        <a> Set Preferences </a>
-      </div>
-
-      <div style = {{display:display}}>
-        <ul>
-            {props.preferences}
-        </ul>
-      </div>
-    </div>
+    <div className = "Dropdown" onClick = {() => pref_changer(props.preferences)}> Set Preferences</div>
   </div>
   )
 }
 
-/*
-function Dropdown(props){
-    const[display, setDisplay] = useState('none')
-    function handleClick(){
 
-        if (display == 'none'){
-            setDisplay('block')
-        }else{
-            setDisplay('none')
-        }
-
-    }
-    return(
-        <div onClick={handleClick}>
-            User Preferences
-            <div style = {{display:display}}>
-                {props.children}
-            </div>
-        </div>
-    )
-
+const pref_changer = (new_preferences) =>{
+  preference_list = new_preferences;
+  //console.log(preference_list);
 }
-*/
 
-export {Element}
+export{preference_list};
+
+export {Element};
 
 
 export default UserPreferences;
