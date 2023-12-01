@@ -9,7 +9,7 @@ Discover your ideal companion at PurrfectPets – the ultimate destination for p
 - clone repo
 - get API keys from PetFinder
 - store the keys in a file called ``.env``
-- set up ``.env`` like this ```VITE_API_KEY = {your api key}``` ```VITE_API_SECRET = {your secret key}```
+- set up ``.env`` like this ```PETFINDER_API_KEY = {your api key}``` ```PETFINDER_API_SECRET = {your secret key}```
 - In your terminal type:
 ```
 npm install
