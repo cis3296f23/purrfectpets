@@ -57,9 +57,8 @@ function App() {
     setUserPreferences(pref_list);
   };
 
-
-
   return (
+    <>
       <div className="app-container">
         <ul style={{ listStyle: 'none' }} className="pet-details">
           {pets[currentPetIndex] && (
