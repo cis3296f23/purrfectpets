@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import UserPreferences from './components/UserPreferences'
 library.add(faThumbsUp, faThumbsDown);
 
+
 function App() {
   const [pets, setPets] = useState([]);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
@@ -52,8 +53,13 @@ function App() {
   }, [userPreferences]) //only runs when userPreferences changes, console log userPreferences
 
 
+  const getPreferences = (pref_list) =>{
+    setUserPreferences(pref_list);
+  };
+
+
+
   return (
-    <>
       <div className="app-container">
         <ul style={{ listStyle: 'none' }} className="pet-details">
           {pets[currentPetIndex] && (
