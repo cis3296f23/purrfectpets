@@ -14,6 +14,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [userPreferences, setUserPreferences] = useState([]);
 
+
   useEffect(() => {
     // temp user prefs
     let userPrefs = ['Dog', 'Cat', 'Small & Furry', 'Scales, Fins & Other', 'Barnyard', 'good_with_children', 'house_trained'];

@@ -10,6 +10,7 @@ footer{
 .read-the-docs {
   color: #888;
 }
+/* navbar */
 
 .navBar{
   display: flex;
@@ -18,6 +19,19 @@ footer{
   align-items: center;
   width: 100%
 }
+.menuIcon-Items{
+  text-align: center;
+}
+
+.menuIcon-Items{
+  text-decoration: underline;
+}
+
+.menuIcon-Items:hover{
+  cursor: pointer;
+}
+
+
 
 .app-container{
   display: flex;
