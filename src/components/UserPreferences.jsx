@@ -94,6 +94,7 @@ import logo from '../assets/PetFinderLogo.png'
                     </div>
                 ))}
             </ul>
+            <Element name = "Set Preference" preferences = {checkedItems}></Element>
           </div>
         </div>
       </div>
@@ -101,23 +102,33 @@ import logo from '../assets/PetFinderLogo.png'
   }
 
 function Element(props){
-/*
-    const[display, setDisplay] = useState('none')
-    function handleClick(){
-        if (display == 'none'){
-            setDisplay('none')
-        }else{
-            setDisplay('block')
-        }
 
+  const[display, setDisplay] = useState('none')
+  function handleClick(){
+
+    if (display == 'none'){
+        setDisplay('block')
+    }else{
+        setDisplay('none')
     }
-*/
-    var content = props.name
-    return(
-        <li>
-            <a>{content}</a>
-        </li>
-    )
+
+}
+
+return (
+  <div>
+    <div>
+      <div className='Dropdown' onClick={handleClick}>
+        <a> Set Preferences </a>
+      </div>
+
+      <div style = {{display:display}}>
+        <ul>
+            {props.preferences}
+        </ul>
+      </div>
+    </div>
+  </div>
+  )
 }
 
 /*

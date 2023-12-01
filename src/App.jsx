@@ -56,6 +56,7 @@ function App() {
         </a>
       </div>
       <h1>Find your Purrfect Pet</h1>
+      <UserPreferences></UserPreferences>
       <ul style={{ listStyle: 'none' }}>
         {pets[currentPetIndex] && (
           <li key={pets[currentPetIndex].id} className="pet-details">
