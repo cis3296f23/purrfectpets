@@ -1,15 +1,14 @@
 import React from "react"
 import { useState, useEffect, useRef } from 'react'
-import Petfinder from'../Utils/Petfinder'
 import {Component} from "react"
 import './UserPreferences.css'
 import logo from '../assets/PetFinderLogo.png'
 
 
 
-  var preference_list = [];
+var preference_list = [];
 
-  const UserPreferences = (props) => {
+const UserPreferences = (props) => {
 
     const [open, setOpen] = useState(false);
     const[display, setDisplay] = useState('none')
@@ -22,9 +21,9 @@ import logo from '../assets/PetFinderLogo.png'
     const handleCheck = (event) => {
         var updatedList = [...checked];
         if (event.target.checked) {
-          updatedList = [...checked, event.target.value];
+        updatedList = [...checked, event.target.value];
         } else {
-          updatedList.splice(checked.indexOf(event.target.value), 1);
+        updatedList.splice(checked.indexOf(event.target.value), 1);
         }
         setChecked(updatedList);
     };
@@ -54,65 +53,64 @@ import logo from '../assets/PetFinderLogo.png'
         }
 
     }
-  
-    let menuRef = useRef();
-  
-    useEffect(() => {
-      let handler = (e)=>{
-        if(!menuRef.current.contains(e.target)){
-          setOpen(false);
-          console.log(menuRef.current);
-        }      
-      };
-  
-      document.addEventListener("mousedown", handler);
-      
-  
-      return() =>{
-        document.removeEventListener("mousedown", handler);
-      }
-  
-    });
-  
-    return (
-      <div className="UserPreferences">
-        <div className='Menu' ref={menuRef}>
-          <div className='Dropdown' onClick={handleClick}>
-            <h3> User Preferences </h3>
-          </div>
-  
-          <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} style = {{display:display}}>
-            <ul>
-                {checkList.map((item, index) => (
-                    <div key={index}>
-                        <input value={item} type="checkbox" onChange={handleCheck}/>
-                        <span className={isChecked(item)}>{item}</span>
 
-                    </div>
-                ))}
-            </ul> 
-            <div onClick = {handleSubmit}>
-              <Element name = "Set Preference" preferences = {checkedItems}></Element>
-            </div>
-          </div>
+let menuRef = useRef();
+
+useEffect(() => {
+    let handler = (e)=>{
+    if(!menuRef.current.contains(e.target)){
+        setOpen(false);
+        //console.log(menuRef.current);
+    }      
+    };
+
+    document.addEventListener("mousedown", handler);
+    
+
+    return() =>{
+    document.removeEventListener("mousedown", handler);
+    }
+
+});
+
+return (
+    <div className="UserPreferences">
+    <div className='Menu' ref={menuRef}>
+        <div className='Dropdown' onClick={handleClick}>
+        <h3> User Preferences </h3>
         </div>
-      </div>
-    );
-  }
+
+        <div className={`dropdown-menu ${open? 'active' : 'inactive'}`} style = {{display:display}}>
+        <ul>
+            {checkList.map((item, index) => (
+                <div key={index}>
+                    <input value={item} type="checkbox" onChange={handleCheck}/>
+                    <span className={isChecked(item)}>{item}</span>
+                </div>
+            ))}
+        </ul> 
+        <div onClick = {handleSubmit}>
+            <Element name = "Set Preference" preferences = {checkedItems}></Element>
+        </div>
+        </div>
+    </div>
+    </div>
+);
+}
 
 
 function Element(props){
 
 return (
-  <div>
-    <div className = "Dropdown" onClick = {() => pref_changer(props.preferences)}> Set Preferences</div>
-  </div>
-  )
+<div>
+<div className = "Dropdown" onClick = {() => pref_changer(props.preferences)}> Set Preferences</div>
+</div>
+)
 }
 
 
 const pref_changer = (new_preferences) =>{
-  preference_list = new_preferences;
+preference_list = new_preferences;
   //console.log(preference_list);
 }
 
