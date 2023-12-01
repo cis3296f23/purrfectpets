@@ -17,10 +17,9 @@ function LoginSignup() {
     const [validPassword, setValidPassword] = useState('valid')
 
     //check if the entered email/password when logging in is correct
-    const [verifyEmail, setVerifyEmail] = useState(true)
-    const [verifyPassword, setVerifyPassword] = useState(true)
-    const [sessionEmail, setSessionEmail] = useState('')
-    const [correctInfo, setCorrectInfo] = useState(true)
+    const [verifyEmail, setVerifyEmail] = useState(false)
+    const [verifyPassword, setVerifyPassword] = useState('')
+    const [accountUsername, setAccountUsername] = useState('')
 
     //two boolean to check if they click 'continue'
     const [isTryingToLogin, setIsTryingToLogin] = useState(false)
@@ -47,17 +46,6 @@ function LoginSignup() {
     const passwordValue2 = (event) => {
         setPasswordInput2(event.target.value);
     }
-
-
-    const detectTabKeyDown = (e) => {
-        if (e.key === "Tab"){
-            setIsTryingToLogin(true)
-            
-        }
-    }
-
-
-
 
     //when registering, check if the passwords are the same
     const arePasswordsEqual = () => {
@@ -195,8 +183,7 @@ function LoginSignup() {
                                 placeholder="Email"
                                 value={emailInput}
                                 onChange={emailValue}
-                                onKeyDown={detectTabKeyDown}
-                                />
+                            />
                         </div>
                         {Login === "Create an Account" ?
                             checkEmailAvailabilityText === true ?
@@ -219,14 +206,6 @@ function LoginSignup() {
                                 onChange={passwordValue}
                                 />
                         </div>
-                        {Login === "Login" ?
-                            (correctInfo ?
-                                <div className="spaceHolder"></div>
-                                :
-                                <p className="invalidPassword">Incorrect information</p>
-                            )
-                            :
-                            <div> </div>}
                     </div>
 
                     {Login === "Create an Account" ? <div className="input-div">
@@ -261,16 +240,16 @@ function LoginSignup() {
                             setValidPassword('valid')
                             //fetches the user from the DB
                             setIsTryingToLogin(true)
-                            //if the password and email are correct, log them in
-                            if (verifyEmail && verifyPassword) {
-                                console.log(verifyPassword)
+                            //if the password entered is correct, process to the the next page
+                            if (passwordDatabaseCheck()) {
                                 console.log('passwords are a match')
                                 sessionStorage.setItem("userinfo", sessionEmail);
                                 console.log(`this is the session user ${sessionStorage.getItem("userinfo")}`)
                                 window.location.pathname = '/app'
                             }
-                            else{
-                                setCorrectInfo(false)
+                            else {
+                                alert("incorrect information")
+                                //add a useState to display incorrect info
                             }
                         }
                         //on the registration page 
@@ -324,7 +303,7 @@ function LoginSignup() {
                                             res.json()).then(d => {
                                                 console.log(d)
                                             })
-                                        sessionStorage.setItem("userinfo", emailInput);
+                                        sessionStorage.setItem("userinfo", { usernameInput });
                                         window.location.pathname = '/app'
                                     }
                                     else {

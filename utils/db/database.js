@@ -142,16 +142,6 @@ export default class Database {
       .query(`SELECT username FROM users WHERE email = @email`);
     return result.recordset[0];
   }
-  async getUserByEmail(email) {
-    await this.connect();
-    const request = this.poolconnection.request();
-    const result = await request
-      .input('email', sql.VarChar, email)
-      .query(`SELECT * FROM dbo.users WHERE email = @email`);
-    return result.recordset[0];
-  }
-  
-  
 
   async update(id, data) {
     try{

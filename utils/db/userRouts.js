@@ -71,22 +71,6 @@ router.get('/username/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
-router.get('/userInfo/:email', async (req, res) => {
-  try {
-    // Get the user with the specified email
-    const email = req.params.email;
-    console.log(`email: ${email}`);
-    if (email) {
-      const result = await database.getUserByEmail(email);
-      console.log(`userData: ${JSON.stringify(result)}`);
-      res.status(200).json(result);
-    } else {
-      res.status(404);
-    }
-  } catch (err) {
-    res.status(500).json({ error: err?.message });
-  }
-});
 
 router.get('/checkusername/:username', async (req, res) => {
   try {
@@ -95,7 +79,7 @@ router.get('/checkusername/:username', async (req, res) => {
     console.log(`username: ${username}`);
     if (username) {
       const result = await database.checkUsernameAvailability(username);
-      console.log(`usernameCheck: ${JSON.stringify(result)}`);
+      console.log(`users: ${JSON.stringify(result)}`);
       res.status(200).json(result);
     } else {
       res.status(404);
@@ -112,7 +96,7 @@ router.get('/checkemail/:email', async (req, res) => {
     console.log(`email: ${email}`);
     if (email) {
       const result = await database.checkEmailAvailability(email);
-      console.log(`emailCheck: ${JSON.stringify(result)}`);
+      console.log(`users: ${JSON.stringify(result)}`);
       res.status(200).json(result);
     } else {
       res.status(404);
@@ -121,6 +105,58 @@ router.get('/checkemail/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
+
+router.get('/salt/:email', async (req, res) => {
+  try {
+    // Get the user with the specified email
+    const email = req.params.email;
+    console.log(`email: ${email}`);
+    if (email) {
+      const result = await database.getSalt(email);
+      console.log(`salt: ${JSON.stringify(result)}`);
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
+
+router.get('/login/:hashedPass/:email', async (req, res) => {
+  try {
+    // Get the user with the specified email
+    const hashedPass = req.params.hashedPass;
+    const email = req.params.email;
+    console.log(`hashedPass: ${hashedPass}`);
+    console.log(`email: ${email}`);
+    if (hashedPass && email) {
+      const result = await database.checkHashedPass(hashedPass, email);
+      console.log(`pw_check: ${JSON.stringify(result)}`);
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
+
+//** POST routs **\\
+
+router.post('/', async (req, res) => {
+  try {
+    // Create a user
+    const user = req.body;
+    console.log(`user: ${JSON.stringify(user)}`);
+    const rowsAffected = await database.create(user);
+    res.status(201).json({ rowsAffected });
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
+
+//** PUT routs **\\
 
 router.get('/salt/:email', async (req, res) => {
   try {
