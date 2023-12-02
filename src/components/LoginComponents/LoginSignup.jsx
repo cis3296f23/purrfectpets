@@ -244,8 +244,9 @@ function LoginSignup() {
                             else {
                                 console.log(checkEmailAvailability)
                                 setEmailAvailabilityText(checkEmailAvailability)
+                                console.log(checkUsernameAvailability)
                                 setUsernameAvailabilityText(checkUsernameAvailability)
-                                if (checkEmailAvailability && checkUsernameAvailability) {
+                                if (!checkEmailAvailability && !checkUsernameAvailability) {
                                     setEmailAvailabilityText(true)
                                     setUsernameAvailabilityText(true)
                                     if (arePasswordsEqual()) {
