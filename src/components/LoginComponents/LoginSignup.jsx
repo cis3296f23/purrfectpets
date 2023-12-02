@@ -90,7 +90,6 @@ function LoginSignup() {
                     const userData = await response.json();
                     console.log('EmailAvailable:', userData);
                     setEmailAvailability(userData)
-                    setUsernameAvailability(userData)
                 }
             } catch (error) {
                 //console.error('Error fetching user data:', error);
@@ -253,7 +252,7 @@ function LoginSignup() {
                                 setEmailAvailabilityText(checkEmailAvailability)
                                 console.log(checkUsernameAvailability)
                                 setUsernameAvailabilityText(checkUsernameAvailability)
-                                if (!checkEmailAvailability && !checkUsernameAvailability) {
+                                if (checkEmailAvailability && checkUsernameAvailability) {
                                     setEmailAvailabilityText(true)
                                     setUsernameAvailabilityText(true)
                                     if (arePasswordsEqual()) {
