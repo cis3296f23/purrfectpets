@@ -79,7 +79,7 @@ router.get('/checkusername/:username', async (req, res) => {
     console.log(`username: ${username}`);
     if (username) {
       const result = await database.checkUsernameAvailability(username);
-      console.log(`users: ${JSON.stringify(result)}`);
+      console.log(`usernameCheck: ${JSON.stringify(result)}`);
       res.status(200).json(result);
     } else {
       res.status(404);
@@ -96,7 +96,7 @@ router.get('/checkemail/:email', async (req, res) => {
     console.log(`email: ${email}`);
     if (email) {
       const result = await database.checkEmailAvailability(email);
-      console.log(`users: ${JSON.stringify(result)}`);
+      console.log(`emailCheck: ${JSON.stringify(result)}`);
       res.status(200).json(result);
     } else {
       res.status(404);
