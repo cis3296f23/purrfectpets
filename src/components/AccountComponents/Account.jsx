@@ -3,13 +3,25 @@ import { useState,useEffect } from "react";
 import './Account.scss'
 import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
-import EditIcon from '@mui/icons-material/Edit';
 import UserPreferences from "../UserPreferences";
 
 
 
 
-
+//TODO:
+//1. fetch user data from database
+//2. display user data
+//3. open modal to update user info
+//4. enter data into the input boxes
+//5. if the input boxes are empty, then the data will remain unchanged
+//6. if the input boxes are filled, then the data will be updated
+    //check if the new email and new username are available
+    //if the new email and new username are not available, display error message
+    //check if password and verify password are the same
+    //if password and verify password are not the same, display error message
+    //hash the password and save it
+//7. the save button will save the changes
+//8. the cancel button will close the modal and not save the changes
 
 function Account(){
 
@@ -17,7 +29,9 @@ function Account(){
     const [email, getEmail] = useState('')
     const [petLiked, getPetLiked] = useState('100')
     const[currentLocation, getCurrentLocation] = useState('New Jersey')
-    const sessionUser = sessionStorage.getItem("userinfo");
+
+
+
     
 
     const [newUsername, setNewUsername] = useState('')
@@ -51,16 +65,17 @@ function Account(){
         document.body.classList.remove('active-modal')
         }
     
-    let username =  sessionUser; //fetch by specific username
+    let userEmail =  sessionStorage.getItem("userinfo");
+    
     
         useEffect(() => {
             const fetchUserData = async () => {
             try {
-                const response = await fetch(`/users/username/${username}`,{method: 'GET'});
+                const response = await fetch(`/users/username/${userEmail}`,{method: 'GET'});
                 const userData = await response.json();
                 console.log('User Data:', userData);
                 getUsername(userData.username);
-                getEmail(userData.email)
+                getEmail(userEmail)
             } catch (error) {
             console.error('Error fetching user data:', error);
             }

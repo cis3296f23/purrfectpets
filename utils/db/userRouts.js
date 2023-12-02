@@ -71,6 +71,22 @@ router.get('/username/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
+router.get('/username/:username', async (req, res) => {
+  try {
+    // Get the username with the specified email
+    const email = req.params.email;
+    console.log(`email: ${email}`);
+    if (email) {
+      const result = await database.getUsernameByEmail(email);
+      console.log(`username: ${JSON.stringify(result)}`);
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
 
 router.get('/checkusername/:username', async (req, res) => {
   try {
