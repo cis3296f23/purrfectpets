@@ -58,8 +58,6 @@ function App() {
     setUserPreferences(pref_list);
   };
 
-
-
   return (
     <>
       
