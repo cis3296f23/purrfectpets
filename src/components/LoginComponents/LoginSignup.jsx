@@ -99,12 +99,7 @@ function LoginSignup() {
                     const userData = await response.json();
                     console.log('EmailAvailable:', userData);
                     setEmailAvailability(userData)
-
-                    let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
-                    let user = await res.json();
-                    console.log('Username:', user);
-                    setSessionEmail(user.email);
-                }   
+                }
             } catch (error) {
                 //console.error('Error fetching user data:', error);
                 setVerifyEmail(false)
