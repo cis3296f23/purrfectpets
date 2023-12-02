@@ -65,7 +65,7 @@ function LoginSignup() {
 
     // when logging in,checks if the password input matches the the password in the DB
     const passwordDatabaseCheck = async (hashedPass) => {
-        const response = fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET' });
+        const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET' });
         const pwCheck = await response.json();
         return pwCheck;
     }
@@ -75,17 +75,20 @@ function LoginSignup() {
         const fetchUserEmail = async () => {
             try {
                 if (isTryingToLogin) {
-                    let response = fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
+                    let response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     let userData = await response.json();
+                    console.log('EmailValid:', !userData);
                     setVerifyEmail(!userData);
                     if (!userData) {
-                        response = fetch(`/users/salt/${emailInput}`, { method: 'GET' });
+                        response = await fetch(`/users/salt/${emailInput}`, { method: 'GET' });
                         userData = await response.json();
+                        console.log('salt:', userData);
                         const hashedPass = bcrypt.hashSync(passwordInput, userData.salt);
+                        console.log('hash:', hashedPass);
                         const checkedPw = await passwordDatabaseCheck(hashedPass);
                         if (checkedPw) {
                             console.log("LOGGING IN")
-                            response = fetch(`/users/username/${emailInput}`, { method: 'GET' });
+                            response = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
                             userData = await response.json();
                             setAccountUsername(userData.username);
                         }
@@ -93,7 +96,7 @@ function LoginSignup() {
                     }
                 }
                 if (isTryingToSignUp) {
-                    const response = fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
+                    const response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     const userData = await response.json();
                     console.log('EmailAvailable:', userData);
                     setEmailAvailability(userData)
