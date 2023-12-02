@@ -266,16 +266,6 @@ function LoginSignup() {
                                 setEmailAvailabilityText(checkEmailAvailability)
                                 console.log(checkUsernameAvailability)
                                 setUsernameAvailabilityText(checkUsernameAvailability)
-                                //check if username and email are available
-                                if (checkEmailAvailability && !checkUsernameAvailability) {
-                                    setEmailAvailabilityText(true)
-                                    setUsernameAvailabilityText(false)
-                                }
-                                if (!checkEmailAvailability && checkUsernameAvailability) {
-                                    setEmailAvailabilityText(false)
-                                    setUsernameAvailabilityText(true)
-                                }
-
                                 if (checkEmailAvailability && checkUsernameAvailability) {
                                     setEmailAvailabilityText(true)
                                     setUsernameAvailabilityText(true)
