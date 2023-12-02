@@ -105,6 +105,27 @@ export default class Database {
     return result.rowsAffected[0];
   }
 
+  async updateLikes(username, petID) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    request.input('username', sql.NVarChar(50), username);
+
+    // Get the current likes for the user
+    const getUserLikesQuery = `SELECT likes FROM dbo.users WHERE username = @username`;
+    const getUserLikesResult = await request.query(getUserLikesQuery);
+    const currentLikes = getUserLikesResult.recordset[0].likes;
+
+    // Append the new petID to the current likes
+    const updatedLikes = currentLikes ? `${currentLikes},${petID}` : petID;
+
+    // Update the likes field in the database
+    request.input('likes', sql.NVarChar(100), updatedLikes);
+    const updateLikesQuery = `UPDATE dbo.users SET likes = @likes WHERE username = @username`;
+    const result = await request.query(updateLikesQuery);
+
+    return result.rowsAffected[0];
+  }
+
   async delete(id) {
     await this.connect();
     const idAsNumber = Number(id);
