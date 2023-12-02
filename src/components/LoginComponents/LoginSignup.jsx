@@ -78,7 +78,7 @@ function LoginSignup() {
                         const checkedPw = await passwordDatabaseCheck(hashedPass);
                         if (checkedPw) {
                             console.log("LOGGING IN")
-                            response = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
+                            response = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
                             userData = await response.json();
                             setSessionEmail(userData.username);
                         }
