@@ -82,6 +82,7 @@ function LoginSignup() {
                             userData = await response.json();
                             setAccountUsername(userData.username);
                         }
+                        console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
                     }
                 }
