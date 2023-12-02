@@ -17,9 +17,10 @@ function LoginSignup() {
     const [validPassword, setValidPassword] = useState('valid')
 
     //check if the entered email/password when logging in is correct
-    const [verifyEmail, setVerifyEmail] = useState(false)
-    const [verifyPassword, setVerifyPassword] = useState('')
-    const [accountUsername, setAccountUsername] = useState('')
+    const [verifyEmail, setVerifyEmail] = useState(true)
+    const [verifyPassword, setVerifyPassword] = useState(true)
+    const [accountEmail, setAccountUsername] = useState('')
+    const [correctInfo, setCorrectInfo] = useState(true)
 
     //two boolean to check if they click 'continue'
     const [isTryingToLogin, setIsTryingToLogin] = useState(false)
@@ -95,14 +96,27 @@ function LoginSignup() {
                         }
                         console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
-                    }
+                        }
+                    
+                    let res = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
+                    let user = await res.json();
+                    console.log('Username:', user);
+                    setAccountUsername(user.username);
+
+
+                    
                 }
                 if (isTryingToSignUp) {
                     const response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     const userData = await response.json();
                     console.log('EmailAvailable:', userData);
                     setEmailAvailability(userData)
-                }
+
+                    let res = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
+                    let user = await res.json();
+                    console.log('Username:', user);
+                    setAccountUsername(user.username);
+                }   
             } catch (error) {
                 //console.error('Error fetching user data:', error);
                 setVerifyEmail(false)
@@ -202,8 +216,17 @@ function LoginSignup() {
                                 type="password"
                                 placeholder="Password"
                                 value={passwordInput}
-                                onChange={passwordValue} />
+                                onChange={passwordValue}
+                                />
                         </div>
+                        {Login === "Login" ?
+                            (correctInfo ?
+                                <div className="spaceHolder"></div>
+                                :
+                                <p className="invalidPassword">Incorrect information</p>
+                            )
+                            :
+                            <div> </div>}
                     </div>
 
                     {Login === "Create an Account" ? <div className="input-div">
@@ -238,23 +261,21 @@ function LoginSignup() {
                             setValidPassword('valid')
                             //fetches the user from the DB
                             setIsTryingToLogin(true)
-                            //if the password entered is correct, process to the the next page
-                            if (passwordDatabaseCheck()) {
+                            //if the password and email are correct, log them in
+                            if (verifyEmail && verifyPassword) {
+                                console.log(verifyPassword)
                                 console.log('passwords are a match')
-                                sessionStorage.setItem("userinfo", accountUsername);
-                                
-
+                                sessionStorage.setItem("userinfo", accountEmail);
+                                console.log(`this is the session user ${sessionStorage.getItem("userinfo")}`)
                                 window.location.pathname = '/app'
                             }
-                            else {
-                                alert("incorrect information")
-                                //add a useState to display incorrect info
+                            else{
+                                setCorrectInfo(false)
                             }
                         }
                         //on the registration page 
                         else {
                             setIsTryingToSignUp(true)
-                            //console.log(isTryingToSignUp)
                             //if the passwords match, add to DB
                             //need to check if username and email already exists in the DB
                             //need to check username, email, passwords are empty
@@ -266,9 +287,20 @@ function LoginSignup() {
                                 setEmailAvailabilityText(checkEmailAvailability)
                                 console.log(checkUsernameAvailability)
                                 setUsernameAvailabilityText(checkUsernameAvailability)
+                                //check if username and email are available
+                                if (checkEmailAvailability && !checkUsernameAvailability) {
+                                    setEmailAvailabilityText(true)
+                                    setUsernameAvailabilityText(false)
+                                }
+                                if (!checkEmailAvailability && checkUsernameAvailability) {
+                                    setEmailAvailabilityText(false)
+                                    setUsernameAvailabilityText(true)
+                                }
+
                                 if (checkEmailAvailability && checkUsernameAvailability) {
                                     setEmailAvailabilityText(true)
                                     setUsernameAvailabilityText(true)
+                                    //check if the two passwords are the same
                                     if (arePasswordsEqual()) {
                                         setValidPassword("valid")
                                         const salt = bcrypt.genSaltSync(10);

@@ -70,6 +70,7 @@ export default class Database {
 
     return result.recordset[0];
   }
+  
 
   async checkUsernameAvailability(username) {
     await this.connect();
@@ -141,6 +142,7 @@ export default class Database {
       .query(`SELECT username FROM users WHERE email = @email`);
     return result.recordset[0];
   }
+  
 
   async update(id, data) {
     await this.connect();
