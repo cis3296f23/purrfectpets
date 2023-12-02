@@ -67,6 +67,7 @@ function LoginSignup() {
     const passwordDatabaseCheck = async (hashedPass) => {
         const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET' });
         const pwCheck = await response.json();
+        
         return pwCheck;
     }
 
@@ -92,6 +93,7 @@ function LoginSignup() {
                             userData = await response.json();
                             setAccountUsername(userData.username);
                         }
+                        console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
                     }
                 }
