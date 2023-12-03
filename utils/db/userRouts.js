@@ -201,13 +201,12 @@ router.put('/liked/:id', async (req, res) => {
     // Update the user with the specified ID
     const userId = req.params.id;
     console.log(`userId: ${userId}`);
-    const user = req.body;
-    console.log(user)
+    const {petID} = req.body;
+    console.log(petID)
 
-    if (userId && user) {
-      delete user.id;
+    if (userId && petID) {
       console.log(`user: ${JSON.stringify(user)}`);
-      const rowsAffected = await database.updateLikes(userId, user);
+      const rowsAffected = await database.updateLikes(userId, petID);
       res.status(200).json({ rowsAffected });
     } else {
       res.status(404);

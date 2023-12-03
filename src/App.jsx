@@ -59,8 +59,10 @@ function App() {
 
   //update user data
   const handleLike = async () => {
+    // Get the petID from the current pet
+    const petID = pets[currentPetIndex].id;
+    console.log(`PetID: ${petID}`);
     try{
-
         let option = {
             method: 'PUT',
             headers: {
@@ -69,21 +71,17 @@ function App() {
             },
             body: JSON.stringify({
                 'id': userID,
-                'username': newUsername,
-                'email': newEmail,
-                'password': newPassword,
-                'salt': 'c',
-                'preferences': 0
+                'likes': petID
             })
         }
     
-        const response = await fetch(`/users/id/${userID}`,option);
-        const data = await response.json();
-        console.log('User Data:', data);
+        const response = await fetch(`/users/likes/${userID}`,option);
+
     } 
     catch (error) {  
         console.error('Error updating user data:', error);
     }
+    nextPet();
   }
 
   const nextPet = () => {

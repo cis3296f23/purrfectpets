@@ -177,9 +177,6 @@ export default class Database {
     }
   }
 
-
-
-
   async updateLikes(id, data) {
     await this.connect();
     console.log(`id: ${id}`)
