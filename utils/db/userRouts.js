@@ -180,6 +180,7 @@ router.put('/id/:id', async (req, res) => {
     const userId = req.params.id;
     console.log(`userId: ${userId}`);
     const user = req.body;
+    console.log(user)
 
     if (userId && user) {
       delete user.id;
@@ -194,7 +195,6 @@ router.put('/id/:id', async (req, res) => {
     console.log(err);
   }
 });
-
 
 
 //** DELETE routs **\\

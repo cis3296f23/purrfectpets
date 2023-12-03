@@ -152,21 +152,33 @@ export default class Database {
   }
   
   
-  
 
   async update(id, data) {
+    try{
+
+    
     await this.connect();
+    console.log(`id: ${id}`);
     const request = this.poolconnection.request();
-    request.input('id', sql.Int, +id);
-    request.input('username', sql.NVarChar(50), data.username);
-    request.input('email', sql.NVarChar(50), data.email);
-    request.input('password', sql.NVarChar(50), data.password);
+    request.input('id', sql.Int, id);
+    request.input('username', sql.NVarChar(64), data.username);
+    request.input('email', sql.NVarChar(64), data.email);
+    request.input('password', sql.NVarChar(64), data.password);
+    request.input('salt', sql.NVarChar(32), data.salt);
     request.input('preferences', sql.Int, parseInt(data.preferences));
     const result = await request.query(
       `UPDATE dbo.users SET email=@email, password=@password, username = @username WHERE id = @id`
     );
     return result.rowsAffected[0];
   }
+  catch(err){
+    console.log("ERROR IN UPDATE")
+    console.log(err)
+    }
+  }
+
+
+
 
   async updateLikes(username, petID) {
     await this.connect();

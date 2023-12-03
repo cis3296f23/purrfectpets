@@ -4,6 +4,7 @@ import './Account.scss'
 import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
 import UserPreferences from "../UserPreferences";
+import bcrtpy from 'bcryptjs';
 
 
 
@@ -25,32 +26,52 @@ import UserPreferences from "../UserPreferences";
 
 function Account(){
 
+    //original user info
     const [userName, getUsername] = useState('')
     const [email, getEmail] = useState('')
     const [userID, getUserID] = useState('')
+    const [password, getPassword] = useState('')
+
 
 
 
     
+    //updated  user info
+    const [newUsername, setNewUsername] = useState('')
+    const [newEmail,setNewEmail] = useState('')
+    const [newPassword,setNewPassword] = useState('')
+    const [verifyNewPassword, checkVerifyNewPassword] = useState('')
 
-    const [newUsername, setNewUsername] = useState('empty')
-    const [newEmail,setNewEmail] = useState('empty')
-    const [newPassword,setNewPassword] = useState('empty')
 
-    const [verifyNewPassword, checkVerifyNewPassword] = useState('empty')
-
-    const usernameValue = (event) => {
+    //store the onChange values
+    const usernameOnChange= (event) => {
+        if(event.target.value === ''){
+            setNewUsername(userName);
+        }
+        else{
         setNewUsername(event.target.value);
+        }
     }
-    const emailValue = (event) => {
+    const emailOnChange = (event) => {
+        if(event.target.value === ''){
+            setNewEmail(email);
+        }
+        else{
         setNewEmail(event.target.value);
+        }
     }
-    const passwordValue = (event) => {
+    const passwordOnChange = (event) => {
+        if(event.target.value === ''){
+            setNewPassword(password);
+        }
+        else{
         setNewPassword(event.target.value);
+        }
     }
-    const passwordValue2 = (event) => {
+    const password2OnChange = (event) => {
         checkVerifyNewPassword(event.target.value);
     }
+
 
 
     //display the update modal
@@ -65,7 +86,10 @@ function Account(){
         document.body.classList.remove('active-modal')
         }
     
+
+    //fetch user data from database
     let userEmail =  sessionStorage.getItem("userinfo");
+    console.log(userEmail)
     
     
         useEffect(() => {
@@ -80,29 +104,33 @@ function Account(){
             } catch (error) {
             console.error('Error fetching user data:', error);
             }
-        };
-
-        
-
-        
+        }; 
         fetchUserData();
         }, []);
 
+    //update user data
     const updateInfo = async () => {
         try{
-            const response = await fetch(`/id/${userID}`,{
+
+            let option = {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
+                
                 },
                 body: JSON.stringify({
+                    'id': userID,
                     'username': newUsername,
                     'email': newEmail,
-                    'password': newPassword
+                    'password': newPassword,
+                    'salt': 'c',
+                    'preferences': 0
                 })
-            });
+            }
+        
+            const response = await fetch(`/users/id/${userID}`,option);
             const data = await response.json();
-            console.log(data);
+            console.log('User Data:', data);
         } 
         catch (error) {  
             console.error('Error updating user data:', error);
@@ -154,25 +182,29 @@ function Account(){
                         name="username-input"
                         className="update-input-box"
                         type="text"
-                        placeholder='username'/>
+                        placeholder='username'
+                        onChange={usernameOnChange}/>
 
                         <input 
                         name="email-input"
                         className="update-input-box"
                         type="text" 
-                        placeholder='email'/>
+                        placeholder='email'
+                        onChange={emailOnChange}/>
 
                         <input 
                         name="password-input"
                         className="update-input-box"
                         type="password"
-                        placeholder="password" />
+                        placeholder="password" 
+                        onChange={passwordOnChange}/>
 
                         <input
                         name="password2-input"
                         className="update-input-box"
                         type="password"
-                        placeholder="reenter password" />
+                        placeholder="reenter password"
+                        onChange={password2OnChange} />
 
 
                     </div>
