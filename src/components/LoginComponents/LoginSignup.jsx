@@ -324,7 +324,7 @@ function LoginSignup() {
                                             res.json()).then(d => {
                                                 console.log(d)
                                             })
-                                        sessionStorage.setItem("userinfo", { usernameInput });
+                                        sessionStorage.setItem("userinfo", emailInput);
                                         window.location.pathname = '/app'
                                     }
                                     else {
