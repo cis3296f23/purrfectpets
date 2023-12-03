@@ -76,6 +76,8 @@ function App() {
         }
     
         const response = await fetch(`/users/likes/${userID}`,option);
+        const data = await response.json();
+        console.log('User Data:', data);
 
     } 
     catch (error) {  
