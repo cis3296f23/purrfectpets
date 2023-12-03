@@ -19,7 +19,7 @@ function LoginSignup() {
     //check if the entered email/password when logging in is correct
     const [verifyEmail, setVerifyEmail] = useState(true)
     const [verifyPassword, setVerifyPassword] = useState(true)
-    const [accountEmail, setAccountUsername] = useState('')
+    const [sessionEmail, setSessionEmail] = useState('')
     const [correctInfo, setCorrectInfo] = useState(true)
 
     //two boolean to check if they click 'continue'
@@ -90,18 +90,18 @@ function LoginSignup() {
                         const checkedPw = await passwordDatabaseCheck(hashedPass);
                         if (checkedPw) {
                             console.log("LOGGING IN")
-                            response = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
+                            response = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
                             userData = await response.json();
-                            setAccountUsername(userData.username);
+                            setSessionEmail(userData.username);
                         }
                         console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
                         }
                     
-                    let res = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
+                    let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
                     let user = await res.json();
                     console.log('Username:', user);
-                    setAccountUsername(user.username);
+                    setSessionEmail(user.email);
 
 
                     
@@ -112,10 +112,10 @@ function LoginSignup() {
                     console.log('EmailAvailable:', userData);
                     setEmailAvailability(userData)
 
-                    let res = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
+                    let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
                     let user = await res.json();
                     console.log('Username:', user);
-                    setAccountUsername(user.username);
+                    setSessionEmail(user.email);
                 }   
             } catch (error) {
                 //console.error('Error fetching user data:', error);
@@ -265,7 +265,7 @@ function LoginSignup() {
                             if (verifyEmail && verifyPassword) {
                                 console.log(verifyPassword)
                                 console.log('passwords are a match')
-                                sessionStorage.setItem("userinfo", accountEmail);
+                                sessionStorage.setItem("userinfo", sessionEmail);
                                 console.log(`this is the session user ${sessionStorage.getItem("userinfo")}`)
                                 window.location.pathname = '/app'
                             }

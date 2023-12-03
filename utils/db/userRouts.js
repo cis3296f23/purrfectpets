@@ -71,14 +71,14 @@ router.get('/username/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
-router.get('/username/:username', async (req, res) => {
+router.get('/userInfo/:email', async (req, res) => {
   try {
-    // Get the username with the specified email
+    // Get the user with the specified email
     const email = req.params.email;
     console.log(`email: ${email}`);
     if (email) {
-      const result = await database.getUsernameByEmail(email);
-      console.log(`username: ${JSON.stringify(result)}`);
+      const result = await database.getUserByEmail(email);
+      console.log(`userData: ${JSON.stringify(result)}`);
       res.status(200).json(result);
     } else {
       res.status(404);
@@ -174,7 +174,7 @@ router.post('/', async (req, res) => {
 
 //** PUT routs **\\
 
-router.put('/:id', async (req, res) => {
+router.put('/id/:id', async (req, res) => {
   try {
     // Update the user with the specified ID
     const userId = req.params.id;
@@ -191,8 +191,11 @@ router.put('/:id', async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({ error: err?.message });
+    console.log(err);
   }
 });
+
+
 
 //** DELETE routs **\\
 

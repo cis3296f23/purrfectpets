@@ -9,9 +9,9 @@ import UserPreferences from "../UserPreferences";
 
 
 //TODO:
-//1. fetch user data from database
-//2. display user data
-//3. open modal to update user info
+//1. fetch user data from database - done
+//2. display user data - done
+//3. open modal to update user info - done
 //4. enter data into the input boxes
 //5. if the input boxes are empty, then the data will remain unchanged
 //6. if the input boxes are filled, then the data will be updated
@@ -27,17 +27,17 @@ function Account(){
 
     const [userName, getUsername] = useState('')
     const [email, getEmail] = useState('')
-    const [petLiked, getPetLiked] = useState('100')
-    const[currentLocation, getCurrentLocation] = useState('New Jersey')
+    const [userID, getUserID] = useState('')
 
 
 
     
 
-    const [newUsername, setNewUsername] = useState('')
-    const [newEmail,setNewEmail] = useState('')
-    const [newPassword,setNewPassword] = useState('')
-    const [verifyNewPassword, checkVerifyNewPassword] = useState('')
+    const [newUsername, setNewUsername] = useState('empty')
+    const [newEmail,setNewEmail] = useState('empty')
+    const [newPassword,setNewPassword] = useState('empty')
+
+    const [verifyNewPassword, checkVerifyNewPassword] = useState('empty')
 
     const usernameValue = (event) => {
         setNewUsername(event.target.value);
@@ -71,20 +71,44 @@ function Account(){
         useEffect(() => {
             const fetchUserData = async () => {
             try {
-                const response = await fetch(`/users/username/${userEmail}`,{method: 'GET'});
+                const response = await fetch(`/users/userInfo/${userEmail}`,{method: 'GET'});
                 const userData = await response.json();
                 console.log('User Data:', userData);
                 getUsername(userData.username);
-                getEmail(userEmail)
+                getEmail(userData.email);
+                getUserID(userData.id);
             } catch (error) {
             console.error('Error fetching user data:', error);
             }
         };
+
+        
+
         
         fetchUserData();
         }, []);
 
-
+    const updateInfo = async () => {
+        try{
+            const response = await fetch(`/id/${userID}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({
+                    'username': newUsername,
+                    'email': newEmail,
+                    'password': newPassword
+                })
+            });
+            const data = await response.json();
+            console.log(data);
+        } 
+        catch (error) {  
+            console.error('Error updating user data:', error);
+        }
+    }
+        
     return (
     <div className="account-container">
         <SideBar />
@@ -152,7 +176,7 @@ function Account(){
 
 
                     </div>
-                    <button className="save-modal" onClick={toggleModal}>
+                    <button className="save-modal" onClick={updateInfo}>
                         save</button>
                     <button className="close-modal" onClick={toggleModal}>
                         cancel
@@ -169,7 +193,7 @@ function Account(){
     </div>
     )
 
-}
+    }
 
 
 
