@@ -5,6 +5,7 @@ import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
 import UserPreferences from "../UserPreferences";
 import bcrtpy from 'bcryptjs';
+import e from "express";
 
 
 
@@ -13,9 +14,9 @@ import bcrtpy from 'bcryptjs';
 //1. fetch user data from database - done
 //2. display user data - done
 //3. open modal to update user info - done
-//4. enter data into the input boxes
-//5. if the input boxes are empty, then the data will remain unchanged
-//6. if the input boxes are filled, then the data will be updated
+//4. enter data into the input boxes - done
+//5. if the input boxes are empty, then the data will remain unchanged - done
+//6. if the input boxes are filled, then the data will be updated - done
     //check if the new email and new username are available
     //if the new email and new username are not available, display error message
     //check if password and verify password are the same
@@ -40,37 +41,109 @@ function Account(){
     const [newUsername, setNewUsername] = useState('')
     const [newEmail,setNewEmail] = useState('')
     const [newPassword,setNewPassword] = useState('')
+    const [newSalt,setNewSalt] = useState('')
     const [verifyNewPassword, checkVerifyNewPassword] = useState('')
+
+    //check if the new email and new username are available
+    //checks if the two passwords are the same
+    
+    //displays a textbox accordingly
+    const[validUsername, setValidUsername] = useState(true)
+    const[validEmail, setValidEmail] = useState(true)
+    const[validPassword, setValidPassword] = useState(true)
 
 
     //store the onChange values
     const usernameOnChange= (event) => {
         if(event.target.value === ''){
-            setNewUsername(userName);
+            setNewUsername(userName)
         }
         else{
-        setNewUsername(event.target.value);
+        setNewUsername(event.target.value)
         }
     }
     const emailOnChange = (event) => {
         if(event.target.value === ''){
-            setNewEmail(email);
+            setNewEmail(email)
         }
         else{
-        setNewEmail(event.target.value);
+        setNewEmail(event.target.value)
         }
     }
     const passwordOnChange = (event) => {
         if(event.target.value === ''){
-            setNewPassword(password);
+            setNewPassword(password)
         }
         else{
-        setNewPassword(event.target.value);
+        setNewPassword(event.target.value)
         }
+        console.log(newPassword)
     }
     const password2OnChange = (event) => {
-        checkVerifyNewPassword(event.target.value);
+        checkVerifyNewPassword(event.target.value)
+        console.log(verifyNewPassword)
     }
+
+
+    //if the input boxes are empty, then the data will remain unchanged
+    //setting the 'new' variables to the original variables
+    const handleCancel = () => {
+        setNewUsername(userName)
+        setNewEmail(email)
+        setNewPassword(password)
+        checkVerifyNewPassword('')
+        setValidUsername(true)
+        setValidEmail(true)
+        setValidPassword(true)
+
+    }
+
+
+    const handleSave = () => {
+        //check if the new email and new username are available
+        //if the new email and new username are not available, display error message
+        //check if password and verify password are the same
+        //if password and verify password are not the same, display error message
+        //hash the password and save it
+        
+
+        if(newUsername === userName){
+            setValidUsername(false)
+        }
+        else{
+            setValidUsername(true)
+        }
+        if(newEmail === email){
+            setValidEmail(false);
+        }
+        else{
+            setValidEmail(true);
+        }
+
+
+        if(newPassword !== verifyNewPassword){
+            alert("passwords do not match")
+            setValidPassword(false)
+        }
+        else{
+            setValidPassword(true)
+        }
+
+        if(validUsername == true && validEmail == true && validPassword == true){
+            //hash the password
+            const salt = bcrtpy.genSaltSync(10)
+            const hash = bcrtpy.hashSync(newPassword,salt)
+            setNewPassword(hash)
+            setNewSalt(salt)
+            //update the user info
+            //updateInfo();
+            //close the modal
+            toggleModal()
+        }
+    }
+
+
+
 
 
 
@@ -89,24 +162,25 @@ function Account(){
 
     //fetch user data from database
     let userEmail =  sessionStorage.getItem("userinfo");
-    console.log(userEmail)
+    //console.log(userEmail)
     
     
         useEffect(() => {
             const fetchUserData = async () => {
             try {
                 const response = await fetch(`/users/userInfo/${userEmail}`,{method: 'GET'});
-                const userData = await response.json();
-                console.log('User Data:', userData);
-                getUsername(userData.username);
-                getEmail(userData.email);
-                getUserID(userData.id);
+                const userData = await response.json()
+                console.log('User Data:', userData)
+                getUsername(userData.username)
+                getEmail(userData.email)
+                getUserID(userData.id)
+                getPassword(userData.password)
             } catch (error) {
-            console.error('Error fetching user data:', error);
+            console.error('Error fetching user data:', error)
             }
         }; 
-        fetchUserData();
-        }, []);
+        fetchUserData()
+        }, [])
 
     //update user data
     const updateInfo = async () => {
@@ -116,24 +190,23 @@ function Account(){
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
-                
                 },
+
                 body: JSON.stringify({
                     'id': userID,
                     'username': newUsername,
                     'email': newEmail,
                     'password': newPassword,
-                    'salt': 'c',
-                    'preferences': 0
+                    'salt': newSalt,
                 })
             }
         
-            const response = await fetch(`/users/id/${userID}`,option);
-            const data = await response.json();
-            console.log('User Data:', data);
+            const response = await fetch(`/users/id/${userID}`,option)
+            const data = await response.json()
+            console.log('User Data:', data)
         } 
         catch (error) {  
-            console.error('Error updating user data:', error);
+            console.error('Error updating user data:', error)
         }
     }
         
@@ -143,7 +216,7 @@ function Account(){
         <div className="account">
 
             <div className="user-pref">
-                <UserPreferences/>
+                {/* <UserPreferences/> */}
             </div>
 
             <div className="account-user">
@@ -184,7 +257,7 @@ function Account(){
                         type="text"
                         placeholder='username'
                         onChange={usernameOnChange}/>
-
+                        
                         <input 
                         name="email-input"
                         className="update-input-box"
@@ -208,9 +281,14 @@ function Account(){
 
 
                     </div>
-                    <button className="save-modal" onClick={updateInfo}>
-                        save</button>
-                    <button className="close-modal" onClick={toggleModal}>
+                    {/* <button className="save-modal" onClick={updateInfo}>
+                        save</button> */}
+                    <button className="save-modal" onClick={handleSave}>
+                    save</button>
+                    <button className="close-modal" onClick={()=>{
+                        toggleModal();
+                        handleCancel();
+                    }}>
                         cancel
                     </button>
 
