@@ -62,6 +62,7 @@ function App() {
     // Get the petID from the current pet
     const petID = pets[currentPetIndex].id;
     console.log(`PetID: ${petID}`);
+    console.log(`UserID: ${userID}`);
     try{
         let option = {
             method: 'PUT',
@@ -75,15 +76,16 @@ function App() {
             })
         }
     
-        const response = await fetch(`/users/likes/${userID}`,option);
+        const response = await fetch(`/users/liked/${userID}`,option);
         const data = await response.json();
         console.log('User Data:', data);
-
     } 
     catch (error) {  
         console.error('Error updating user data:', error);
     }
-    nextPet();
+    finally {
+      nextPet();
+    }
   }
 
   const nextPet = () => {
