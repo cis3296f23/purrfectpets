@@ -142,6 +142,16 @@ export default class Database {
       .query(`SELECT username FROM users WHERE email = @email`);
     return result.recordset[0];
   }
+  async getUserByEmail(email) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('email', sql.VarChar, email)
+      .query(`SELECT * FROM dbo.users WHERE email = @email`);
+    return result.recordset[0];
+  }
+  
+  
   
 
   async update(id, data) {
@@ -153,10 +163,11 @@ export default class Database {
     request.input('password', sql.NVarChar(50), data.password);
     request.input('preferences', sql.Int, parseInt(data.preferences));
     const result = await request.query(
-      `UPDATE dbo.users SET email=@email, password=@password WHERE id = @id`
+      `UPDATE dbo.users SET email=@email, password=@password, username = @username WHERE id = @id`
     );
     return result.rowsAffected[0];
   }
+
 
   async delete(id) {
     await this.connect();
