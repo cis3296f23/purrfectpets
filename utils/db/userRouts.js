@@ -196,6 +196,30 @@ router.put('/id/:id', async (req, res) => {
   }
 });
 
+router.put('/Liked/:id', async (req, res) => {
+  try {
+    // Update the user with the specified ID
+    const userId = req.params.id;
+    console.log(`userId: ${userId}`);
+    const user = req.body;
+    console.log(user)
+
+    if (userId && user) {
+      delete user.id;
+      console.log(`user: ${JSON.stringify(user)}`);
+      const rowsAffected = await database.updateLikedPets(userId, user);
+      res.status(200).json({ rowsAffected });
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+    console.log(err);
+  }
+});
+
+
+
 
 //** DELETE routs **\\
 

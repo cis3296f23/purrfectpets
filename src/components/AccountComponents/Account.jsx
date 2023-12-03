@@ -5,7 +5,7 @@ import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
 import UserPreferences from "../UserPreferences";
 import bcrtpy from 'bcryptjs';
-import e from "express";
+
 
 
 
@@ -27,7 +27,7 @@ import e from "express";
 
 function Account(){
 
-    //original user info
+    //original user info on the page
     const [userName, getUsername] = useState('')
     const [email, getEmail] = useState('')
     const [userID, getUserID] = useState('')
@@ -37,15 +37,25 @@ function Account(){
 
 
     
-    //updated  user info
+    //user info added to the input boxes
+
     const [newUsername, setNewUsername] = useState('')
     const [newEmail,setNewEmail] = useState('')
     const [newPassword,setNewPassword] = useState('')
-    const [newSalt,setNewSalt] = useState('')
     const [verifyNewPassword, checkVerifyNewPassword] = useState('')
 
+    //salt for the new password
+    const [newSalt,setNewSalt] = useState('')
+
     //check if the new email and new username are available
-    //checks if the two passwords are the same
+    //need to cross check across the database
+
+    const [availableUsername, setAvailableUsername] = useState(true)
+    const [availableEmail, setAvailableEmail] = useState(true)
+
+
+    
+    
     
     //displays a textbox accordingly
     const[validUsername, setValidUsername] = useState(true)
@@ -95,6 +105,7 @@ function Account(){
         setValidUsername(true)
         setValidEmail(true)
         setValidPassword(true)
+        toggleModal()
 
     }
 
@@ -105,15 +116,21 @@ function Account(){
         //check if password and verify password are the same
         //if password and verify password are not the same, display error message
         //hash the password and save it
+
+
+        //return a boolean if the email or username is available
+
+        checkEmailAvailability()
+        checkUsernameAvailability()
         
 
-        if(newUsername === userName){
+        if(availableUsername === false){
             setValidUsername(false)
         }
         else{
             setValidUsername(true)
         }
-        if(newEmail === email){
+        if(availableEmail === false){
             setValidEmail(false);
         }
         else{
@@ -122,14 +139,15 @@ function Account(){
 
 
         if(newPassword !== verifyNewPassword){
-            alert("passwords do not match")
             setValidPassword(false)
+            console.log('passwords do not match')
         }
         else{
             setValidPassword(true)
         }
 
         if(validUsername == true && validEmail == true && validPassword == true){
+            console.log('everything is valid')
             //hash the password
             const salt = bcrtpy.genSaltSync(10)
             const hash = bcrtpy.hashSync(newPassword,salt)
@@ -138,7 +156,7 @@ function Account(){
             //update the user info
             //updateInfo();
             //close the modal
-            toggleModal()
+            //toggleModal()
         }
     }
 
@@ -181,6 +199,47 @@ function Account(){
         }; 
         fetchUserData()
         }, [])
+
+
+
+    //check if username is available
+    const checkUsernameAvailability = async () => {
+        try {
+            const response = await fetch (`/users/checkusername/${newUsername}`,{method: 'GET'})
+            const data  = await response.json()
+            console.log('Username Availability:', data)
+            if (data === true){
+                setAvailableUsername(true)
+            }
+            else{
+                setAvailableUsername(false)
+            }
+
+        }
+        catch (error) {
+            console.error('Error checking username availability:', error)
+        }
+    }
+
+    //check if email is available
+    const checkEmailAvailability = async () => {
+        try{
+            const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
+            const data = await response.json()
+            console.log('Email Availability:', data)
+            if (data === true){
+                setAvailableEmail(true)
+            }
+            else{
+                setAvailableEmail(false)
+            }
+        }
+        catch (error) {
+            console.error('Error checking email availability:', error)
+        }
+    }
+
+
 
     //update user data
     const updateInfo = async () => {
@@ -245,7 +304,7 @@ function Account(){
                 {/* show and hide the update modal  */}
                 {modal && (
                 <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
+                    <div onClick={handleCancel} className="overlay"></div>
                     <div className="modal-content">
                     <h2>Update Info</h2>
                     <p>Leave fields blank if want to remain unchanged</p>
@@ -257,6 +316,7 @@ function Account(){
                         type="text"
                         placeholder='username'
                         onChange={usernameOnChange}/>
+                        {validUsername ? null : <p className="error-message">username is not available</p>}
                         
                         <input 
                         name="email-input"
@@ -264,6 +324,7 @@ function Account(){
                         type="text" 
                         placeholder='email'
                         onChange={emailOnChange}/>
+                        {validEmail ? null : <p className="error-message">email is not available</p>}
 
                         <input 
                         name="password-input"
@@ -286,7 +347,6 @@ function Account(){
                     <button className="save-modal" onClick={handleSave}>
                     save</button>
                     <button className="close-modal" onClick={()=>{
-                        toggleModal();
                         handleCancel();
                     }}>
                         cancel
@@ -303,7 +363,7 @@ function Account(){
     </div>
     )
 
-    }
+}
 
 
 
