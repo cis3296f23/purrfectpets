@@ -196,17 +196,17 @@ router.put('/id/:id', async (req, res) => {
   }
 });
 
-router.put('/liked/:id', async (req, res) => {
+router.put('/liked/:userID/:petID', async (req, res) => {
   try {
     // Update the user with the specified ID
-    const userId = req.params.id;
+    const userId = req.params.userID;
     console.log(`userId: ${userId}`);
-    const {petID} = req.body;
-    console.log(petID)
+    const petId = req.params.petID;
+    console.log(petId)
 
-    if (userId && petID) {
+    if (userId && petId) {
       console.log(`user: ${JSON.stringify(user)}`);
-      const rowsAffected = await database.updateLikes(userId, petID);
+      const rowsAffected = await database.updateLikes(userId, petId);
       res.status(200).json({ rowsAffected });
     } else {
       res.status(404);

@@ -68,12 +68,7 @@ function App() {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
-            
-            },
-            body: JSON.stringify({
-                'id': userID,
-                'likes': petID
-            })
+            }
         }
     
         const response = await fetch(`/users/liked/${userID}`,option);
