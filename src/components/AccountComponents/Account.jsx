@@ -256,7 +256,11 @@ function Account(){
                     'username': newUsername,
                     'email': newEmail,
                     'password': newPassword,
+<<<<<<< Updated upstream
                     'salt': newSalt,
+=======
+                    'salt': 'c',
+>>>>>>> Stashed changes
                 })
             }
         
