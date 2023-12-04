@@ -22,6 +22,7 @@ function LoginSignup() {
     const [sessionEmail, setSessionEmail] = useState('')
     const [correctInfo, setCorrectInfo] = useState(true)
 
+
     //two boolean to check if they click 'continue'
     const [isTryingToLogin, setIsTryingToLogin] = useState(false)
     const [isTryingToSignUp, setIsTryingToSignUp] = useState(false)
@@ -56,9 +57,6 @@ function LoginSignup() {
         }
     }
 
-
-
-
     //when registering, check if the passwords are the same
     const arePasswordsEqual = () => {
         return passwordInput === passwordInput2
@@ -66,17 +64,10 @@ function LoginSignup() {
 
     // when logging in,checks if the password input matches the the password in the DB
     const passwordDatabaseCheck = async (hashedPass) => {
-        try{
         const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET' });
         const pwCheck = await response.json();
-        console.log('pwCheck:', pwCheck);
         
         return pwCheck;
-        }
-        catch(error){
-            console.error('Error fetching user data:', error);
-            return false;
-        }
     }
 
     //fetches the user info from the DB
@@ -109,9 +100,6 @@ function LoginSignup() {
                     let user = await res.json();
                     console.log('Username:', user);
                     setSessionEmail(user.email);
-
-
-                    
                 }
                 if (isTryingToSignUp) {
                     const response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });

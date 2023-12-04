@@ -159,49 +159,6 @@ router.get('/userInfo/:email', async (req, res) => {
   }
 });
 
-//** POST routs **\\
-
-router.post('/', async (req, res) => {
-  try {
-    // Create a user
-    const user = req.body;
-    console.log(`user: ${JSON.stringify(user)}`);
-    const rowsAffected = await database.create(user);
-    res.status(201).json({ rowsAffected });
-  } catch (err) {
-    res.status(500).json({ error: err?.message });
-  }
-});
-
-//** PUT routs **\\
-
-router.post('/', async (req, res) => {
-  try {
-    // Create a user
-    const user = req.body;
-    console.log(`user: ${JSON.stringify(user)}`);
-    const rowsAffected = await database.create(user);
-    res.status(201).json({ rowsAffected });
-  } catch (err) {
-    res.status(500).json({ error: err?.message });
-  }
-});
-
-//** PUT routs **\\
-
-router.post('/', async (req, res) => {
-  try {
-    // Create a user
-    const user = req.body;
-    console.log(`user: ${JSON.stringify(user)}`);
-    const rowsAffected = await database.create(user);
-    res.status(201).json({ rowsAffected });
-  } catch (err) {
-    res.status(500).json({ error: err?.message });
-  }
-});
-
-//** PUT routs **\\
 
 router.get('/salt/:email', async (req, res) => {
   try {
@@ -219,17 +176,6 @@ router.get('/salt/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
-
-router.get('/login/:hashedPass/:email', async (req, res) => {
-  try {
-    // Get the user with the specified email
-    const hashedPass = req.params.hashedPass;
-    const email = req.params.email;
-    console.log(`hashedPass: ${hashedPass}`);
-    console.log(`email: ${email}`);
-    if (hashedPass && email) {
-      const result = await database.checkHashedPass(hashedPass, email);
-      console.log(`pw_check: ${JSON.stringify(result)}`);
       res.status(200).json(result);
     } else {
       res.status(404);
@@ -297,7 +243,6 @@ router.put('/liked/:userID/:petID', async (req, res) => {
     console.log(err);
   }
 });
-
 
 //** DELETE routs **\\
 
