@@ -269,7 +269,7 @@ router.put('/liked/:userID/:petID', async (req, res) => {
     console.log(petId)
 
     if (userId && petId) {
-      console.log(`petId: ${JSON.stringify(petId)}`);
+      console.log(`user: ${JSON.stringify(user)}`);
       const rowsAffected = await database.updateLikes(userId, petId);
       res.status(200).json({ rowsAffected });
     } else {
