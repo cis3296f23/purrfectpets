@@ -176,14 +176,6 @@ router.get('/salt/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
-      res.status(200).json(result);
-    } else {
-      res.status(404);
-    }
-  } catch (err) {
-    res.status(500).json({ error: err?.message });
-  }
-});
 
 //** POST routs **\\
 
