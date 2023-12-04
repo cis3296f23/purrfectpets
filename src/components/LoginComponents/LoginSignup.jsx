@@ -67,16 +67,18 @@ function LoginSignup() {
     // when logging in,checks if the password input matches the the password in the DB
     const passwordDatabaseCheck = async (hashedPass) => {
         try{
+            console.log(hashedPass, emailInput)
         const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET' });
+
         const pwCheck = await response.json();
         console.log('pwCheck:', pwCheck);
-        
         return pwCheck;
         }
         catch(error){
             console.error('Error fetching user data:', error);
-            return false;
+            return false
         }
+        
     }
 
     //fetches the user info from the DB
@@ -87,7 +89,7 @@ function LoginSignup() {
                     let response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     let userData = await response.json();
                     console.log('EmailValid:', !userData);
-                    setVerifyEmail(!userData);
+
                     if (!userData) {
                         response = await fetch(`/users/salt/${emailInput}`, { method: 'GET' });
                         userData = await response.json();
@@ -127,7 +129,7 @@ function LoginSignup() {
             } catch (error) {
                 //console.error('Error fetching user data:', error);
                 setVerifyEmail(false)
-                setVerifyPassword('')
+                setVerifyPassword(false)
             }
         };
 
@@ -140,7 +142,7 @@ function LoginSignup() {
             } catch (error) {
                 //console.error('Error fetching user data:', error);
                 setVerifyEmail(false)
-                setVerifyPassword('')
+                setVerifyPassword(false)
             }
         };
         if (isTryingToLogin) {
@@ -269,15 +271,16 @@ function LoginSignup() {
                             //fetches the user from the DB
                             setIsTryingToLogin(true)
                             //if the password and email are correct, log them in
-                            if (passwordDatabaseCheck()) {
-                                console.log(verifyPassword)
+                            console.log(verifyPassword)
+                            if (verifyPassword) {
                                 console.log('passwords are a match')
                                 sessionStorage.setItem("userinfo", sessionEmail);
                                 console.log(`this is the session user ${sessionStorage.getItem("userinfo")}`)
-                                window.location.pathname = '/app'
+                                //window.location.pathname = '/app'
                             }
                             else{
                                 setCorrectInfo(false)
+                                console.log(verifyEmail,validPassword)
                             }
                         }
                         //on the registration page 

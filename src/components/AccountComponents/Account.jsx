@@ -5,8 +5,7 @@ import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
 import UserPreferences from "../UserPreferences";
 import bcrtpy from 'bcryptjs';
-
-
+import { render } from "react-dom";
 
 
 
@@ -17,7 +16,7 @@ import bcrtpy from 'bcryptjs';
 //4. enter data into the input boxes - done
 //5. if the input boxes are empty, then the data will remain unchanged - done
 //6. if the input boxes are filled, then the data will be updated - done
-    //check if the new email and new username are available
+    //check if the new email and new username are available - done
     //if the new email and new username are not available, display error message
     //check if password and verify password are the same
     //if password and verify password are not the same, display error message
@@ -47,8 +46,7 @@ function Account(){
     const [newEmail,setNewEmail] = useState('')
     const [newPassword,setNewPassword] = useState('')
     const [verifyNewPassword, checkVerifyNewPassword] = useState('')
-
-
+    const [newHash, setNewHash] = useState('')
 
     //salt for the new password
     const [newSalt,setNewSalt] = useState('')
@@ -61,7 +59,7 @@ function Account(){
     const[validPassword, setValidPassword] = useState(true)
     
 
-    const [validationComplete, setValidationComplete] = useState(false);
+
 
     const[inModal, setInModal] = useState(false)
 
@@ -97,12 +95,8 @@ function Account(){
     }
 
 
-    const handleSave = async () => {
-        //check if the new email and new username are available
-        //if the new email and new username are not available, display error message
-        //check if password and verify password are the same
-        //if password and verify password are not the same, display error message
-        //hash the password and save it
+    const handleSave =  () => {
+
         console.log('handleSaved Called')
         
 
@@ -110,16 +104,9 @@ function Account(){
         if (newUsername === ''){
             setValidUsername(true)
         }
-        // else if (newUsername !== ''){
-        //     await checkUsernameAvailability()
-        // }
         if (newEmail === ''){
             setValidEmail(true)
         }
-        // else if(newEmail !== ''){
-        //     await checkEmailAvailability()
-        // }
-
 
         if(newPassword !== verifyNewPassword){
             setValidPassword(false)
@@ -129,20 +116,9 @@ function Account(){
             
         } 
 
-    
 
     }
 
-
-    // useEffect(() => {
-        
-    //     renderCount.current += 1;
-
-    //     // Skip the effect on the first two renders
-    //     if (renderCount.current > 2) {
-    //         validInfo();
-    //     }
-    // }, [validationComplete, validUsername, validEmail, validPassword]);
 
 
     const validInfo =  () => {
@@ -151,22 +127,32 @@ function Account(){
         console.log(validUsername,validEmail,validPassword)
         if (validUsername && validEmail&& validPassword){
             console.log('everything is valid')
-            if(newPassword === ''){
+            // if(newPassword === ''){
+            //     setNewPassword(password)
+            //     setNewSalt(salt)
+            //     setNewHash(password)
+            //     console.log(newHash,'new Hash')
+            //     console.log(newPassword,'new password')
+            //     console.log(password, 'old password')
+            //     console.log(newSalt, 'new salt')
+            //     console.log(salt, 'old salt')
 
-                setNewPassword(password)
-                setNewSalt(salt)
+            // }
+
+            // else if (newPassword !== ''){
+            //      //hash the password
+            //     const salt = bcrtpy.genSaltSync(10)
+            //     const hash = bcrtpy.hashSync(newPassword,salt)
+            //     setNewPassword(hash)
+            //     setNewHash(hash)
+            //     setNewSalt(salt)
+            //     console.log(newPassword,'new password')
+            //     console.log(password, 'old password')
+            //     console.log(newSalt, 'new salt')
+            //     console.log(salt, 'old salt')
+
                 
-            }
-            else if (newPassword !== ''){
-                 //hash the password
-                const salt = bcrtpy.genSaltSync(10)
-                const hash = bcrtpy.hashSync(newPassword,salt)
-                setNewPassword(hash)
-                console.log(hash)
-                setNewSalt(salt)
-                console.log(salt)
-                
-            }  
+            // }  
 
 
             if (newUsername === ''){
@@ -179,10 +165,17 @@ function Account(){
                 setNewEmail(email)
             }
 
+            // console.log(newHash,'new Hash')
+            // console.log(newPassword,'new password')
+            // console.log(password, 'old password')
+            // console.log(newSalt, 'new salt')
+            // console.log(salt, 'old salt')
+        
             
-
-            //updateInfo();
-            //toggleModal()
+            sessionStorage.setItem("userinfo", newEmail);
+            console.log(newEmail,'new email')
+            updateInfo();
+            toggleModal()
             setNewUsername('')
             setNewEmail('')
             setNewPassword('')
@@ -191,11 +184,42 @@ function Account(){
             
         }
     }
-
     useEffect(() => {
-        console.log('new password:', newPassword);
-    }, [newPassword]);
-    
+
+        if (!render.current) {
+
+        if(newPassword === ''){
+            setNewSalt(salt)
+            setNewHash(password)
+            // console.log(newHash,'new Hash')
+            // console.log(newPassword,'new password')
+            // console.log(password, 'old password')
+            // console.log(newSalt, 'new salt')
+            // console.log(salt, 'old salt')
+
+        }
+
+        else if (newPassword !== ''){
+             //hash the password
+            const salt = bcrtpy.genSaltSync(10)
+            const hash = bcrtpy.hashSync(newPassword,salt)
+            setNewHash(hash)
+            setNewSalt(salt)
+            // console.log(newHash,'new Hash')
+            // console.log(newPassword,'new password')
+            // console.log(password, 'old password')
+            // console.log(newSalt, 'new salt')
+            // console.log(salt, 'old salt')
+
+            
+        }  
+    }
+        
+
+
+    }, [validPassword]);
+
+
 
 
 
@@ -274,14 +298,18 @@ function Account(){
                 }
                 checkEmailAvailability()
 
-            
             }
-
+            if(newPassword !== verifyNewPassword){
+                setValidPassword(false)
+            }
+            else if (newPassword === verifyNewPassword){
+                setValidPassword(true)
+                
+            }
             
             }
         }
         
-
         catch (error){
             console.error('Error fetching user data:', error)
         }
@@ -334,7 +362,7 @@ function Account(){
                     'id': userID,
                     'username': newUsername,
                     'email': newEmail,
-                    'password': newPassword,
+                    'password': newHash,
                     'salt': newSalt,
                 })
             }
@@ -361,8 +389,6 @@ function Account(){
                 <div className="account-pic-container">
                     <div className="account-pic">
                     <FaceIcon sx={{ fontSize: 150 }}/> 
-                    {/* Not sure how to do profile picture, might assign the user a number
-                    the number represents a preselected img */}
                     </div>
 
                 </div>
@@ -428,15 +454,13 @@ function Account(){
 
 
                     </div>
-                    {/* <button className="save-modal" onClick={updateInfo}>
-                        save</button> */}
-                    <button className="save-modal" onClick={async()=>{
-                        handleSave();
-                        validInfo();
 
+                    <button className="save-modal" onClick={()=>{
+                        handleSave();
+                        validInfo()
 
                     
-                        
+
                         
                     }}>
                     save</button>
