@@ -34,6 +34,14 @@
   transition: border-color 0.25s;
 }
 
+.Dropdown:hover {
+  transform: scale(1.1); /* Increase the size by 10% */
+}
+
+.Dropdown:active {
+  animation: pulse 1s;
+}
+
 .dropdown-menu {
   border-radius: 8px;
   border: 1px solid transparent;
