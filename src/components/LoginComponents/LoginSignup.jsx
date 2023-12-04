@@ -66,10 +66,17 @@ function LoginSignup() {
 
     // when logging in,checks if the password input matches the the password in the DB
     const passwordDatabaseCheck = async (hashedPass) => {
+        try{
         const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET' });
         const pwCheck = await response.json();
+        console.log('pwCheck:', pwCheck);
         
         return pwCheck;
+        }
+        catch(error){
+            console.error('Error fetching user data:', error);
+            return false;
+        }
     }
 
     //fetches the user info from the DB
@@ -84,7 +91,7 @@ function LoginSignup() {
                     if (!userData) {
                         response = await fetch(`/users/salt/${emailInput}`, { method: 'GET' });
                         userData = await response.json();
-                        console.log('salt:', userData);
+                        console.log('salt:', userData.salt);
                         const hashedPass = bcrypt.hashSync(passwordInput, userData.salt);
                         console.log('hash:', hashedPass);
                         const checkedPw = await passwordDatabaseCheck(hashedPass);
@@ -92,7 +99,7 @@ function LoginSignup() {
                             console.log("LOGGING IN")
                             response = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
                             userData = await response.json();
-                            setSessionEmail(userData.username);
+                            setSessionEmail(userData.email);
                         }
                         console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
@@ -262,7 +269,7 @@ function LoginSignup() {
                             //fetches the user from the DB
                             setIsTryingToLogin(true)
                             //if the password and email are correct, log them in
-                            if (verifyEmail && verifyPassword) {
+                            if (passwordDatabaseCheck()) {
                                 console.log(verifyPassword)
                                 console.log('passwords are a match')
                                 sessionStorage.setItem("userinfo", sessionEmail);
