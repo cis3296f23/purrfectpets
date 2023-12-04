@@ -1,20 +1,20 @@
 import React from "react"
 import { useState, useEffect, useRef } from 'react'
-import Petfinder from'../Utils/Petfinder'
+//import Petfinder from'../Utils/Petfinder'
 import {Component} from "react"
 import './UserPreferences.css'
-import logo from '../assets/PetFinderLogo.png'
+//import logo from '../assets/PetFinderLogo.png'
 
 
 
-  var preference_list = [];
+  let preference_list = [];
 
   const UserPreferences = (props) => {
 
     const [open, setOpen] = useState(false);
     const[display, setDisplay] = useState('none')
 
-    const checkList = ["Dog", "Cat", "Rabbit", "Small & Furry", "Horse", "Bird", "Scales, Fins & Other", 
+    let checkList = ["Dog", "Cat", "Rabbit", "Small & Furry", "Horse", "Bird", "Scales Fins & Other", 
 "Barnyard", "Good with Children", "Good with Dogs", "Good with Cats", "House Trained", "Special Needs"];
     const [checked, setChecked] = useState([]);
 
@@ -112,8 +112,19 @@ return (
 
 
 const pref_changer = (new_preferences) =>{
-  preference_list = new_preferences;
-  //console.log(preference_list);
+  preference_list = new_preferences.split(", ");
+  for(var i = 0; i < preference_list.length; i++){
+    if(preference_list[i] == "Scales Fins & Other"){preference_list[i] = "Scales, Fins & Other"};
+    if(preference_list[i] == "Good with Children"){preference_list[i] = "good_with_children"};
+    if(preference_list[i] == "Good with Dogs"){preference_list[i] = "good_with_dogs"};
+    if(preference_list[i] == "Good with Cats"){preference_list[i] = "good_with_cats"};
+    if(preference_list[i] == "House Trained"){preference_list[i] = "house_trained"};
+    if(preference_list[i] == "Special Needs"){preference_list[i] = "special_needs"};
+
+
+
+
+  }
 }
 
 export{preference_list};
