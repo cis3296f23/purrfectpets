@@ -71,22 +71,6 @@ router.get('/username/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
-router.get('/userInfo/:email', async (req, res) => {
-  try {
-    // Get the user with the specified email
-    const email = req.params.email;
-    console.log(`email: ${email}`);
-    if (email) {
-      const result = await database.getUserByEmail(email);
-      console.log(`userData: ${JSON.stringify(result)}`);
-      res.status(200).json(result);
-    } else {
-      res.status(404);
-    }
-  } catch (err) {
-    res.status(500).json({ error: err?.message });
-  }
-});
 
 router.get('/checkusername/:username', async (req, res) => {
   try {
@@ -104,7 +88,6 @@ router.get('/checkusername/:username', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
-
 router.get('/checkemail/:email', async (req, res) => {
   try {
     // check if email is already used
@@ -138,7 +121,6 @@ router.get('/salt/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
-
 router.get('/login/:hashedPass/:email', async (req, res) => {
   try {
     // Get the user with the specified email
@@ -216,7 +198,6 @@ router.put('/liked/:userID/:petID', async (req, res) => {
     console.log(err);
   }
 });
-
 
 //** DELETE routs **\\
 

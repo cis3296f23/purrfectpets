@@ -119,6 +119,8 @@ export default class Database {
   async readIdByUsername(username) {
     await this.connect();
     const request = this.poolconnection.request();
+    request.input('hashedPass', sql.NVarChar(), hashedPass);
+    request.input('email', sql.NVarChar(), email);
     const result = await request
       .input('username', sql.VarChar, username)
       .query(`SELECT id FROM users WHERE username = @username`);
@@ -142,17 +144,6 @@ export default class Database {
       .query(`SELECT username FROM users WHERE email = @email`);
     return result.recordset[0];
   }
-  async getUserByEmail(email) {
-    await this.connect();
-    const request = this.poolconnection.request();
-    const result = await request
-      .input('email', sql.VarChar, email)
-      .query(`SELECT * FROM dbo.users WHERE email = @email`);
-    return result.recordset[0];
-  }
-  
-  
-
   async update(id, data) {
     try{
 
@@ -197,7 +188,6 @@ export default class Database {
     console.log(`id again: ${id}`)
     const updateLikesQuery = `UPDATE dbo.users SET likes = @likes WHERE id = @id`;
     const result = await request.query(updateLikesQuery);
-
     return result.rowsAffected[0];
   }
 
