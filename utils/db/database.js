@@ -119,8 +119,6 @@ export default class Database {
   async readIdByUsername(username) {
     await this.connect();
     const request = this.poolconnection.request();
-    request.input('hashedPass', sql.NVarChar(), hashedPass);
-    request.input('email', sql.NVarChar(), email);
     const result = await request
       .input('username', sql.VarChar, username)
       .query(`SELECT id FROM users WHERE username = @username`);
@@ -144,6 +142,17 @@ export default class Database {
       .query(`SELECT username FROM users WHERE email = @email`);
     return result.recordset[0];
   }
+  async getUserByEmail(email) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('email', sql.VarChar, email)
+      .query(`SELECT * FROM dbo.users WHERE email = @email`);
+    return result.recordset[0];
+  }
+  
+  
+
   async update(id, data) {
     try{
 
@@ -170,7 +179,7 @@ export default class Database {
 
   async updateLikes(id, data) {
     await this.connect();
-    console.log(`id: ${id}`)
+    console.log(`userID in updateLikes(): ${id}`)
     const request = this.poolconnection.request();
     request.input('id', sql.NVarChar(50), id);
 
@@ -178,14 +187,17 @@ export default class Database {
     const getUserLikesQuery = `SELECT likes FROM dbo.users WHERE id = @id`;
     const getUserLikesResult = await request.query(getUserLikesQuery);
     const currentLikes = getUserLikesResult.recordset[0].likes;
+    console.log(`Current Like: ${currentLikes}`)
 
     // Append the new petID to the current likes
     const updatedLikes = currentLikes ? `${currentLikes},${data}` : data;
 
     // Update the likes field in the database
     request.input('likes', sql.NVarChar(100), updatedLikes);
+    console.log(`id again: ${id}`)
     const updateLikesQuery = `UPDATE dbo.users SET likes = @likes WHERE id = @id`;
     const result = await request.query(updateLikesQuery);
+
     return result.rowsAffected[0];
   }
 
