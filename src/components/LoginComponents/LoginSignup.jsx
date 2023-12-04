@@ -17,9 +17,11 @@ function LoginSignup() {
     const [validPassword, setValidPassword] = useState('valid')
 
     //check if the entered email/password when logging in is correct
-    const [verifyEmail, setVerifyEmail] = useState(false)
-    const [verifyPassword, setVerifyPassword] = useState('')
-    const [accountUsername, setAccountUsername] = useState('')
+    const [verifyEmail, setVerifyEmail] = useState(true)
+    const [verifyPassword, setVerifyPassword] = useState(true)
+    const [sessionEmail, setSessionEmail] = useState('')
+    const [correctInfo, setCorrectInfo] = useState(true)
+
 
     //two boolean to check if they click 'continue'
     const [isTryingToLogin, setIsTryingToLogin] = useState(false)
@@ -47,6 +49,14 @@ function LoginSignup() {
         setPasswordInput2(event.target.value);
     }
 
+
+    const detectTabKeyDown = (e) => {
+        if (e.key === "Tab"){
+            setIsTryingToLogin(true)
+            
+        }
+    }
+
     //when registering, check if the passwords are the same
     const arePasswordsEqual = () => {
         return passwordInput === passwordInput2
@@ -72,26 +82,36 @@ function LoginSignup() {
                     if (!userData) {
                         response = await fetch(`/users/salt/${emailInput}`, { method: 'GET' });
                         userData = await response.json();
-                        console.log('salt:', userData);
+                        console.log('salt:', userData.salt);
                         const hashedPass = bcrypt.hashSync(passwordInput, userData.salt);
                         console.log('hash:', hashedPass);
                         const checkedPw = await passwordDatabaseCheck(hashedPass);
                         if (checkedPw) {
                             console.log("LOGGING IN")
-                            response = await fetch(`/users/username/${emailInput}`, { method: 'GET' });
+                            response = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
                             userData = await response.json();
-                            setAccountUsername(userData.username);
+                            setSessionEmail(userData.email);
                         }
                         console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
-                    }
+                        }
+                    
+                    let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
+                    let user = await res.json();
+                    console.log('Username:', user);
+                    setSessionEmail(user.email);
                 }
                 if (isTryingToSignUp) {
                     const response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     const userData = await response.json();
                     console.log('EmailAvailable:', userData);
                     setEmailAvailability(userData)
-                }
+
+                    let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
+                    let user = await res.json();
+                    console.log('Username:', user);
+                    setSessionEmail(user.email);
+                }   
             } catch (error) {
                 //console.error('Error fetching user data:', error);
                 setVerifyEmail(false)
@@ -147,7 +167,8 @@ function LoginSignup() {
                                     type="text"
                                     placeholder="Username"
                                     value={usernameInput}
-                                    onChange={usernameValue} />
+                                    onChange={usernameValue}
+                                    />
                             </div>
                             {Login === "Create an Account" ?
                                 checkUsernameAvailabilityText === true ?
@@ -169,7 +190,8 @@ function LoginSignup() {
                                 placeholder="Email"
                                 value={emailInput}
                                 onChange={emailValue}
-                            />
+                                onKeyDown={detectTabKeyDown}
+                                />
                         </div>
                         {Login === "Create an Account" ?
                             checkEmailAvailabilityText === true ?
@@ -189,8 +211,17 @@ function LoginSignup() {
                                 type="password"
                                 placeholder="Password"
                                 value={passwordInput}
-                                onChange={passwordValue} />
+                                onChange={passwordValue}
+                                />
                         </div>
+                        {Login === "Login" ?
+                            (correctInfo ?
+                                <div className="spaceHolder"></div>
+                                :
+                                <p className="invalidPassword">Incorrect information</p>
+                            )
+                            :
+                            <div> </div>}
                     </div>
 
                     {Login === "Create an Account" ? <div className="input-div">
@@ -225,21 +256,21 @@ function LoginSignup() {
                             setValidPassword('valid')
                             //fetches the user from the DB
                             setIsTryingToLogin(true)
-                            //if the password entered is correct, process to the the next page
+                            //if the password and email are correct, log them in
                             if (passwordDatabaseCheck()) {
+                                console.log(verifyPassword)
                                 console.log('passwords are a match')
-                                sessionStorage.setItem("userinfo", accountUsername);
+                                sessionStorage.setItem("userinfo", sessionEmail);
+                                console.log(`this is the session user ${sessionStorage.getItem("userinfo")}`)
                                 window.location.pathname = '/app'
                             }
-                            else {
-                                alert("incorrect information")
-                                //add a useState to display incorrect info
+                            else{
+                                setCorrectInfo(false)
                             }
                         }
                         //on the registration page 
                         else {
                             setIsTryingToSignUp(true)
-                            //console.log(isTryingToSignUp)
                             //if the passwords match, add to DB
                             //need to check if username and email already exists in the DB
                             //need to check username, email, passwords are empty
@@ -251,9 +282,20 @@ function LoginSignup() {
                                 setEmailAvailabilityText(checkEmailAvailability)
                                 console.log(checkUsernameAvailability)
                                 setUsernameAvailabilityText(checkUsernameAvailability)
+                                //check if username and email are available
+                                if (checkEmailAvailability && !checkUsernameAvailability) {
+                                    setEmailAvailabilityText(true)
+                                    setUsernameAvailabilityText(false)
+                                }
+                                if (!checkEmailAvailability && checkUsernameAvailability) {
+                                    setEmailAvailabilityText(false)
+                                    setUsernameAvailabilityText(true)
+                                }
+
                                 if (checkEmailAvailability && checkUsernameAvailability) {
                                     setEmailAvailabilityText(true)
                                     setUsernameAvailabilityText(true)
+                                    //check if the two passwords are the same
                                     if (arePasswordsEqual()) {
                                         setValidPassword("valid")
                                         const salt = bcrypt.genSaltSync(10);
@@ -277,7 +319,7 @@ function LoginSignup() {
                                             res.json()).then(d => {
                                                 console.log(d)
                                             })
-                                        sessionStorage.setItem("userinfo", { usernameInput });
+                                        sessionStorage.setItem("userinfo", emailInput);
                                         window.location.pathname = '/app'
                                     }
                                     else {
