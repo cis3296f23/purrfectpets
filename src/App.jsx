@@ -127,7 +127,6 @@ function App() {
           </p>
         </div>
       </div>
-    </>
   );
 }
 
