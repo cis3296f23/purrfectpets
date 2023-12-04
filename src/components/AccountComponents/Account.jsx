@@ -1,49 +1,360 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
 import './Account.scss'
 import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
-import EditIcon from '@mui/icons-material/Edit';
+import UserPreferences from "../UserPreferences";
+import bcrtpy from 'bcryptjs';
 
 
 
 
 
+//TODO:
+//1. fetch user data from database - done
+//2. display user data - done
+//3. open modal to update user info - done
+//4. enter data into the input boxes - done
+//5. if the input boxes are empty, then the data will remain unchanged - done
+//6. if the input boxes are filled, then the data will be updated - done
+    //check if the new email and new username are available
+    //if the new email and new username are not available, display error message
+    //check if password and verify password are the same
+    //if password and verify password are not the same, display error message
+    //hash the password and save it
+//7. the save button will save the changes
+//8. the cancel button will close the modal and not save the changes
 
 function Account(){
 
-    const [userName, getUsername] = useState('')
-    const [email, getEmail] = useState('')
-    const [petLiked, getPetLiked] = useState('100')
-    const[currentLocation, getCurrentLocation] = useState('New Jersey')
-    const sessionUser = sessionStorage.getItem("userinfo");
+    const hasRender = useRef(false);
 
-    let username =  sessionUser; //fetch by specific username
+
+
     
 
-        useEffect(() => {
+    //original user info on the page
+    const [userName, getUsername] = useState('')
+    const [email, getEmail] = useState('')
+    const [userID, getUserID] = useState('')
+    const [password, getPassword] = useState('')
+    const [salt, getSalt] = useState('')
+
+    
+    //user info added to the input boxes
+
+    const [newUsername, setNewUsername] = useState('')
+    const [newEmail,setNewEmail] = useState('')
+    const [newPassword,setNewPassword] = useState('')
+    const [verifyNewPassword, checkVerifyNewPassword] = useState('')
+
+
+
+    //salt for the new password
+    const [newSalt,setNewSalt] = useState('')
+
+    
+    
+    //displays a textbox accordingly
+    const[validUsername, setValidUsername] = useState(true)
+    const[validEmail, setValidEmail] = useState(true)
+    const[validPassword, setValidPassword] = useState(true)
+    
+
+    const [validationComplete, setValidationComplete] = useState(false);
+
+    const[inModal, setInModal] = useState(false)
+
+    //store the onChange values
+    const usernameOnChange= (event) => {
+        setNewUsername(event.target.value)
+    }
+    const emailOnChange = (event) => {
+        setNewEmail(event.target.value)
+    }
+
+    const passwordOnChange = (event) => {
+        setNewPassword(event.target.value)
+    }
+    const password2OnChange = (event) => {
+        checkVerifyNewPassword(event.target.value)
+    }
+
+
+    //if the input boxes are empty, then the data will remain unchanged
+    //setting the 'new' variables to the original variables
+    const handleCancel = () => {
+        setNewUsername('')
+        setNewEmail('')
+        setNewPassword('')
+        checkVerifyNewPassword('')
+
+        setValidUsername(true)
+        setValidEmail(true)
+        setValidPassword(true)
+        toggleModal()
+
+    }
+
+
+    const handleSave = async () => {
+        //check if the new email and new username are available
+        //if the new email and new username are not available, display error message
+        //check if password and verify password are the same
+        //if password and verify password are not the same, display error message
+        //hash the password and save it
+        console.log('handleSaved Called')
+        
+
+        //return a boolean if the email or username is available
+        if (newUsername === ''){
+            setValidUsername(true)
+        }
+        // else if (newUsername !== ''){
+        //     await checkUsernameAvailability()
+        // }
+        if (newEmail === ''){
+            setValidEmail(true)
+        }
+        // else if(newEmail !== ''){
+        //     await checkEmailAvailability()
+        // }
+
+
+        if(newPassword !== verifyNewPassword){
+            setValidPassword(false)
+        }
+        else if (newPassword === verifyNewPassword){
+            setValidPassword(true)
+            
+        } 
+
+    
+
+    }
+
+
+    // useEffect(() => {
+        
+    //     renderCount.current += 1;
+
+    //     // Skip the effect on the first two renders
+    //     if (renderCount.current > 2) {
+    //         validInfo();
+    //     }
+    // }, [validationComplete, validUsername, validEmail, validPassword]);
+
+
+    const validInfo =  () => {
+
+        console.log("validInfo called")
+        console.log(validUsername,validEmail,validPassword)
+        if (validUsername && validEmail&& validPassword){
+            console.log('everything is valid')
+            if(newPassword === ''){
+
+                setNewPassword(password)
+                setNewSalt(salt)
+                
+            }
+            else if (newPassword !== ''){
+                 //hash the password
+                const salt = bcrtpy.genSaltSync(10)
+                const hash = bcrtpy.hashSync(newPassword,salt)
+                setNewPassword(hash)
+                console.log(hash)
+                setNewSalt(salt)
+                console.log(salt)
+                
+            }  
+
+
+            if (newUsername === ''){
+                setValidUsername(true)
+                setNewUsername(userName)
+            }
+
+            if (newEmail === ''){
+                setValidEmail(true)
+                setNewEmail(email)
+            }
+
+            
+
+            //updateInfo();
+            //toggleModal()
+            setNewUsername('')
+            setNewEmail('')
+            setNewPassword('')
+            checkVerifyNewPassword('')
+            //window.location.reload(false);
+            
+        }
+    }
+
+    useEffect(() => {
+        console.log('new password:', newPassword);
+    }, [newPassword]);
+    
+
+
+
+
+    //display the update modal
+    const [modal,setModal] = useState(false)
+    const toggleModal = () =>{
+        setModal(!modal)
+    }
+    //stops the page from scrolling when the modal is displayed
+    if(modal) {
+        document.body.classList.add('active-modal')
+        } else {
+        document.body.classList.remove('active-modal')
+        }
+    
+
+    //fetch user data from database
+    let userEmail =  sessionStorage.getItem("userinfo");
+
+    useEffect(() => {
+        if (!hasRender.current) {
             const fetchUserData = async () => {
             try {
-                const response = await fetch(`/users/username/${username}`,{method: 'GET'});
-                const userData = await response.json();
-                console.log('User Data:', userData);
-                getUsername(userData.username);
+                const response = await fetch(`/users/userInfo/${userEmail}`,{method: 'GET'});
+                const userData = await response.json()
+                console.log('User Data:', userData)
+                getUsername(userData.username)
                 getEmail(userData.email)
+                getUserID(userData.id)
+                getPassword(userData.password)
+                getSalt(userData.salt)
             } catch (error) {
-            console.error('Error fetching user data:', error);
+            console.error('Error fetching user data:', error)
             }
-        };
+            }
+            fetchUserData()
+            hasRender.current = true;
+
+        }
+    
+        try{
+            //check if username is available
+
+            if(inModal){
+                if(newUsername !== ''){
+                    const checkUsernameAvailability = async () => {
+                        try {
+                            const response = await fetch (`/users/checkusername/${newUsername}`,{method: 'GET'})
+                            const data  = await response.json()
+                            setValidUsername(data)
+
+                        }
+                        catch (error) {
+                            console.error('Error checking username availability:', error)
+                            }
+                        }
+                        checkUsernameAvailability()
+                    }
+                    
+            
+
+            if(newEmail !== ''){
+                //check if email is available
+                const checkEmailAvailability = async () => {
+                    try{
+                        const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
+
+
+                        const data = await response.json()
+                        setValidEmail(data)
+                    }
+                    catch (error) {
+                        console.error('Error checking email availability:', error)
+                    }
+                }
+                checkEmailAvailability()
+
+            
+            }
+
+            
+            }
+        }
         
-        fetchUserData();
-        }, []);
+
+        catch (error){
+            console.error('Error fetching user data:', error)
+        }
+
+        })
 
 
+
+
+    // //check if username is available
+    // const checkUsernameAvailability = async () => {
+    //     try {
+    //         const response = await fetch (`/users/checkusername/${newUsername}`,{method: 'GET'})
+    //         const data  = await response.json()
+    //         setValidUsername(data)
+
+    //     }
+    //     catch (error) {
+    //         console.error('Error checking username availability:', error)
+    //     }
+    // }
+
+    // //check if email is available
+    // const checkEmailAvailability = async () => {
+    //     try{
+    //         const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
+
+
+    //         const data = await response.json()
+    //         setValidEmail(data)
+    //     }
+    //     catch (error) {
+    //         console.error('Error checking email availability:', error)
+    //     }
+    // }
+
+
+
+    //update user data
+    const updateInfo = async () => {
+        try{
+
+            let option = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+
+                body: JSON.stringify({
+                    'id': userID,
+                    'username': newUsername,
+                    'email': newEmail,
+                    'password': newPassword,
+                    'salt': newSalt,
+                })
+            }
+        
+            const response = await fetch(`/users/id/${userID}`,option)
+            const data = await response.json()
+            console.log('User Data:', data)
+        } 
+        catch (error) {  
+            console.error('Error updating user data:', error)
+        }
+    }
+        
     return (
     <div className="account-container">
         <SideBar />
         <div className="account">
 
             <div className="user-pref">
+                {/* <UserPreferences/> */}
             </div>
 
             <div className="account-user">
@@ -59,15 +370,87 @@ function Account(){
                     <div className="account-username"><h2>{userName}</h2></div>
                 </div>
 
-                <div className="pet-liked-container">
-                    <div className="account-pets"><h3>total pets liked {petLiked}</h3></div>
-                    {/* can pull from the DB */}
-                </div>
 
                 <div className="userName-container">
+                    <p>Email</p>
                     <div className="account-username"><h2>{email}</h2></div>
                 </div>
-            
+
+                <button onClick={()=>{
+                    toggleModal();
+                    setInModal(true);
+                }} className="btn-modal">
+                Edit Profile
+                </button>
+
+                {/* show and hide the update modal  */}
+                {modal && (
+                <div className="modal">
+                    <div onClick={handleCancel} className="overlay"></div>
+                    <div className="modal-content">
+                    <h2>Update Info</h2>
+                    <p>Leave fields blank if want to remain unchanged</p>
+                    <div className="update-info-div">
+
+                        <input
+                        name="username-input"
+                        className="update-input-box"
+                        type="text"
+                        placeholder='username'
+                        value={newUsername}
+                        onChange={usernameOnChange}/>
+                        {validUsername ? null : <p className="error-message">username is not available</p>}
+                        
+                        <input 
+                        name="email-input"
+                        className="update-input-box"
+                        type="text" 
+                        placeholder='email'
+                        value={newEmail}
+                        onChange={emailOnChange}/>
+                        {validEmail ? null : <p className="error-message">email is not available</p>}
+
+                        <input 
+                        name="password-input"
+                        className="update-input-box"
+                        type="password"
+                        placeholder="password" 
+                        value={newPassword}
+                        onChange={passwordOnChange}/>
+
+                        <input
+                        name="password2-input"
+                        className="update-input-box"
+                        type="password"
+                        placeholder="reenter password"
+                        onChange={password2OnChange} />
+                        {validPassword ? null : <p className="error-message">passwords do not match</p>}
+
+
+                    </div>
+                    {/* <button className="save-modal" onClick={updateInfo}>
+                        save</button> */}
+                    <button className="save-modal" onClick={async()=>{
+                        handleSave();
+                        validInfo();
+
+
+                    
+                        
+                        
+                    }}>
+                    save</button>
+                    <button className="close-modal" onClick={()=>{
+                        handleCancel();
+                        setInModal(false);
+                    }}>
+                        cancel
+                    </button>
+
+                    </div>
+                </div>
+                )}
+
             </div>
 
         </div>
@@ -76,6 +459,7 @@ function Account(){
     )
 
 }
+
 
 
 
