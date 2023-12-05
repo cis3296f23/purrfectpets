@@ -3,7 +3,7 @@ import { getPets, fetchLikedPetDetails} from './Petfinder.js'
 
 const router = express.Router();
 
-router.get("/:page/:prefs", async (req, res) => {
+router.get("/preferences/:page/:prefs", async (req, res) => {
     try {
         const pets = await getPets(req.params.page, req.params.prefs);
         res.send(pets)
@@ -12,9 +12,10 @@ router.get("/:page/:prefs", async (req, res) => {
     }
 });
 
-router.get("/likedPets/:petIds", async (req, res) => {
+router.get("/liked/:petIds", async (req, res) => {
     try {
         const petIds = req.params.petIds.split('-');
+        console.log(petIds)
         const petDetails = await fetchLikedPetDetails(petIds);
         res.json(petDetails);
     } catch (err) {
