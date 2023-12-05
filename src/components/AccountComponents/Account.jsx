@@ -8,22 +8,6 @@ import bcrtpy from 'bcryptjs';
 import { render } from "react-dom";
 
 
-
-//TODO:
-//1. fetch user data from database - done
-//2. display user data - done
-//3. open modal to update user info - done
-//4. enter data into the input boxes - done
-//5. if the input boxes are empty, then the data will remain unchanged - done
-//6. if the input boxes are filled, then the data will be updated - done
-    //check if the new email and new username are available - done
-    //if the new email and new username are not available, display error message
-    //check if password and verify password are the same
-    //if password and verify password are not the same, display error message
-    //hash the password and save it
-//7. the save button will save the changes
-//8. the cancel button will close the modal and not save the changes
-
 function Account(){
 
     const hasRender = useRef(false);
@@ -180,7 +164,7 @@ function Account(){
             setNewEmail('')
             setNewPassword('')
             checkVerifyNewPassword('')
-            //window.location.reload(false);
+            window.location.reload(false);
             
         }
     }
@@ -280,15 +264,11 @@ function Account(){
                         checkUsernameAvailability()
                     }
                     
-            
-
             if(newEmail !== ''){
                 //check if email is available
                 const checkEmailAvailability = async () => {
                     try{
                         const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
-
-
                         const data = await response.json()
                         setValidEmail(data)
                     }

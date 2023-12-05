@@ -48,16 +48,12 @@ function LoginSignup() {
         setPasswordInput2(event.target.value);
     }
 
-
     const detectTabKeyDown = (e) => {
         if (e.key === "Tab"){
             setIsTryingToLogin(true)
             
         }
     }
-
-
-
 
     //when registering, check if the passwords are the same
     const arePasswordsEqual = () => {
@@ -67,12 +63,21 @@ function LoginSignup() {
     // when logging in,checks if the password input matches the the password in the DB
     const passwordDatabaseCheck = async (hashedPass) => {
         try{
-            console.log(hashedPass, emailInput)
-        const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET' });
-
+        const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET'});
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
         const pwCheck = await response.json();
         console.log('pwCheck:', pwCheck);
         return pwCheck;
+        } else {
+        console.error('Non-JSON response:', contentType);
+        return false;
+        }
         }
         catch(error){
             console.error('Error fetching user data:', error);
@@ -106,12 +111,11 @@ function LoginSignup() {
                         console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
                         }
+                        let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
+                        let user = await res.json();
+                        console.log('Username:', user);
+                        setSessionEmail(user.email);
                     
-                    let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
-                    let user = await res.json();
-                    console.log('Username:', user);
-                    setSessionEmail(user.email);
-
 
                     
                 }
@@ -272,15 +276,15 @@ function LoginSignup() {
                             setIsTryingToLogin(true)
                             //if the password and email are correct, log them in
                             console.log(verifyPassword)
+                            //this is not not stopping wrong uers from logging in
                             if (verifyPassword) {
                                 console.log('passwords are a match')
                                 sessionStorage.setItem("userinfo", sessionEmail);
                                 console.log(`this is the session user ${sessionStorage.getItem("userinfo")}`)
-                                //window.location.pathname = '/app'
+                                window.location.pathname = '/app'
                             }
                             else{
                                 setCorrectInfo(false)
-                                console.log(verifyEmail,validPassword)
                             }
                         }
                         //on the registration page 
