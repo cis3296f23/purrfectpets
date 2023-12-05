@@ -26,7 +26,7 @@ function App() {
     let userPrefs = ['Dog', 'Cat', 'Small & Furry', 'Scales, Fins & Other', 'Barnyard', 'good_with_children', 'house_trained'];
     let prefs = prefsToInt(userPrefs);
     //
-    fetch(`/Petfinder/${currentPage}/${prefs}`) // 2507 is temp test value
+    fetch(`/Petfinder/preferences/${currentPage}/${prefs}`) // 2507 is temp test value
       .then(res => res.json())
       .then(data => setPets(data))
   }, [currentPage]);

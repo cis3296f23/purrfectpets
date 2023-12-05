@@ -19,14 +19,14 @@ function Likes(){
             likesData = likesData.replace(/"/g, '');
             likesData = likesData.replaceAll(",","-")
             console.log("new likesData:", likesData)
-            const url = `/Petfinder/likedPets/${likesData}`
-            console.log("/Petfinder/likedPets/${likesData}: ", url)
-            const petResponse = await fetch(url); //fetch pet details from petfinder
+            const url = `/Petfinder/liked/${likesData}`
+            console.log("/Petfinder/liked/${likesData}: ", url)
+            const petResponse = await fetch(`${url}`); //fetch pet details from petfinder
             console.log("petResponse: ", petResponse)
 
             const petDetails = await petResponse.json();
             console.log("petDetails: ", petDetails)
-            setLikes(petDetails);
+            setLikes(likesData);
 
         };
         fetchLikes();

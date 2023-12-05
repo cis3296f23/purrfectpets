@@ -36,15 +36,17 @@ export async function getPets(page = 1, prefs = 255) {
         userAnimals = getUserAnimalPrefsFromInt(userPrefs);
         prefsURL = makeUserPrefsURL(userPrefs);
     }
+    const url = `https://api.petfinder.com/v2/animals?type=${userAnimals[Math.floor(Math.random() * userAnimals.length)]}&page=${page}${prefsURL}`
+    console.log(url)
     // fetch a random type from the user's preferences conforming to the users other preferences
-    return fetch(`https://api.petfinder.com/v2/animals?type=${userAnimals[Math.floor(Math.random() * userAnimals.length)]}&page=${page}${prefsURL}`, {
+    return fetch(url, {
         headers: {
             'Authorization': `Bearer ${accessToken}`,
         }
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Request failed')
+                throw new Error('Request failed in getPets')
             }
             return response.json();
         })
@@ -52,12 +54,12 @@ export async function getPets(page = 1, prefs = 255) {
             return data.animals;
         })
         .catch(error => {
-            console.error('Error fetching pets: ', error);
+            console.error('Error fetching: ', error);
             return [];
         });
 }
 //fetch the users liked pets
-export async function fetchLikedPetDetails(petIds){
+export const fetchLikedPetDetails = async (petIds) => {
     const petDetails = await Promise.all(petIds.map(async (petId) => {
         // if we do not have an access token, get one
         if (!accessToken) {
@@ -74,12 +76,15 @@ export async function fetchLikedPetDetails(petIds){
         })
             .then(response => {
                 if(!response.ok) {
-                    throw new Error('Request failed!');
+                    throw new Error('Request failed in fetchLikedPetDetails');
                 }
                 return response.json();
             })
+            .catch(error => {
+                console.error('Error fetching: ', error);
+                return [];
+            });
     }));
 
     return petDetails
 }  
-export { getPets, fetchLikedPetDetails };
