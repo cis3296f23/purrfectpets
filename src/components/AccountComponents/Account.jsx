@@ -30,6 +30,10 @@ function Account(){
     const [newEmail,setNewEmail] = useState('')
     const [newPassword,setNewPassword] = useState('')
     const [verifyNewPassword, checkVerifyNewPassword] = useState('')
+
+    //send these to the DB
+    const[updateUsername, setUpdateUsername] = useState('')
+    const[updateEmail, setUpdateEmail] = useState('')
     const [newHash, setNewHash] = useState('')
 
     //salt for the new password
@@ -104,7 +108,6 @@ function Account(){
     }
 
 
-
     const validInfo =  () => {
 
         console.log("validInfo called")
@@ -139,15 +142,6 @@ function Account(){
             // }  
 
 
-            if (newUsername === ''){
-                setValidUsername(true)
-                setNewUsername(userName)
-            }
-
-            if (newEmail === ''){
-                setValidEmail(true)
-                setNewEmail(email)
-            }
 
             // console.log(newHash,'new Hash')
             // console.log(newPassword,'new password')
@@ -156,7 +150,7 @@ function Account(){
             // console.log(salt, 'old salt')
         
             
-            sessionStorage.setItem("userinfo", newEmail);
+            sessionStorage.setItem("userinfo", updateEmail);
             console.log(newEmail,'new email')
             updateInfo();
             toggleModal()
@@ -172,14 +166,25 @@ function Account(){
 
         if (!render.current) {
 
+        if (newUsername === ''){
+            setValidUsername(true)
+            setUpdateUsername(userName)
+
+        }
+
+        if (newEmail === ''){
+            setValidEmail(true)
+            setUpdateEmail(email)
+        }
+
         if(newPassword === ''){
             setNewSalt(salt)
             setNewHash(password)
-            // console.log(newHash,'new Hash')
-            // console.log(newPassword,'new password')
-            // console.log(password, 'old password')
-            // console.log(newSalt, 'new salt')
-            // console.log(salt, 'old salt')
+            console.log(newHash,'new Hash')
+            console.log(newPassword,'new password')
+            console.log(password, 'old password')
+            console.log(newSalt, 'new salt')
+            console.log(salt, 'old salt')
 
         }
 
@@ -189,19 +194,19 @@ function Account(){
             const hash = bcrtpy.hashSync(newPassword,salt)
             setNewHash(hash)
             setNewSalt(salt)
-            // console.log(newHash,'new Hash')
-            // console.log(newPassword,'new password')
-            // console.log(password, 'old password')
-            // console.log(newSalt, 'new salt')
-            // console.log(salt, 'old salt')
-
+            console.log(newHash,'new Hash')
+            console.log(password, 'old password')
+            console.log(newSalt, 'new salt')
+            console.log(salt, 'old salt')
             
+
         }  
     }
-        
+        console.log(updateUsername,'update username')
+        console.log(updateEmail,'update email')
 
 
-    }, [validPassword]);
+    }, [validPassword,newPassword,updateUsername,updateEmail,handleSave]);
 
 
 
@@ -236,6 +241,8 @@ function Account(){
                 getUserID(userData.id)
                 getPassword(userData.password)
                 getSalt(userData.salt)
+                setUpdateEmail(userData.email)
+                setUpdateUsername(userData.username)
             } catch (error) {
             console.error('Error fetching user data:', error)
             }
@@ -255,6 +262,9 @@ function Account(){
                             const response = await fetch (`/users/checkusername/${newUsername}`,{method: 'GET'})
                             const data  = await response.json()
                             setValidUsername(data)
+                            if(data){
+                                setUpdateUsername(newUsername)
+                            }
 
                         }
                         catch (error) {
@@ -271,6 +281,9 @@ function Account(){
                         const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
                         const data = await response.json()
                         setValidEmail(data)
+                        if(data){
+                            setUpdateEmail(newEmail)
+                        }
                     }
                     catch (error) {
                         console.error('Error checking email availability:', error)
@@ -340,8 +353,8 @@ function Account(){
 
                 body: JSON.stringify({
                     'id': userID,
-                    'username': newUsername,
-                    'email': newEmail,
+                    'username': updateUsername,
+                    'email': updateEmail,
                     'password': newHash,
                     'salt': newSalt,
                 })
