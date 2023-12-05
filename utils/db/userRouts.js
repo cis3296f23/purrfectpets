@@ -142,6 +142,58 @@ router.get('/login/:hashedPass/:email', async (req, res) => {
   }
 });
 
+router.get('/userInfo/:email', async (req, res) => {
+  try {
+    // Get the user with the specified email
+    const email = req.params.email;
+    console.log(`email: ${email}`);
+    if (email) {
+      const result = await database.getUserByEmail(email);
+      console.log(`userData: ${JSON.stringify(result)}`);
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
+
+
+router.get('/salt/:email', async (req, res) => {
+  try {
+    // Get the user with the specified email
+    const email = req.params.email;
+    console.log(`email: ${email}`);
+    if (email) {
+      const result = await database.getSalt(email);
+      console.log(`salt: ${JSON.stringify(result)}`);
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
+
+router.get('/likes/:email', async (req, res) => {
+  try{
+    // Get the user with the specified email
+    const email = req.params.email;
+    console.log(`email: ${email}`)
+    if(email){
+      const result = await database.getUserLikesByEmail(email);
+      console.log(`likes: ${JSON.stringify(result)}`)
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  }catch (err){
+    res.status(500).json({ error: err?.message });
+  }
+})
+
 //** POST routs **\\
 
 router.post('/', async (req, res) => {
@@ -158,12 +210,13 @@ router.post('/', async (req, res) => {
 
 //** PUT routs **\\
 
-router.put('/:id', async (req, res) => {
+router.put('/id/:id', async (req, res) => {
   try {
     // Update the user with the specified ID
     const userId = req.params.id;
     console.log(`userId: ${userId}`);
     const user = req.body;
+    console.log(user)
 
     if (userId && user) {
       delete user.id;
@@ -175,6 +228,28 @@ router.put('/:id', async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({ error: err?.message });
+    console.log(err);
+  }
+});
+
+router.put('/liked/:userID/:petID', async (req, res) => {
+  try {
+    // Update the user with the specified ID
+    const userId = req.params.userID;
+    console.log(`userId: ${userId}`);
+    const petId = req.params.petID;
+    console.log(petId)
+
+    if (userId && petId) {
+      console.log(`petId: ${JSON.stringify(petId)}`);
+      const rowsAffected = await database.updateLikes(userId, petId);
+      res.status(200).json({ rowsAffected });
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+    console.log(err);
   }
 });
 

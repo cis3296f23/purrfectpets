@@ -5,7 +5,8 @@ import { prefsToInt } from '../utils/encodeDecodeUserPrefs'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import UserPreferences from './components/UserPreferences'
+//import UserPreferences from './components/UserPreferences';
+
 library.add(faThumbsUp, faThumbsDown);
 
 
@@ -14,6 +15,10 @@ function App() {
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [userPreferences, setUserPreferences] = useState([]);
+  //User info
+  const [userName, getUsername] = useState('')
+  const [email, getEmail] = useState('')
+  const [userID, getUserID] = useState('')
 
 
   useEffect(() => {
@@ -25,6 +30,58 @@ function App() {
       .then(res => res.json())
       .then(data => setPets(data))
   }, [currentPage]);
+  let userEmail
+
+  //fetch user data from database
+  if (typeof window !== 'undefined') {
+    // Perform sessionStorage action
+    userEmail =  sessionStorage.getItem("userinfo")
+    console.log(`User Email: ${userEmail}`)
+  }
+      
+      
+  useEffect(() => {
+      const fetchUserData = async () => {
+      try {
+          const response = await fetch(`/users/userInfo/${userEmail}`,{method: 'GET'});
+          const userData = await response.json();
+          console.log('User Data:', userData);
+
+          getUsername(userData.username);
+          getEmail(userData.email);
+          getUserID(userData.id);
+      } catch (error) {
+      console.error('Error fetching user data:', error);
+      }
+    }; 
+  fetchUserData();
+  }, []);
+
+  //update user data
+  const handleLike = async () => {
+    // Get the petID from the current pet
+    const petID = pets[currentPetIndex].id;
+    console.log(`PetID: ${petID}`);
+    console.log(`UserID: ${userID}`);
+    try{
+        let option = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        }
+    
+        const response = await fetch(`/users/liked/${userID}/${petID}`,option);
+        const data = await response.json();
+        console.log('User Data:', data);
+    } 
+    catch (error) {  
+        console.error('Error updating user data:', error);
+    }
+    finally {
+      nextPet();
+    }
+  }
 
   const nextPet = () => {
     if (currentPetIndex < pets.length - 1) {
@@ -41,11 +98,11 @@ function App() {
     setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'dislike' }])
     nextPet();
   }
-  const handleLike = () => {
-    //change where we store the pet ID to store in DB for the user and reference later in the bookmark page
-    setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'like' }])
-    nextPet();
-  }
+  // const handleLike = () => {
+  //   //change where we store the pet ID to store in DB for the user and reference later in the bookmark page
+  //   setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'like' }])
+  //   nextPet();
+  // }
 
   //console log userPreferences
   useEffect(() => {

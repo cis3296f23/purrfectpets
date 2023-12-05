@@ -3,47 +3,147 @@ import { useState,useEffect } from "react";
 import './Account.scss'
 import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
-import EditIcon from '@mui/icons-material/Edit';
+import UserPreferences from "../UserPreferences";
+import bcrtpy from 'bcryptjs';
 
 
 
 
-
+//TODO:
+//1. fetch user data from database - done
+//2. display user data - done
+//3. open modal to update user info - done
+//4. enter data into the input boxes
+//5. if the input boxes are empty, then the data will remain unchanged
+//6. if the input boxes are filled, then the data will be updated
+    //check if the new email and new username are available
+    //if the new email and new username are not available, display error message
+    //check if password and verify password are the same
+    //if password and verify password are not the same, display error message
+    //hash the password and save it
+//7. the save button will save the changes
+//8. the cancel button will close the modal and not save the changes
 
 function Account(){
 
+    //original user info
     const [userName, getUsername] = useState('')
     const [email, getEmail] = useState('')
-    const [petLiked, getPetLiked] = useState('100')
-    const[currentLocation, getCurrentLocation] = useState('New Jersey')
-    const sessionUser = sessionStorage.getItem("userinfo");
+    const [userID, getUserID] = useState('')
+    const [password, getPassword] = useState('')
 
-    let username =  sessionUser; //fetch by specific username
+
+
+
+    
+    //updated  user info
+    const [newUsername, setNewUsername] = useState('')
+    const [newEmail,setNewEmail] = useState('')
+    const [newPassword,setNewPassword] = useState('')
+    const [verifyNewPassword, checkVerifyNewPassword] = useState('')
+
+
+    //store the onChange values
+    const usernameOnChange= (event) => {
+        if(event.target.value === ''){
+            setNewUsername(userName);
+        }
+        else{
+        setNewUsername(event.target.value);
+        }
+    }
+    const emailOnChange = (event) => {
+        if(event.target.value === ''){
+            setNewEmail(email);
+        }
+        else{
+        setNewEmail(event.target.value);
+        }
+    }
+    const passwordOnChange = (event) => {
+        if(event.target.value === ''){
+            setNewPassword(password);
+        }
+        else{
+        setNewPassword(event.target.value);
+        }
+    }
+    const password2OnChange = (event) => {
+        checkVerifyNewPassword(event.target.value);
+    }
+
+
+
+    //display the update modal
+    const [modal,setModal] = useState(false)
+    const toggleModal = () =>{
+        setModal(!modal)
+    }
+    //stops the page from scrolling when the modal is displayed
+    if(modal) {
+        document.body.classList.add('active-modal')
+        } else {
+        document.body.classList.remove('active-modal')
+        }
     
 
+    //fetch user data from database
+    let userEmail =  sessionStorage.getItem("userinfo");
+    console.log(userEmail)
+    
+    
         useEffect(() => {
             const fetchUserData = async () => {
             try {
-                const response = await fetch(`/users/username/${username}`,{method: 'GET'});
+                const response = await fetch(`/users/userInfo/${userEmail}`,{method: 'GET'});
                 const userData = await response.json();
                 console.log('User Data:', userData);
                 getUsername(userData.username);
-                getEmail(userData.email)
+                getEmail(userData.email);
+                getUserID(userData.id);
             } catch (error) {
             console.error('Error fetching user data:', error);
             }
-        };
-        
+        }; 
         fetchUserData();
         }, []);
 
+    //update user data
+    const updateInfo = async () => {
+        try{
 
+            let option = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                
+                },
+                body: JSON.stringify({
+                    'id': userID,
+                    'username': newUsername,
+                    'email': newEmail,
+                    'password': newPassword,
+                    'salt': 'c',
+                    'preferences': 0
+                })
+            }
+        
+            const response = await fetch(`/users/id/${userID}`,option);
+            const data = await response.json();
+            console.log('User Data:', data);
+        } 
+        catch (error) {  
+            console.error('Error updating user data:', error);
+        }
+    }
+        
     return (
     <div className="account-container">
         <SideBar />
         <div className="account">
 
             <div className="user-pref">
+                <UserPreferences/>
             </div>
 
             <div className="account-user">
@@ -59,15 +159,65 @@ function Account(){
                     <div className="account-username"><h2>{userName}</h2></div>
                 </div>
 
-                <div className="pet-liked-container">
-                    <div className="account-pets"><h3>total pets liked {petLiked}</h3></div>
-                    {/* can pull from the DB */}
-                </div>
 
                 <div className="userName-container">
+                    <p>Email</p>
                     <div className="account-username"><h2>{email}</h2></div>
                 </div>
-            
+
+                <button onClick={toggleModal} className="btn-modal">
+                Edit Profile
+                </button>
+
+                {/* show and hide the update modal  */}
+                {modal && (
+                <div className="modal">
+                    <div onClick={toggleModal} className="overlay"></div>
+                    <div className="modal-content">
+                    <h2>Update Info</h2>
+                    <p>Leave fields blank if want to remain unchanged</p>
+                    <div className="update-info-div">
+
+                        <input
+                        name="username-input"
+                        className="update-input-box"
+                        type="text"
+                        placeholder='username'
+                        onChange={usernameOnChange}/>
+
+                        <input 
+                        name="email-input"
+                        className="update-input-box"
+                        type="text" 
+                        placeholder='email'
+                        onChange={emailOnChange}/>
+
+                        <input 
+                        name="password-input"
+                        className="update-input-box"
+                        type="password"
+                        placeholder="password" 
+                        onChange={passwordOnChange}/>
+
+                        <input
+                        name="password2-input"
+                        className="update-input-box"
+                        type="password"
+                        placeholder="reenter password"
+                        onChange={password2OnChange} />
+
+
+                    </div>
+                    <button className="save-modal" onClick={updateInfo}>
+                        save</button>
+                    <button className="close-modal" onClick={toggleModal}>
+                        cancel
+                    </button>
+
+                    </div>
+                </div>
+                )}
+
             </div>
 
         </div>
@@ -75,7 +225,7 @@ function Account(){
     </div>
     )
 
-}
+    }
 
 
 
