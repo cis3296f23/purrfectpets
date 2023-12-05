@@ -111,13 +111,11 @@ function LoginSignup() {
                         console.log(`LOGIN SUCCESS? ${checkedPw}`)
                         setVerifyPassword(checkedPw);
                         }
-                        let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
-                        let user = await res.json();
-                        console.log('Username:', user);
-                        setSessionEmail(user.email);
                     
-
-                    
+                    let res = await fetch(`/users/userInfo/${emailInput}`, { method: 'GET' });
+                    let user = await res.json();
+                    console.log('Username:', user);
+                    setSessionEmail(user.email);
                 }
                 if (isTryingToSignUp) {
                     const response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
@@ -275,9 +273,8 @@ function LoginSignup() {
                             //fetches the user from the DB
                             setIsTryingToLogin(true)
                             //if the password and email are correct, log them in
-                            console.log(verifyPassword)
-                            //this is not not stopping wrong uers from logging in
-                            if (verifyPassword) {
+                            if (passwordDatabaseCheck()) {
+                                console.log(verifyPassword)
                                 console.log('passwords are a match')
                                 sessionStorage.setItem("userinfo", sessionEmail);
                                 console.log(`this is the session user ${sessionStorage.getItem("userinfo")}`)
