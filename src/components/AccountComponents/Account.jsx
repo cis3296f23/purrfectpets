@@ -5,19 +5,20 @@ import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
 import UserPreferences from "../UserPreferences";
 import bcrtpy from 'bcryptjs';
+import {render} from 'react-dom';
 
 //TODO:
 //1. fetch user data from database - done
 //2. display user data - done
 //3. open modal to update user info - done
 //4. enter data into the input boxes
-//5. if the input boxes are empty, then the data will remain unchanged
-//6. if the input boxes are filled, then the data will be updated
-    //check if the new email and new username are available
-    //if the new email and new username are not available, display error message
-    //check if password and verify password are the same
-    //if password and verify password are not the same, display error message
-    //hash the password and save it
+//5. if the input boxes are empty, then the data will remain unchanged - done
+//6. if the input boxes are filled, then the data will be updated - done
+    //check if the new email and new username are available - done
+    //if the new email and new username are not available, display error message -done
+    //check if password and verify password are the same -done
+    //if password and verify password are not the same, display error message -done
+    //hash the password and save it - done 
 //7. the save button will save the changes
 //8. the cancel button will close the modal and not save the changes
 
