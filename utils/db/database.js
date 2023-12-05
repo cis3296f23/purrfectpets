@@ -142,7 +142,6 @@ export default class Database {
       .query(`SELECT username FROM users WHERE email = @email`);
     return result.recordset[0];
   }
-
   async getUserByEmail(email) {
     await this.connect();
     const request = this.poolconnection.request();

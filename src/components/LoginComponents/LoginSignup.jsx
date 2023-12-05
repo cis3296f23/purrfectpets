@@ -22,7 +22,6 @@ function LoginSignup() {
     const [sessionEmail, setSessionEmail] = useState('')
     const [correctInfo, setCorrectInfo] = useState(true)
 
-
     //two boolean to check if they click 'continue'
     const [isTryingToLogin, setIsTryingToLogin] = useState(false)
     const [isTryingToSignUp, setIsTryingToSignUp] = useState(false)
