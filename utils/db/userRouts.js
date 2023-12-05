@@ -177,6 +177,23 @@ router.get('/salt/:email', async (req, res) => {
   }
 });
 
+router.get('/likes/:email', async (req, res) => {
+  try{
+    // Get the user with the specified email
+    const email = req.params.email;
+    console.log(`email: ${email}`)
+    if(email){
+      const result = await database.getUserLikesByEmail(email);
+      console.log(`likes: ${JSON.stringify(result)}`)
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  }catch (err){
+    res.status(500).json({ error: err?.message });
+  }
+})
+
 //** POST routs **\\
 
 router.post('/', async (req, res) => {

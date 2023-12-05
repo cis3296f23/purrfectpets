@@ -28,9 +28,9 @@ function SideBar(){
         },
         
         {
-            title: "Bookmark",
+            title: "Likes",
             icon: <BookmarkIcon/>,
-            link: '/Bookmark'
+            link: '/Likes'
 
         },
         {
