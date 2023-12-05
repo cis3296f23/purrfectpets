@@ -14,7 +14,7 @@ router.get("/:page/:prefs", async (req, res) => {
 
 router.get("/likedPets/:petIds", async (req, res) => {
     try {
-        const petIds = req.params.petIds.replace(/"/g, '').split(',');
+        const petIds = req.params.petIds.split('-');
         const petDetails = await fetchLikedPetDetails(petIds);
         res.json(petDetails);
     } catch (err) {

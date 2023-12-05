@@ -14,10 +14,14 @@ function Likes(){
             const response = await fetch(`/users/likes/${email}`, { method: 'GET' });
             console.log("response: ", response); 
 
-            const likesData = await response.text(); //should return liked pet ids
+            let likesData = await response.text(); //should return liked pet ids
             console.log("likesData: ", likesData);
-
-            const petResponse = await fetch(`/Petfinder/likedPets/${likesData}`);
+            likesData = likesData.replace(/"/g, '');
+            likesData = likesData.replaceAll(",","-")
+            console.log("new likesData:", likesData)
+            const url = `/Petfinder/likedPets/${likesData}`
+            console.log("/Petfinder/likedPets/${likesData}: ", url)
+            const petResponse = await fetch(url); //fetch pet details from petfinder
             console.log("petResponse: ", petResponse)
 
             const petDetails = await petResponse.json();

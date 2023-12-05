@@ -44,7 +44,7 @@ export async function getPets(page = 1, prefs = 255) {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Request failed!')
+                throw new Error('Request failed')
             }
             return response.json();
         })
@@ -57,10 +57,17 @@ export async function getPets(page = 1, prefs = 255) {
         });
 }
 //fetch the users liked pets
-export const fetchLikedPetDetails = async (petIds) => {
+export async function fetchLikedPetDetails(petIds){
     const petDetails = await Promise.all(petIds.map(async (petId) => {
+        // if we do not have an access token, get one
+        if (!accessToken) {
+            await getAccessToken()
+        }
+
         console.log(petId)
-        return fetch(`https://api.petfinder.com/v2/animals/${petId}`, {
+        const url = `https://api.petfinder.com/v2/animals/${petId}`;
+        console.log(url); // Log the URL
+        return fetch(url, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             }
