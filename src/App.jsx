@@ -114,6 +114,14 @@ function App() {
     setUserPreferences(pref_list);
   };
 
+  function decodeHtmlEntity(str) {
+    let textArea = document.createElement('textarea');
+    textArea.innerHTML = str;
+    let decodedStr = textArea.value;
+    textArea.innerHTML = decodedStr;
+    return textArea.value;
+  }
+
   return (
     <>
     <NavBar />
@@ -131,7 +139,7 @@ function App() {
                 />
               </div>
               <p className="pet-name"><strong>{pets[currentPetIndex].name}</strong></p>
-              <p className="pet-desc"><strong>{pets[currentPetIndex].description}</strong></p>
+              <p className="pet-desc"><strong>{decodeHtmlEntity(pets[currentPetIndex].description)}</strong></p>
               <p className="pet-tags"><strong>{pets[currentPetIndex].tags.join(', ')}</strong></p>
             </li>
           )}
