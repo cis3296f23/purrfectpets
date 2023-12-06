@@ -50,7 +50,7 @@ footer{
 .pet-details{
   flex: 1;
   min-width: 0;
-  background-color: rgba(245, 222, 179, 0.234);
+  background-color: rgba(148, 235, 189, 0.234);
   border-width: 1px;
   border-style: solid;
   border-radius: 20px;
@@ -121,7 +121,7 @@ footer{
   align-items: center;
   border-width: 1px;
   border-style: solid;
-  background-color: rgba(245, 222, 179, 0.234);
+  background-color: rgba(148, 235, 189, 0.234);
   border-radius: 20px;
   margin-right: 50px;
 }

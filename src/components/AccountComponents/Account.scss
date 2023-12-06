@@ -163,6 +163,16 @@
 
     }
 
+.update-input-box{
+    border-style: none;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: 10px;
+
+
+}
+
 
 
 //modal
@@ -186,6 +196,7 @@ body.active-modal {
     right: 0;
     bottom: 0;
     position: fixed;
+    
 }
 
 .overlay {
@@ -197,12 +208,13 @@ body.active-modal {
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
-    background: #a94545;
+    background: plum;
     padding: 14px 28px;
     border-radius: 3px;
     max-width: 600px;
     min-width: 300px;
     color: rgb(238, 232, 232);
+    border-radius: 10px;
 }
 .update-info-div{
     display: flex;

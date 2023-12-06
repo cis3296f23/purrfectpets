@@ -71,6 +71,22 @@ router.get('/username/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
+router.get('/userInfo/:email', async (req, res) => {
+  try {
+    // Get the user with the specified email
+    const email = req.params.email;
+    console.log(`email: ${email}`);
+    if (email) {
+      const result = await database.getUserByEmail(email);
+      console.log(`userData: ${JSON.stringify(result)}`);
+      res.status(200).json(result);
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+  }
+});
 
 router.get('/checkusername/:username', async (req, res) => {
   try {
@@ -134,10 +150,12 @@ router.get('/login/:hashedPass/:email', async (req, res) => {
       const result = await database.checkHashedPass(hashedPass, email);
       console.log(`pw_check: ${JSON.stringify(result)}`);
       res.status(200).json(result);
+      console.log(result)
     } else {
       res.status(404);
     }
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: err?.message });
   }
 });
@@ -235,6 +253,31 @@ router.put('/liked/:userID/:petID', async (req, res) => {
     console.log(err);
   }
 });
+
+router.put('/Liked/:id', async (req, res) => {
+  try {
+    // Update the user with the specified ID
+    const userId = req.params.id;
+    console.log(`userId: ${userId}`);
+    const user = req.body;
+    console.log(user)
+
+    if (userId && user) {
+      delete user.id;
+      console.log(`user: ${JSON.stringify(user)}`);
+      const rowsAffected = await database.updateLikedPets(userId, user);
+      res.status(200).json({ rowsAffected });
+    } else {
+      res.status(404);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err?.message });
+    console.log(err);
+  }
+});
+
+
+
 
 //** DELETE routs **\\
 
