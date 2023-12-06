@@ -5,8 +5,7 @@ import { prefsToInt } from '../utils/encodeDecodeUserPrefs'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import UserPreferences from './components/UserPreferences';
-
+import UserPreferences from './components/UserPreferences'
 library.add(faThumbsUp, faThumbsDown);
 
 
@@ -111,8 +110,12 @@ function App() {
 
 
   const getPreferences = (pref_list) =>{
-    setUserPreferences(pref_list);
-  };
+    let prefs = prefsToInt(pref_list);
+    //
+    fetch(`/Petfinder/${currentPage}/${prefs}`) // 2507 is temp test value
+      .then(res => res.json())
+      .then(data => setPets(data))
+  }
 
   return (
     <>
@@ -129,6 +132,7 @@ function App() {
                     e.target.style.display = 'none'; // Hide the image on error
                   }}
                 />
+
               </div>
               <p className="pet-name"><strong>{pets[currentPetIndex].name}</strong></p>
               <p className="pet-desc"><strong>{pets[currentPetIndex].description}</strong></p>
@@ -171,6 +175,7 @@ function App() {
                   <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
                   Learn More
                   </a>
+                  <UserPreferences onSubmit={getPreferences}/>
                 </div>
               </div>
             </li>
@@ -184,7 +189,6 @@ function App() {
           </p>
         </div>
       </div>
-    </>
   );
 }
 
