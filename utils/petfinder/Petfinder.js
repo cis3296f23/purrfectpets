@@ -46,6 +46,8 @@ export async function getPets(page = 1, prefs = 255) {
     })
         .then(response => {
             if (!response.ok) {
+                console.error('Error status:', response.status);
+                console.error('Status text:', response.statusText);
                 throw new Error('Request failed in getPets')
             }
             return response.json();
