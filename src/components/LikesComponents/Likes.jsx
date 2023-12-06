@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import SideBar from "../AccountComponents/Sidebar.jsx"
 import './Likes.css'
-import Card from 'react-bootstrap/Card'; //bootstrap card
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 function Likes(){
     const [likes, setLikes] = useState([])
@@ -39,6 +40,7 @@ function Likes(){
                 <div className="user-likes">
                     <h1>Your Likes</h1>
                     <div className="likes-display">
+                        
                     </div>
                 </div>
             </div>
