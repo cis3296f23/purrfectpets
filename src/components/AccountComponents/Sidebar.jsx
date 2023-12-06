@@ -3,9 +3,9 @@ import './Account.scss'
 import ProfilePic from '../../assets/ProfilePic.png'
 import HomeIcon from '@mui/icons-material/Home';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 
@@ -28,9 +28,9 @@ function SideBar(){
         },
         
         {
-            title: "Bookmark",
-            icon: <BookmarkIcon/>,
-            link: '/Bookmark'
+            title: "Likes",
+            icon: <FavoriteIcon/>,
+            link: '/Likes'
 
         },
         {

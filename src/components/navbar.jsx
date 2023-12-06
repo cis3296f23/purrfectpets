@@ -8,7 +8,7 @@ const [isOpen, setIsOpen] = useState(false);
 return (
 <div className="navBar">
     <MenuIcon 
-    sx={{ fontSize: 50 }}
+    sx={{ fontSize: 75 }}
     onClick={() => setIsOpen(!isOpen)}
     className = "menuIcon"/>
     {isOpen && (
@@ -17,8 +17,8 @@ return (
             window.location.pathname = '/Account'
             }}>Account</p>
             <p onClick={() =>{
-            window.location.pathname = '/Bookmark'
-            }}>Bookmark</p>
+            window.location.pathname = '/Likes'
+            }}>Likes</p>
             <p onClick={() =>{
             window.location.pathname = '/Help'
             }}>Help</p>
