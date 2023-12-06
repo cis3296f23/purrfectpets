@@ -4,7 +4,7 @@ import './Account.scss'
 import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
 import UserPreferences from "../UserPreferences";
-import bcrtpy from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import {render} from 'react-dom';
 
 //TODO:
@@ -205,8 +205,8 @@ function Account(){
 
         else if (newPassword !== ''){
              //hash the password
-            const salt = bcrtpy.genSaltSync(10)
-            const hash = bcrtpy.hashSync(newPassword,salt)
+            const salt = bcrypt.genSaltSync(10)
+            const hash = bcrypt.hashSync(newPassword,salt)
             setNewHash(hash)
             setNewSalt(salt)
             // console.log(newHash,'new Hash')
