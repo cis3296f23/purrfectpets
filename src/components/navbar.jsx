@@ -17,8 +17,8 @@ return (
             window.location.pathname = '/Account'
             }}>Account</p>
             <p onClick={() =>{
-            window.location.pathname = '/Bookmark'
-            }}>Bookmark</p>
+            window.location.pathname = '/Likes'
+            }}>Likes</p>
             <p onClick={() =>{
             window.location.pathname = '/Help'
             }}>Help</p>
