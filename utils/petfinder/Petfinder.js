@@ -84,7 +84,6 @@ export const fetchLikedPetDetails = async (petIds) => {
             })
             .catch(error => {
                 console.error('Error fetching: ', error);
-                return [];
             });
     }));
 

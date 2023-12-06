@@ -1,3 +1,8 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 .likes-container{
     display: flex;
     height: 100%;
@@ -9,18 +14,17 @@
 
 .likes{
     color: white;
-        display: flex;
-        justify-content:center;
-        align-items: center;
-        width: 90vw;
-        text-align: center;
-        margin-top: 50px;
-        margin-bottom: 50px;
-        gap: 50px;
-        height: 90vh;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    width: 90vw;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    gap: 50px;
 }
 
-.user-likes{
+.user-likes {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,7 +32,8 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 20px;
     margin-bottom: 40px;
-    height: 90vh;
+    max-height: 90vh; 
+    overflow-y: auto;
 }
 
 .likes-display{
@@ -37,4 +42,52 @@
     gap: 50px;
     padding: 20px;
 
+}
+
+.card {
+    transition: transform 0.3s;  /* Add transition for hover effect */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 20px;
+}
+
+.card:hover {
+    transform: scale(1.05);  /* Grow the card a little when hovered */
+}
+
+.card .btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: all 0.2s;
+    margin: 0 auto;  /* Center the button horizontally */
+    display: block;
+    width: 50%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 10px;
+
+}
+
+.card .btn-primary:hover {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.card .btn-primary:focus, .card .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}
+
+.card .btn-primary.disabled, .card .btn-primary:disabled {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
 }
