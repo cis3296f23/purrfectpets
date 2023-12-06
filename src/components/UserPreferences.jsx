@@ -2,15 +2,16 @@ import React from "react"
 import { useState, useEffect, useRef } from 'react'
 import './UserPreferences.css'
 
-var preference_list = [];
+let preference_list = [];
 
 const UserPreferences = (props) => {
 
   const [open, setOpen] = useState(false);
-  const [display, setDisplay] = useState('none');
-  const [checked, setChecked] = useState([]);
-  const checkList = ["Dog", "Cat", "Rabbit", "Small & Furry", "Horse", "Bird", "Scales, Fins & Other",
+  const [display, setDisplay] = useState('none')
+
+  let checkList = ["Dog", "Cat", "Rabbit", "Small & Furry", "Horse", "Bird", "Scales Fins & Other",
     "Barnyard", "Good with Children", "Good with Dogs", "Good with Cats", "House Trained", "Special Needs"];
+  const [checked, setChecked] = useState([]);
 
   // Add/Remove checked item from list
   const handleCheck = (event) => {
@@ -41,9 +42,9 @@ const UserPreferences = (props) => {
 
   function handleClick() {
     if (display == 'none') {
-      setDisplay('block');
+      setDisplay('block')
     } else {
-      setDisplay('none');
+      setDisplay('none')
     }
   }
 
@@ -56,7 +57,9 @@ const UserPreferences = (props) => {
         console.log(menuRef.current);
       }
     };
+
     document.addEventListener("mousedown", handler);
+
     return () => {
       document.removeEventListener("mousedown", handler);
     }
@@ -86,22 +89,26 @@ const UserPreferences = (props) => {
   );
 }
 
+
 function Element(props) {
   return (
     <div>
       <div className="Dropdown" onClick={() => pref_changer(props.preferences)}> Set Preferences</div>
     </div>
-  )
-}
+  )}
 
 const pref_changer = (new_preferences) => {
-  preference_list = new_preferences;
-  //console.log(preference_list);
+  preference_list = new_preferences.split(", ");
+  for (var i = 0; i < preference_list.length; i++) {
+    if (preference_list[i] == "Scales Fins & Other") { preference_list[i] = "Scales, Fins & Other" };
+    if (preference_list[i] == "Good with Children") { preference_list[i] = "good_with_children" };
+    if (preference_list[i] == "Good with Dogs") { preference_list[i] = "good_with_dogs" };
+    if (preference_list[i] == "Good with Cats") { preference_list[i] = "good_with_cats" };
+    if (preference_list[i] == "House Trained") { preference_list[i] = "house_trained" };
+    if (preference_list[i] == "Special Needs") { preference_list[i] = "special_needs" };
+  }
 }
 
 export { preference_list };
-
 export { Element };
-
-
 export default UserPreferences;
