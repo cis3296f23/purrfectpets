@@ -48,7 +48,6 @@ function LoginSignup() {
         setPasswordInput2(event.target.value);
     }
 
-
     const detectTabKeyDown = (e) => {
         if (e.key === "Tab"){
             setIsTryingToLogin(true)
@@ -68,7 +67,6 @@ function LoginSignup() {
         
         return pwCheck;
     }
-
     //fetches the user info from the DB
     useEffect(() => {
         const fetchUserEmail = async () => {
@@ -77,7 +75,8 @@ function LoginSignup() {
                     let response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     let userData = await response.json();
                     console.log('EmailValid:', !userData);
-                    setVerifyEmail(!userData);
+                    setVerifyEmail(!userData)
+
                     if (!userData) {
                         response = await fetch(`/users/salt/${emailInput}`, { method: 'GET' });
                         userData = await response.json();
@@ -114,7 +113,7 @@ function LoginSignup() {
             } catch (error) {
                 //console.error('Error fetching user data:', error);
                 setVerifyEmail(false)
-                setVerifyPassword('')
+                setVerifyPassword(false)
             }
         };
 
@@ -127,7 +126,7 @@ function LoginSignup() {
             } catch (error) {
                 //console.error('Error fetching user data:', error);
                 setVerifyEmail(false)
-                setVerifyPassword('')
+                setVerifyPassword(false)
             }
         };
         if (isTryingToLogin) {

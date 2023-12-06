@@ -150,10 +150,12 @@ router.get('/login/:hashedPass/:email', async (req, res) => {
       const result = await database.checkHashedPass(hashedPass, email);
       console.log(`pw_check: ${JSON.stringify(result)}`);
       res.status(200).json(result);
+      console.log(result)
     } else {
       res.status(404);
     }
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: err?.message });
   }
 });
@@ -289,7 +291,6 @@ router.put('/liked/:userID/:petID', async (req, res) => {
     console.log(err);
   }
 });
-
 
 //** DELETE routs **\\
 

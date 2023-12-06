@@ -105,6 +105,7 @@ export default class Database {
     const request = this.poolconnection.request();
     request.input('hashedPass', sql.NVarChar(), hashedPass);
     request.input('email', sql.NVarChar(), email);
+    console.log('finding user')
     const result = await request
       .query(`SELECT 1 FROM users WHERE password = @hashedPass AND email = @email`);
     if (result.recordset[0]) {
