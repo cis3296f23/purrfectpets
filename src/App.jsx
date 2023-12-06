@@ -131,7 +131,7 @@ function App() {
   const getPreferences = (pref_list) =>{
     let prefs = prefsToInt(pref_list);
     //
-    fetch(`/Petfinder/${currentPage}/${prefs}`) // 2507 is temp test value
+    fetch(`/Petfinder/preferences/${currentPage}/${prefs}`) // 2507 is temp test value
       .then(res => res.json())
       .then(data => setPets(data))
   }
