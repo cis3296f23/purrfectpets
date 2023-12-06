@@ -10,6 +10,17 @@ library.add(faThumbsUp, faThumbsDown);
 
 
 function App() {
+
+
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+
+
+
   const [pets, setPets] = useState([]);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -106,8 +117,13 @@ function App() {
   //console log userPreferences
   useEffect(() => {
     console.log(userPreferences)
+
+    
+
   }, [userPreferences]) //only runs when userPreferences changes, console log userPreferences
 
+
+    
 
   const getPreferences = (pref_list) =>{
     let prefs = prefsToInt(pref_list);
@@ -116,6 +132,9 @@ function App() {
       .then(res => res.json())
       .then(data => setPets(data))
   }
+  //getPreferences(userPreferences)
+
+
 
   return (
     <>
@@ -175,7 +194,7 @@ function App() {
                   <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
                   Learn More
                   </a>
-                  <UserPreferences onSubmit={getPreferences}/>
+
                 </div>
               </div>
             </li>
@@ -189,6 +208,22 @@ function App() {
           </p>
         </div>
       </div>
+      <button onClick={toggleModal} className="btn-modal">
+        preferences
+      </button>
+
+      {modal && (
+        <div className="modal">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className="modal-content">
+          <UserPreferences onSubmit={getPreferences}/>
+            <button className="close-modal" onClick={toggleModal}>
+              CLOSE
+            </button>
+          </div>
+        </div>
+      )}
+      </>
   );
 }
 

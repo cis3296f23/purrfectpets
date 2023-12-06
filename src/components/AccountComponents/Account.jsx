@@ -25,6 +25,8 @@ import {render} from 'react-dom';
 function Account(){
 
     const hasRender = useRef(false);
+
+    
     
 
     //original user info on the page
@@ -33,6 +35,7 @@ function Account(){
     const [userID, getUserID] = useState('')
     const [password, getPassword] = useState('')
     const [salt, getSalt] = useState('')
+    
 
     
     //user info added to the input boxes
@@ -95,6 +98,7 @@ function Account(){
 
 
     const handleSave =  () => {
+
 
         console.log('handleSaved Called')
         
@@ -191,11 +195,11 @@ function Account(){
         if(newPassword === ''){
             setNewSalt(salt)
             setNewHash(password)
-            console.log(newHash,'new Hash')
-            console.log(newPassword,'new password')
-            console.log(password, 'old password')
-            console.log(newSalt, 'new salt')
-            console.log(salt, 'old salt')
+            // console.log(newHash,'new Hash')
+            // console.log(newPassword,'new password')
+            // console.log(password, 'old password')
+            // console.log(newSalt, 'new salt')
+            // console.log(salt, 'old salt')
 
         }
 
@@ -205,21 +209,18 @@ function Account(){
             const hash = bcrtpy.hashSync(newPassword,salt)
             setNewHash(hash)
             setNewSalt(salt)
-            console.log(newHash,'new Hash')
-            console.log(password, 'old password')
-            console.log(newSalt, 'new salt')
-            console.log(salt, 'old salt')
+            // console.log(newHash,'new Hash')
+            // console.log(password, 'old password')
+            // console.log(newSalt, 'new salt')
+            // console.log(salt, 'old salt')
             
-
         }  
     }
-        console.log(updateUsername,'update username')
-        console.log(updateEmail,'update email')
+        // console.log(updateUsername,'update username')
+        // console.log(updateEmail,'update email')
 
 
     }, [validPassword,newPassword,updateUsername,updateEmail,handleSave]);
-
-
 
 
 
@@ -385,7 +386,7 @@ function Account(){
         <div className="account">
 
             <div className="user-pref">
-                {/* <UserPreferences/> */}
+            <UserPreferences/>
             </div>
 
             <div className="account-user">
@@ -396,6 +397,7 @@ function Account(){
 
                 </div>
                 <div className="userName-container">
+                    <p>Username</p>
                     <div className="account-username"><h2>{userName}</h2></div>
                 </div>
 
