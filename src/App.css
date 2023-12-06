@@ -15,12 +15,14 @@ footer{
 .navBar{
   display: flex;
   justify-content: flex-start;
+  padding: 10px;
 }
 
 .menuIcon-Items{
   display: flex;
   gap: 50px;
   padding-left: 45px;
+  font-size: 25px;
 }
 
 .menuIcon-Items{

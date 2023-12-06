@@ -8,7 +8,7 @@ const [isOpen, setIsOpen] = useState(false);
 return (
 <div className="navBar">
     <MenuIcon 
-    sx={{ fontSize: 50 }}
+    sx={{ fontSize: 75 }}
     onClick={() => setIsOpen(!isOpen)}
     className = "menuIcon"/>
     {isOpen && (
