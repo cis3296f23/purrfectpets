@@ -62,30 +62,11 @@ function LoginSignup() {
 
     // when logging in,checks if the password input matches the the password in the DB
     const passwordDatabaseCheck = async (hashedPass) => {
-        try{
-        const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET'});
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
+        const response = await fetch(`/users/login/${hashedPass}/${emailInput}`, { method: 'GET' });
         const pwCheck = await response.json();
-        console.log('pwCheck:', pwCheck);
-        return pwCheck;
-        } else {
-        console.error('Non-JSON response:', contentType);
-        return false;
-        }
-        }
-        catch(error){
-            console.error('Error fetching user data:', error);
-            return false
-        }
         
+        return pwCheck;
     }
-
     //fetches the user info from the DB
     useEffect(() => {
         const fetchUserEmail = async () => {
@@ -94,6 +75,7 @@ function LoginSignup() {
                     let response = await fetch(`/users/checkemail/${emailInput}`, { method: 'GET' });
                     let userData = await response.json();
                     console.log('EmailValid:', !userData);
+                    setVerifyEmail(!userData)
 
                     if (!userData) {
                         response = await fetch(`/users/salt/${emailInput}`, { method: 'GET' });
