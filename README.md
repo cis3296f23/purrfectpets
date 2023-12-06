@@ -9,7 +9,14 @@ Discover your ideal companion at PurrfectPets – the ultimate destination for p
 - clone repo
 - get API keys from PetFinder
 - store the keys in a file called ``.env``
-- set up ``.env`` like this ```PETFINDER_API_KEY = {your api key}``` ```PETFINDER_API_SECRET = {your secret key}```
+- set up ``.env`` like this 
+    - ``PETFINDER_API_KEY=<your api key>``
+    - `PETFINDER_API_SECRET=<your api secret>`
+    - `AZURE_SQL_SERVER=purrfectpetssql.database.windows.net`
+    - `AZURE_SQL_DATABASE=purrfectpetsusers`
+    - `AZURE_SQL_PORT=1433`
+    - `AZURE_SQL_USER=<your username>`
+    - `AZURE_SQL_PASSWORD=<your password>`
 - In your terminal type:
 ```
 npm install
