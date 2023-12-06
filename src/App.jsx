@@ -199,7 +199,7 @@ function App() {
                   <p><strong>Phone: {pets[currentPetIndex].contact.phone ? pets[currentPetIndex].contact.phone : "N/A"}</strong></p>
                   <p><strong>City: {pets[currentPetIndex].contact.address.city}</strong></p>
                   <p><strong>State: {pets[currentPetIndex].contact.address.state}</strong></p>
-                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
+                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer" className="learn-more-link">
                   Learn More
                   </a>
 
