@@ -393,7 +393,7 @@ function Account(){
                     <p>To learn more about PetFinder, <a href="https://www.petfinder.com/" target="blank">click here!</a></p>
                     <br />
                     <h3>Have a candidate for PurrfectPets?</h3>
-                    <p>Do you or someone you know have a pet that is need of their perfect owner?</p>
+                    <p>Do you or someone you know have a pet that is in need of their perfect owner?</p>
                     <p>PetFinder has resources that can help a pet find a new home</p>
                     <p>To learn more about rehoming a pet,  <a href="https://www.petfinder.com/adopt-or-get-involved/adopting-pets/rehoming/" target="blank">click here!</a></p>
 
