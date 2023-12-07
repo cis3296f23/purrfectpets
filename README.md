@@ -45,8 +45,7 @@ Follow the [project board](https://github.com/orgs/cis3296f23/projects/118) to s
 * Ensure all packages are up to date and installed by running `npm install`
 * Ensure API keys are in the `.env` file
 
-```
-
+```env
 PETFINDER_API_KEY=<your api key>
 PETFINDER_API_SECRET=<your api secret>
 AZURE_SQL_SERVER=purrfectpetssql.database.windows.net
