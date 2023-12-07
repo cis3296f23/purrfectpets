@@ -7,20 +7,6 @@ import UserPreferences from "../UserPreferences";
 import bcrypt from 'bcryptjs';
 import {render} from 'react-dom';
 
-//TODO:
-//1. fetch user data from database - done
-//2. display user data - done
-//3. open modal to update user info - done
-//4. enter data into the input boxes
-//5. if the input boxes are empty, then the data will remain unchanged - done
-//6. if the input boxes are filled, then the data will be updated - done
-    //check if the new email and new username are available - done
-    //if the new email and new username are not available, display error message -done
-    //check if password and verify password are the same -done
-    //if password and verify password are not the same, display error message -done
-    //hash the password and save it - done 
-//7. the save button will save the changes
-//8. the cancel button will close the modal and not save the changes
 
 function Account(){
 
@@ -96,9 +82,7 @@ function Account(){
 
     }
 
-
     const handleSave =  () => {
-
 
         console.log('handleSaved Called')
         
@@ -129,41 +113,6 @@ function Account(){
         console.log(validUsername,validEmail,validPassword)
         if (validUsername && validEmail&& validPassword){
             console.log('everything is valid')
-            // if(newPassword === ''){
-            //     setNewPassword(password)
-            //     setNewSalt(salt)
-            //     setNewHash(password)
-            //     console.log(newHash,'new Hash')
-            //     console.log(newPassword,'new password')
-            //     console.log(password, 'old password')
-            //     console.log(newSalt, 'new salt')
-            //     console.log(salt, 'old salt')
-
-            // }
-
-            // else if (newPassword !== ''){
-            //      //hash the password
-            //     const salt = bcrtpy.genSaltSync(10)
-            //     const hash = bcrtpy.hashSync(newPassword,salt)
-            //     setNewPassword(hash)
-            //     setNewHash(hash)
-            //     setNewSalt(salt)
-            //     console.log(newPassword,'new password')
-            //     console.log(password, 'old password')
-            //     console.log(newSalt, 'new salt')
-            //     console.log(salt, 'old salt')
-
-                
-            // }  
-
-
-
-            // console.log(newHash,'new Hash')
-            // console.log(newPassword,'new password')
-            // console.log(password, 'old password')
-            // console.log(newSalt, 'new salt')
-            // console.log(salt, 'old salt')
-        
             
             sessionStorage.setItem("userinfo", updateEmail);
             console.log(newEmail,'new email')
@@ -195,12 +144,6 @@ function Account(){
         if(newPassword === ''){
             setNewSalt(salt)
             setNewHash(password)
-            // console.log(newHash,'new Hash')
-            // console.log(newPassword,'new password')
-            // console.log(password, 'old password')
-            // console.log(newSalt, 'new salt')
-            // console.log(salt, 'old salt')
-
         }
 
         else if (newPassword !== ''){
@@ -209,15 +152,9 @@ function Account(){
             const hash = bcrypt.hashSync(newPassword,salt)
             setNewHash(hash)
             setNewSalt(salt)
-            // console.log(newHash,'new Hash')
-            // console.log(password, 'old password')
-            // console.log(newSalt, 'new salt')
-            // console.log(salt, 'old salt')
             
         }  
     }
-        // console.log(updateUsername,'update username')
-        // console.log(updateEmail,'update email')
 
 
     }, [validPassword,newPassword,updateUsername,updateEmail,handleSave]);
@@ -323,34 +260,6 @@ function Account(){
 
 
 
-    // //check if username is available
-    // const checkUsernameAvailability = async () => {
-    //     try {
-    //         const response = await fetch (`/users/checkusername/${newUsername}`,{method: 'GET'})
-    //         const data  = await response.json()
-    //         setValidUsername(data)
-
-    //     }
-    //     catch (error) {
-    //         console.error('Error checking username availability:', error)
-    //     }
-    // }
-
-    // //check if email is available
-    // const checkEmailAvailability = async () => {
-    //     try{
-    //         const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
-
-
-    //         const data = await response.json()
-    //         setValidEmail(data)
-    //     }
-    //     catch (error) {
-    //         console.error('Error checking email availability:', error)
-    //     }
-    // }
-
-
 
     //update user data
     const updateInfo = async () => {
@@ -384,11 +293,6 @@ function Account(){
     <div className="account-container">
         <SideBar />
         <div className="account">
-
-            <div className="user-pref">
-            <UserPreferences/>
-            </div>
-
             <div className="account-user">
                 <div className="account-pic-container">
                     <div className="account-pic">
@@ -396,15 +300,15 @@ function Account(){
                     </div>
 
                 </div>
-                <div className="userName-container">
-                    <p>Username</p>
-                    <div className="account-username"><h2>{userName}</h2></div>
-                </div>
-
-
-                <div className="userName-container">
-                    <p>Email</p>
-                    <div className="account-username"><h2>{email}</h2></div>
+                <div className="account-user-info">
+                    <div className="userName-container">
+                        <p>Username:</p>
+                        <div className="account-username"><h2>{userName}</h2></div>
+                    </div>
+                    <div className="userName-container">
+                        <p>Email:</p>
+                        <div className="account-username"><h2>{email}</h2></div>
+                    </div>
                 </div>
 
                 <button onClick={()=>{
@@ -479,6 +383,24 @@ function Account(){
                     </div>
                 </div>
                 )}
+
+            </div>
+
+
+            <div className="account-more-info">
+                <div className="account-more-info-container">
+                    <h2>More Info</h2>
+                    <h3>PurrfectPets is powered PetFinder</h3>
+                    <p>To learn more about PetFinder, <a href="https://www.petfinder.com/" target="blank">click here!</a></p>
+                    <br />
+                    <h3>Have a candidate for PurrfectPets?</h3>
+                    <p>Do you or someone you know have a pet that is need of their perfect owner?</p>
+                    <p>PetFinder has resources that can help a pet find a new home</p>
+                    <p>To learn more about rehoming a pet,  <a href="https://www.petfinder.com/adopt-or-get-involved/adopting-pets/rehoming/" target="blank">click here!</a></p>
+
+
+
+                </div>
 
             </div>
 
