@@ -6,6 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import UserPreferences from './components/UserPreferences'
+import LocationGetter from './components/LocationGetter'
 library.add(faThumbsUp, faThumbsDown);
 
 
@@ -29,8 +30,10 @@ function App() {
   const [userName, getUsername] = useState('')
   const [email, getEmail] = useState('')
   const [userID, getUserID] = useState('')
+  const location = LocationGetter();
 
-
+  
+  
   useEffect(() => {
     // temp user prefs
     let userPrefs = ['Dog', 'Cat', 'Small & Furry', 'Scales, Fins & Other', 'Barnyard', 'good_with_children', 'house_trained'];
@@ -199,10 +202,15 @@ function App() {
                   <p><strong>Phone: {pets[currentPetIndex].contact.phone ? pets[currentPetIndex].contact.phone : "N/A"}</strong></p>
                   <p><strong>City: {pets[currentPetIndex].contact.address.city}</strong></p>
                   <p><strong>State: {pets[currentPetIndex].contact.address.state}</strong></p>
-                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer" className="learn-more-link">
+                  <p><strong>Published At: {pets[currentPetIndex].published_at}</strong></p>
+                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
                   Learn More
                   </a>
+                  <div>
+                  Current Location: 
+                  {location.loaded ? JSON.stringify(location.coordinates) : "Location data not available yet"}
 
+                  </div>
                 </div>
               </div>
             </li>
