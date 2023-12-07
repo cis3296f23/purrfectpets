@@ -1,4 +1,4 @@
-# PurrfectPets
+# **<p style="text-align: center;">PurrfectPets</p>**
 
 Discover your ideal companion using PurrfectPets – the ultimate destination for pet adoption. Customize your preferences, and witness a delightful array of adorable pets right at your fingertips. Express your affection by liking your favorite pets, and with a simple click, we'll guide you to the PetFinder website, connecting you directly with the shelter or owner. Your journey to finding the perfect pet begins here.
 
