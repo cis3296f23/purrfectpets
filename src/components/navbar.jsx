@@ -1,14 +1,16 @@
 import React from "react"
 import { useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
+import menu from '.././assets/menu.png'
+
+
 
 function NavBar() {
 const [isOpen, setIsOpen] = useState(false);
 
 return (
 <div className="navBar">
-    <MenuIcon 
-    sx={{ fontSize: 50 }}
+    <img src={menu} alt=""
+    style={{ width: "5%" }}
     onClick={() => setIsOpen(!isOpen)}
     className = "menuIcon"/>
     {isOpen && (
@@ -17,8 +19,8 @@ return (
             window.location.pathname = '/Account'
             }}>Account</p>
             <p onClick={() =>{
-            window.location.pathname = '/Bookmark'
-            }}>Bookmark</p>
+            window.location.pathname = '/Likes'
+            }}>Likes</p>
             <p onClick={() =>{
             window.location.pathname = '/Help'
             }}>Help</p>

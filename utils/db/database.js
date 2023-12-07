@@ -43,12 +43,13 @@ export default class Database {
   async create(data) {
     await this.connect();
     const request = this.poolconnection.request();
-    request.input('username', sql.NVarChar(50), data.username);
-    request.input('email', sql.NVarChar(50), data.email);
-    request.input('password', sql.NVarChar(50), data.password);
+    request.input('username', sql.NVarChar(64), data.username);
+    request.input('email', sql.NVarChar(64), data.email);
+    request.input('password', sql.NVarChar(64), data.password);
+    request.input('salt', sql.NVarChar(32), data.salt);
     request.input('preferences', sql.Int, parseInt(data.preferences));
     const result = await request.query(
-      `INSERT INTO dbo.users (username, email, password, preferences) VALUES (@username, @email, @password, @preferences)`
+      `INSERT INTO dbo.users (username, email, password, salt, preferences) VALUES (@username, @email, @password, @salt, @preferences)`
     );
     return result.rowsAffected[0];
   }
@@ -69,40 +70,141 @@ export default class Database {
 
     return result.recordset[0];
   }
+  
 
-
-  async readByUsername(username) {
+  async checkUsernameAvailability(username) {
     await this.connect();
     const request = this.poolconnection.request();
     const result = await request
-      .input('username', sql.VarChar, username)  
-      .query(`SELECT * FROM users WHERE username = @username`);
-    return result.recordset[0];
+      .input('username', sql.VarChar, username)
+      .query(`SELECT 1 FROM users WHERE username = @username`);
+    if (result.recordset[0]) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  async readByEmail(email) {
+  async checkEmailAvailability(email) {
     await this.connect();
     const request = this.poolconnection.request();
     const result = await request
-      .input('email', sql.VarChar, email)  
-      .query(`SELECT * FROM users WHERE email = @email`);
+      .input('email', sql.VarChar, email)
+      .query(`SELECT 1 FROM users WHERE email = @email`);
+    if (result.recordset[0]) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  async checkHashedPass(hashedPass,email) {
+    console.log(`CHECKING PW: ${hashedPass}`)
+    console.log(`CHECKING EMAIL: ${email}`)
+    await this.connect();
+    const request = this.poolconnection.request();
+    request.input('hashedPass', sql.NVarChar(), hashedPass);
+    request.input('email', sql.NVarChar(), email);
+    console.log('finding user')
+    const result = await request
+      .query(`SELECT 1 FROM users WHERE password = @hashedPass AND email = @email`);
+    if (result.recordset[0]) {
+      console.log("GOOD PASSWORD")
+      return true;
+    } else {
+      console.log("BAD PASSWORD")
+      return false;
+    }
+  }
+
+  async readIdByUsername(username) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('username', sql.VarChar, username)
+      .query(`SELECT id FROM users WHERE username = @username`);
     return result.recordset[0];
   }
 
+  async getSalt(email) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('email', sql.VarChar, email)
+      .query(`SELECT salt FROM users WHERE email = @email`);
+    return result.recordset[0];
+  }
+
+  async getUsernameByEmail(email) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('email', sql.VarChar, email)
+      .query(`SELECT username FROM users WHERE email = @email`);
+    return result.recordset[0];
+  }
+  async getUserByEmail(email) {
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('email', sql.VarChar, email)
+      .query(`SELECT * FROM dbo.users WHERE email = @email`);
+    return result.recordset[0];
+  }
 
   async update(id, data) {
+    try{
+
+    
     await this.connect();
+    console.log(`id: ${id}`);
     const request = this.poolconnection.request();
-    request.input('id', sql.Int, +id);
-    request.input('username', sql.NVarChar(50), data.username);
-    request.input('email', sql.NVarChar(50), data.email);
-    request.input('password', sql.NVarChar(50), data.password);
+    request.input('id', sql.Int, id);
+    request.input('username', sql.NVarChar(64), data.username);
+    request.input('email', sql.NVarChar(64), data.email);
+    request.input('password', sql.NVarChar(64), data.password);
+    request.input('salt', sql.NVarChar(32), data.salt);
     request.input('preferences', sql.Int, parseInt(data.preferences));
     const result = await request.query(
-      `UPDATE dbo.users SET email=@email, password=@password WHERE id = @id`
+      `UPDATE dbo.users SET email=@email, password=@password, username = @username WHERE id = @id`
     );
+    return result.rowsAffected[0];
+  }
+  catch(err){
+    console.log("ERROR IN UPDATE")
+    console.log(err)
+    }
+  }
+
+  async updateLikes(id, data) {
+    await this.connect();
+    console.log(`id: ${id}`)
+    const request = this.poolconnection.request();
+    request.input('id', sql.NVarChar(50), id);
+
+    // Get the current likes for the user
+    const getUserLikesQuery = `SELECT likes FROM dbo.users WHERE id = @id`;
+    const getUserLikesResult = await request.query(getUserLikesQuery);
+    const currentLikes = getUserLikesResult.recordset[0].likes;
+
+    // Append the new petID to the current likes
+    const updatedLikes = currentLikes ? `${currentLikes},${data}` : data;
+
+    // Update the likes field in the database
+    request.input('likes', sql.NVarChar(100), updatedLikes);
+    const updateLikesQuery = `UPDATE dbo.users SET likes = @likes WHERE id = @id`;
+    const result = await request.query(updateLikesQuery);
 
     return result.rowsAffected[0];
+  }
+
+  async getUserLikesByEmail(email){
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('email', sql.VarChar, email)
+      .query(`SELECT likes FROM dbo.users WHERE email = @email`);
+    return result.recordset[0].likes;
   }
 
   async delete(id) {

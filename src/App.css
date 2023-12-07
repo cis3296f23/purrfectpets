@@ -14,11 +14,21 @@ footer{
 
 .navBar{
   display: flex;
-  gap: 50px;
-  justify-content: center;
-  align-items: center;
-  width: 100%
+  justify-content: flex-start;
+  padding: 10px;
 }
+
+.navBar img:hover{
+  cursor: pointer;
+}
+
+.menuIcon-Items{
+  display: flex;
+  gap: 50px;
+  padding-left: 45px;
+  font-size: 25px;
+}
+
 .menuIcon-Items{
   text-align: center;
 }
@@ -45,25 +55,36 @@ footer{
   text-align: center;
   margin-top: 50px;
   gap: 50px;
+  flex-wrap: wrap;
 }
 
 .pet-details{
   flex: 1;
   min-width: 0;
-  background-color: rgba(245, 222, 179, 0.234);
+  background-color: rgba(148, 235, 189, 0.234);
   border-width: 1px;
   border-style: solid;
   border-radius: 20px;
   padding: 20px;
   margin-left: 50px;
+  min-width: 420px;
 }
 
 .pet-info{
   display: grid;
-  grid-template-columns: auto auto auto;
-  gap: 25px;
+  grid-template-columns: auto auto;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  gap: 10px;
+}
+
+.learn-more-link {
+  color: #ffffff;  /* Change the color to white */
+  text-decoration: none;  /* Remove the underline */
+  background-color: rgba(0, 0, 0, 0.6);  /* Add a semi-transparent black background */
+  padding: 5px 10px;  /* Add some padding */
+  border-radius: 5px;  /* Round the corners */
 }
 
 
@@ -93,7 +114,7 @@ footer{
   justify-content: center;
   align-items: center;
   gap: 150px;
-  font-size: 150px;
+  font-size: 100px;
 }
 
 .like-dislike .fa-thumbs-up:hover {
@@ -121,9 +142,10 @@ footer{
   align-items: center;
   border-width: 1px;
   border-style: solid;
-  background-color: rgba(245, 222, 179, 0.234);
+  background-color: rgba(148, 235, 189, 0.234);
   border-radius: 20px;
   margin-right: 50px;
+  min-width: 550px;
 }
 
 .info-list{

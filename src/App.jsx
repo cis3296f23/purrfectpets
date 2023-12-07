@@ -11,6 +11,17 @@ library.add(faThumbsUp, faThumbsDown);
 
 
 function App() {
+
+
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+
+
+
   const [pets, setPets] = useState([]);
   const [currentPetIndex, setCurrentPetIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +39,7 @@ function App() {
     let userPrefs = ['Dog', 'Cat', 'Small & Furry', 'Scales, Fins & Other', 'Barnyard', 'good_with_children', 'house_trained'];
     let prefs = prefsToInt(userPrefs);
     //
-    fetch(`/Petfinder/${currentPage}/${prefs}`) // 2507 is temp test value
+    fetch(`/Petfinder/preferences/${currentPage}/${prefs}`) // 2507 is temp test value
       .then(res => res.json())
       .then(data => setPets(data))
   }, [currentPage]);
@@ -109,22 +120,34 @@ function App() {
   //console log userPreferences
   useEffect(() => {
     console.log(userPreferences)
-  }, [userPreferences]) //only runs when userPreferences changes, console log userPreferences
 
+    
+
+  }, [userPreferences]) //only runs when userPreferences changes, console log userPreferences
+    
 
   const getPreferences = (pref_list) =>{
     let prefs = prefsToInt(pref_list);
     //
-    fetch(`/Petfinder/${currentPage}/${prefs}`) // 2507 is temp test value
+    fetch(`/Petfinder/preferences/${currentPage}/${prefs}`) // 2507 is temp test value
       .then(res => res.json())
       .then(data => setPets(data))
   }
+  //getPreferences(userPreferences)
 
-  
 
+
+  function decodeHtmlEntity(str) {
+    let textArea = document.createElement('textarea');
+    textArea.innerHTML = str;
+    let decodedStr = textArea.value;
+    textArea.innerHTML = decodedStr;
+    return textArea.value;
+  }
   
   return (
     <>
+    <NavBar />
       <div className="app-container">
         <ul style={{ listStyle: 'none' }} className="pet-details">
           {pets[currentPetIndex] && (
@@ -140,7 +163,7 @@ function App() {
 
               </div>
               <p className="pet-name"><strong>{pets[currentPetIndex].name}</strong></p>
-              <p className="pet-desc"><strong>{pets[currentPetIndex].description}</strong></p>
+              <p className="pet-desc"><strong>{decodeHtmlEntity(pets[currentPetIndex].description)}</strong></p>
               <p className="pet-tags"><strong>{pets[currentPetIndex].tags.join(', ')}</strong></p>
             </li>
           )}
@@ -181,11 +204,9 @@ function App() {
                   <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
                   Learn More
                   </a>
-                  <UserPreferences onSubmit={getPreferences}/>
                   <div>
                   Current Location: 
                   {location.loaded ? JSON.stringify(location.coordinates) : "Location data not available yet"}
-
                   </div>
                 </div>
               </div>
@@ -200,7 +221,25 @@ function App() {
           </p>
         </div>
       </div>
-    </>
+      <button onClick={toggleModal} className="btn-modal">
+        preferences
+      </button>
+
+      {modal && (
+        <div className="modal">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className="modal-content">
+          <UserPreferences onSubmit={getPreferences}/>
+            <button className="close-modal" onClick={toggleModal}>
+              CLOSE
+            </button>
+          </div>
+        </div>
+      )}
+      <footer>
+    <a href="https://www.flaticon.com/free-icons/cats" title="cats icons" style={{ color: '#ffffff' }}>Cats icons created by Freepik - Flaticon</a>
+    </footer>
+      </>
   );
 }
 
