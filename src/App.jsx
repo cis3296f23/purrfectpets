@@ -231,6 +231,9 @@ function App() {
           </div>
         </div>
       )}
+      <footer>
+    <a href="https://www.flaticon.com/free-icons/cats" title="cats icons" style={{ color: '#ffffff' }}>Cats icons created by Freepik - Flaticon</a>
+    </footer>
       </>
   );
 }
