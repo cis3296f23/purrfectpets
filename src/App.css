@@ -18,6 +18,10 @@ footer{
   padding: 10px;
 }
 
+.navBar img:hover{
+  cursor: pointer;
+}
+
 .menuIcon-Items{
   display: flex;
   gap: 50px;
