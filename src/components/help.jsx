@@ -25,12 +25,6 @@ export default function Help() {
                 <p>To dislike a pet, click on the thumbs down button</p>
                 <img style={{ width: "30%" }}
                 src={AppDislike} alt="" />
-
-                <h2>Account</h2>
-                <p>To view your account, click on account</p>
-
-                <h3>Updating pet preferences</h3>
-                <p>To update your pet preferences, click on the pet preferences button</p>
             </div>
         </div>
     );
