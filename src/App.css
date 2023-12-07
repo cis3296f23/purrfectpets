@@ -16,6 +16,8 @@ footer{
   display: flex;
   justify-content: flex-start;
   padding: 10px;
+  position: fixed;
+  width: 100%;
 }
 
 .navBar img:hover{
