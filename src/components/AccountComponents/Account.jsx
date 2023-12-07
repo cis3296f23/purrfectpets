@@ -3,7 +3,6 @@ import { useState,useEffect, useRef } from "react";
 import './Account.scss'
 import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
-import UserPreferences from "../UserPreferences";
 import bcrypt from 'bcryptjs';
 import {render} from 'react-dom';
 
