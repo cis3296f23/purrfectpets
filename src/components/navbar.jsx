@@ -1,14 +1,16 @@
 import React from "react"
 import { useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
+import menu from '.././assets/menu.png'
+
+
 
 function NavBar() {
 const [isOpen, setIsOpen] = useState(false);
 
 return (
 <div className="navBar">
-    <MenuIcon 
-    sx={{ fontSize: 75 }}
+    <img src={menu} alt=""
+    style={{ width: "5%" }}
     onClick={() => setIsOpen(!isOpen)}
     className = "menuIcon"/>
     {isOpen && (
