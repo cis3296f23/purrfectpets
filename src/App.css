@@ -24,6 +24,10 @@ footer{
   cursor: pointer;
 }
 
+.navBar img:hover{
+  cursor: pointer;
+}
+
 .menuIcon-Items{
   display: flex;
   gap: 50px;
