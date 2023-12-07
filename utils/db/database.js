@@ -198,6 +198,15 @@ export default class Database {
     return result.rowsAffected[0];
   }
 
+  async getUserLikesByEmail(email){
+    await this.connect();
+    const request = this.poolconnection.request();
+    const result = await request
+      .input('email', sql.VarChar, email)
+      .query(`SELECT likes FROM dbo.users WHERE email = @email`);
+    return result.recordset[0].likes;
+  }
+
   async delete(id) {
     await this.connect();
     const idAsNumber = Number(id);

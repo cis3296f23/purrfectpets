@@ -36,7 +36,7 @@ function App() {
     let userPrefs = ['Dog', 'Cat', 'Small & Furry', 'Scales, Fins & Other', 'Barnyard', 'good_with_children', 'house_trained'];
     let prefs = prefsToInt(userPrefs);
     //
-    fetch(`/Petfinder/${currentPage}/${prefs}`) // 2507 is temp test value
+    fetch(`/Petfinder/preferences/${currentPage}/${prefs}`) // 2507 is temp test value
       .then(res => res.json())
       .then(data => setPets(data))
   }, [currentPage]);
@@ -128,7 +128,7 @@ function App() {
   const getPreferences = (pref_list) =>{
     let prefs = prefsToInt(pref_list);
     //
-    fetch(`/Petfinder/${currentPage}/${prefs}`) // 2507 is temp test value
+    fetch(`/Petfinder/preferences/${currentPage}/${prefs}`) // 2507 is temp test value
       .then(res => res.json())
       .then(data => setPets(data))
   }
@@ -136,9 +136,17 @@ function App() {
 
 
 
+  function decodeHtmlEntity(str) {
+    let textArea = document.createElement('textarea');
+    textArea.innerHTML = str;
+    let decodedStr = textArea.value;
+    textArea.innerHTML = decodedStr;
+    return textArea.value;
+  }
+
   return (
     <>
-      
+    <NavBar />
       <div className="app-container">
         <ul style={{ listStyle: 'none' }} className="pet-details">
           {pets[currentPetIndex] && (
@@ -154,7 +162,7 @@ function App() {
 
               </div>
               <p className="pet-name"><strong>{pets[currentPetIndex].name}</strong></p>
-              <p className="pet-desc"><strong>{pets[currentPetIndex].description}</strong></p>
+              <p className="pet-desc"><strong>{decodeHtmlEntity(pets[currentPetIndex].description)}</strong></p>
               <p className="pet-tags"><strong>{pets[currentPetIndex].tags.join(', ')}</strong></p>
             </li>
           )}
@@ -191,7 +199,7 @@ function App() {
                   <p><strong>Phone: {pets[currentPetIndex].contact.phone ? pets[currentPetIndex].contact.phone : "N/A"}</strong></p>
                   <p><strong>City: {pets[currentPetIndex].contact.address.city}</strong></p>
                   <p><strong>State: {pets[currentPetIndex].contact.address.state}</strong></p>
-                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
+                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer" className="learn-more-link">
                   Learn More
                   </a>
 
