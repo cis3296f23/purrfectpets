@@ -195,6 +195,13 @@ router.get('/salt/:email', async (req, res) => {
   }
 });
 
+/**
+ * Route serving user likes based on email.
+ * @param {string} req.params.email - The email of the user.
+ * @returns {Object} 200 - An array of user likes
+ * @returns {Error}  404 - User not found
+ * @returns {Error}  500 - Server error
+ */
 router.get('/likes/:email', async (req, res) => {
   try{
     // Get the user with the specified email
@@ -250,6 +257,14 @@ router.put('/id/:id', async (req, res) => {
   }
 });
 
+/**
+ * Route serving user likes update based on user ID and pet ID.
+ * @param {string} req.params.userID - The ID of the user.
+ * @param {string} req.params.petID - The ID of the pet.
+ * @returns {Object} 200 - An object containing the number of rows affected
+ * @returns {Error}  404 - User or pet not found
+ * @returns {Error}  500 - Server error
+ */
 router.put('/liked/:userID/:petID', async (req, res) => {
   try {
     // Update the user with the specified ID
