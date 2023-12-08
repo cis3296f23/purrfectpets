@@ -11,7 +11,12 @@ router.get("/preferences/:page/:prefs", async (req, res) => {
         res.status(500).send("Petfinder API error");
     }
 });
-
+/**
+ * Route serving pet details based on pet IDs.
+ * @param {string} req.params.petIds - The IDs of the pets, separated by '-'.
+ * @returns {Object} 200 - An array of pet details
+ * @returns {Error}  500 - Petfinder API error
+ */
 router.get("/liked/:petIds", async (req, res) => {
     try {
         const petIds = req.params.petIds.split('-');

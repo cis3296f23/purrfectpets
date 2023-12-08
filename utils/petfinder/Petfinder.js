@@ -81,9 +81,11 @@ export async function getPets(page = 1, prefs = 255) {
 }
 
 /**
- * @function fetchLikedPetDetails gets the user's liked pets for display on their likes page
- * @param {String} petIds string of liked pet IDs
- * @returns {Array} an array of the user's liked pets
+ * Fetches the details of liked pets from the Petfinder API.
+ * @param {Array<string>} petIds - The IDs of the pets.
+ * @async
+ * @function fetchLikedPetDetails
+ * @returns {Promise<Array<Object>>} An array of pet details.
  */
 export const fetchLikedPetDetails = async (petIds) => {
     const petDetails = await Promise.all(petIds.map(async (petId) => {

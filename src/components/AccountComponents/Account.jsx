@@ -7,10 +7,6 @@ import bcrypt from 'bcryptjs';
 import {render} from 'react-dom';
 
 
-
-
-
-
 /**
  * Account component for the account page that shows the user information.
  * @component
