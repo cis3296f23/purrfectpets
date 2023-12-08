@@ -23,6 +23,15 @@ function Likes(){
      * @memberof module:React
      */
     useEffect(() => {
+
+        /**
+         * A React hook that fetches the users' likes from the database
+         * It then separates the likes by hyphens and appends it to the URL for the query to the PetFinder API
+         * Then sets the usersLikes to be displayed
+         * @async
+         * @function fetchLikes
+         * @memberof module:React
+         */
         const fetchLikes = async () => {
             const email = sessionStorage.getItem("userinfo");
             console.log('email: ', email)
@@ -52,7 +61,7 @@ function Likes(){
    * Decodes HTML entities in a string.
    *
    * @param {string} str - The string with HTML entities.
-   * @function
+   * @function decodeHtmlEntity
    * @returns {string} The decoded string.
    */
     function decodeHtmlEntity(str) {
