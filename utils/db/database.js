@@ -54,6 +54,7 @@ export default class Database {
     return result.rowsAffected[0];
   }
 
+
   async readAll() {
     await this.connect();
     const request = this.poolconnection.request();
@@ -143,6 +144,17 @@ export default class Database {
       .query(`SELECT username FROM users WHERE email = @email`);
     return result.recordset[0];
   }
+
+  /**
+   * Get the user's info based on the provided email.
+   *
+   * @async
+   * @function getUserByEmail
+   * @param {string} email - the email of the user
+   * @returns {object} - the user's info
+   * */
+
+
   async getUserByEmail(email) {
     await this.connect();
     const request = this.poolconnection.request();
@@ -152,10 +164,19 @@ export default class Database {
     return result.recordset[0];
   }
 
+/**
+ * Updates user information in the database based on the provided ID.
+ *
+ * @async
+ * @function update
+ * @param {number} id - The ID of the user to update.
+ * @param {object} data - The data to update the user with.
+ * @returns {number} - The number of rows affected.
+ * */
+  
+
   async update(id, data) {
     try{
-
-    
     await this.connect();
     console.log(`id: ${id}`);
     const request = this.poolconnection.request();
@@ -207,6 +228,16 @@ export default class Database {
     return result.recordset[0].likes;
   }
 
+
+
+  /**
+   * Deletes a user from the database based on the provided ID.
+   *
+   * @async
+   * @function delete
+   * @param {number} id - The ID of the user to delete.
+   * @returns {number} - The number of rows affected.
+   * */
   async delete(id) {
     await this.connect();
     const idAsNumber = Number(id);

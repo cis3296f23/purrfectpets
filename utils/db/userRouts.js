@@ -10,6 +10,8 @@ const database = new Database(config);
 
 //** GET routs **\\
 
+
+
 router.get('/', async (_, res) => {
   try {
     // Return a list of users
@@ -71,6 +73,16 @@ router.get('/username/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
+
+  /**
+   * Get the user's info based on the provided email.
+   *
+   * 
+   * @function
+   * @param {string} email - the email of the user
+   * @returns {object} - the user's info
+   * */
+
 router.get('/userInfo/:email', async (req, res) => {
   try {
     // Get the user with the specified email
@@ -228,6 +240,14 @@ router.post('/', async (req, res) => {
 
 //** PUT routs **\\
 
+/**
+ * update a user by a specific id
+ *
+ * @async
+ * @function
+ * @returns {int} rowsAffected - the number of rows affected
+ * */
+
 router.put('/id/:id', async (req, res) => {
   try {
     // Update the user with the specified ID
@@ -293,6 +313,15 @@ router.put('/liked/:userID/:petID', async (req, res) => {
 });
 
 //** DELETE routs **\\
+
+
+/**
+ * Route for deleting a row
+ * @param {int} req.params.email - The email of the user.
+ * @returns {Object} 200 - An array of user likes
+ * @returns {Error}  404 - User not found
+ * @returns {Error}  500 - Server error
+ */
 
 router.delete('/:id', async (req, res) => {
   try {

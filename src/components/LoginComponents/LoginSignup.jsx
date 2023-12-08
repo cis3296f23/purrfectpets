@@ -48,7 +48,7 @@ function LoginSignup() {
 
     /**
      * Function to handle when the username input box is changed.
-     * @function
+     * @function usernameValue
      * @param {Event} event - The onChange event.
      */
     const usernameValue = (event) => {
@@ -57,7 +57,7 @@ function LoginSignup() {
 
     /**
      * Function to handle when the email input box is changed.
-     * @function
+     * @function emailValue
      * @param {Event} event - The onChange event.
      */
     const emailValue = (event) => {
@@ -65,7 +65,7 @@ function LoginSignup() {
     }
     /**
      * Function to handle when the password input box is changed.
-     * @function
+     * @function passwordValue
      * @param {Event} event - The onChange event.
      */
 
@@ -74,7 +74,7 @@ function LoginSignup() {
     }
     /**
      * Function to handle when the reenter password input box is changed.
-     * @function
+     * @function passwordValue2
      * @param {Event} event - The onChange event.
      */
 
@@ -84,6 +84,7 @@ function LoginSignup() {
 
     /**
      * Function to handle when the tab key is pressed.
+     * @function detectTabKeyDown
      * @param {Event} event - The onKeyDown event.
      */
     const detectTabKeyDown = (e) => {
@@ -96,7 +97,7 @@ function LoginSignup() {
     /**
      * Checks if two passwords are equal.
      *
-     * @function
+     * @function arePasswordsEqual
      * @returns {boolean} Returns `true` if the passwords are equal, and `false` otherwise.
      */
 
@@ -108,7 +109,7 @@ function LoginSignup() {
     /**
      * Checks if the password and email are a valid combination in the database
      *
-     * @function
+     * @function passwordDatabaseCheck
      * @async
      * @param {string} hashedPass - The hashed password.
      * @returns {boolean} Returns `true` if the combination is valid, and `false` otherwise.
@@ -140,7 +141,7 @@ function LoginSignup() {
          * depending whether the user is logging in or signing up, will check if the email is available to sign up with,
          * or if the email/password is a valid combination to log in with
          *
-         * @function
+         * @function fetchUserEmail
          * @async
          */
         const fetchUserEmail = async () => {
@@ -195,7 +196,7 @@ function LoginSignup() {
         /**
          * Checks if the username is available to sign up with
          *
-         * @function
+         * @function fetchUserUsername
          * @async
          */
 

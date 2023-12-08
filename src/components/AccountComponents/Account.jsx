@@ -60,7 +60,7 @@ function Account(){
 
     /**
      * Function to handle when the username input box is changed.
-     * @function
+     * @function usernameOnChange
      * @param {Event} event - The onChange event.
      */
 
@@ -72,7 +72,7 @@ function Account(){
 
     /**
      * Function to handle when the email input box is changed.
-     * @function
+     * @function emailOnChange
      * @param {Event} event - The onChange event.
      */
 
@@ -82,7 +82,7 @@ function Account(){
 
     /**
      * Function to handle when the password input box is changed.
-     * @function
+     * @function passwordOnChange
      * @param {Event} event - The onChange event.
      */
 
@@ -92,7 +92,7 @@ function Account(){
 
     /**
      * Function to handle when the reenter password input box is changed.
-     * @function
+     * @function password2OnChange
      * @param {Event} event - The onChange event.
      */
     const password2OnChange = (event) => {
@@ -103,7 +103,7 @@ function Account(){
 
     /**
      * Function to handle when the user cancels the update.
-     * @function
+     * @function handleCancel
      * 
      */
 
@@ -123,7 +123,7 @@ function Account(){
     }
     /**
      * Function to handle when the user saves the update.
-     * @function
+     * @function handleSave
      * 
      */
 
@@ -154,7 +154,7 @@ function Account(){
     /**
      * Function to handle the validity of the user info.
      * checks if the new username, email, and password are valid/available
-     * @function
+     * @function validInfo
      * 
      */
 
@@ -226,7 +226,7 @@ function Account(){
 
     /**
      * Function to toggle the update modal.
-     * @function
+     * @function toggleModal
      * 
      */
     const toggleModal = () =>{
@@ -257,7 +257,7 @@ function Account(){
             /**
              * Function to get the user info from the database to display on the account page.
              * @async
-             * @function
+             * @function fetchUserData
              * 
              */
             const fetchUserData = async () => {
@@ -289,7 +289,7 @@ function Account(){
                     /**
                      * Function to check if the updated username is available in the database.
                      * @async
-                     * @function
+                     * @function checkUsernameAvailability
                      * 
                      */
 
@@ -312,12 +312,12 @@ function Account(){
                     
             if(newEmail !== ''){
 
-                    /**
-                     * Function to check if the updated username is available in the database.
-                     * @async
-                     * @function
-                     * 
-                     */
+                /**
+                 * Function to check if the updated username is available in the database.
+                 * @async
+                 * @function checkEmailAvailability
+                 * 
+                 */
                 const checkEmailAvailability = async () => {
                     try{
                         const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
@@ -358,7 +358,7 @@ function Account(){
     /**
      * Function to update the user info in the database.
      * @async
-     * @function
+     * @function updateInfo
      * 
      */
     
