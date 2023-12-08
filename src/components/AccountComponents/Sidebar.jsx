@@ -8,6 +8,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
+/**
+ * SideBar component for navigation around the website.
+ * @component
+ * @returns {JSX.Element} The rendered SideBar component.
+ */
 
 
 function SideBar(){

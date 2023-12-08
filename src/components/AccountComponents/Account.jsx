@@ -7,12 +7,19 @@ import bcrypt from 'bcryptjs';
 import {render} from 'react-dom';
 
 
+
+
+
+
+/**
+ * Account component for the account page that shows the user information.
+ * @component
+ * @returns {JSX.Element} The rendered Account component.
+ */
+
 function Account(){
 
     const hasRender = useRef(false);
-
-    
-    
 
     //original user info on the page
     const [userName, getUsername] = useState('')
@@ -50,21 +57,55 @@ function Account(){
 
     const[inModal, setInModal] = useState(false)
 
+
+    /**
+     * Function to handle when the username input box is changed.
+     * @function
+     * @param {Event} event - The onChange event.
+     */
+
     //store the onChange values
     const usernameOnChange= (event) => {
         setNewUsername(event.target.value)
     }
+
+
+    /**
+     * Function to handle when the email input box is changed.
+     * @function
+     * @param {Event} event - The onChange event.
+     */
+
     const emailOnChange = (event) => {
         setNewEmail(event.target.value)
     }
 
+    /**
+     * Function to handle when the password input box is changed.
+     * @function
+     * @param {Event} event - The onChange event.
+     */
+
     const passwordOnChange = (event) => {
         setNewPassword(event.target.value)
     }
+
+    /**
+     * Function to handle when the reenter password input box is changed.
+     * @function
+     * @param {Event} event - The onChange event.
+     */
     const password2OnChange = (event) => {
         checkVerifyNewPassword(event.target.value)
     }
 
+
+
+    /**
+     * Function to handle when the user cancels the update.
+     * @function
+     * 
+     */
 
     //if the input boxes are empty, then the data will remain unchanged
     //setting the 'new' variables to the original variables
@@ -80,6 +121,11 @@ function Account(){
         toggleModal()
 
     }
+    /**
+     * Function to handle when the user saves the update.
+     * @function
+     * 
+     */
 
     const handleSave =  () => {
 
@@ -105,6 +151,12 @@ function Account(){
 
     }
 
+    /**
+     * Function to handle the validity of the user info.
+     * checks if the new username, email, and password are valid/available
+     * @function
+     * 
+     */
 
     const validInfo =  () => {
 
@@ -125,6 +177,13 @@ function Account(){
             
         }
     }
+
+    /**
+     * A React hook to checks if the input boxes' values are changed.
+     *
+     * @memberof module:React
+     */
+
     useEffect(() => {
 
         if (!render.current) {
@@ -163,6 +222,13 @@ function Account(){
 
     //display the update modal
     const [modal,setModal] = useState(false)
+
+
+    /**
+     * Function to toggle the update modal.
+     * @function
+     * 
+     */
     const toggleModal = () =>{
         setModal(!modal)
     }
@@ -177,8 +243,23 @@ function Account(){
     //fetch user data from database
     let userEmail =  sessionStorage.getItem("userinfo");
 
+
+        
+    /**
+     * A React hook to fetch the user data from the database and to see if the updated username and email are available in the database.
+     *
+     * @memberof module:React
+     */
+
     useEffect(() => {
         if (!hasRender.current) {
+
+            /**
+             * Function to get the user info from the database to display on the account page.
+             * @async
+             * @function
+             * 
+             */
             const fetchUserData = async () => {
             try {
                 const response = await fetch(`/users/userInfo/${userEmail}`,{method: 'GET'});
@@ -201,10 +282,17 @@ function Account(){
         }
     
         try{
-            //check if username is available
 
             if(inModal){
                 if(newUsername !== ''){
+
+                    /**
+                     * Function to check if the updated username is available in the database.
+                     * @async
+                     * @function
+                     * 
+                     */
+
                     const checkUsernameAvailability = async () => {
                         try {
                             const response = await fetch (`/users/checkusername/${newUsername}`,{method: 'GET'})
@@ -223,7 +311,13 @@ function Account(){
                     }
                     
             if(newEmail !== ''){
-                //check if email is available
+
+                    /**
+                     * Function to check if the updated username is available in the database.
+                     * @async
+                     * @function
+                     * 
+                     */
                 const checkEmailAvailability = async () => {
                     try{
                         const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
@@ -260,7 +354,14 @@ function Account(){
 
 
 
-    //update user data
+
+    /**
+     * Function to update the user info in the database.
+     * @async
+     * @function
+     * 
+     */
+    
     const updateInfo = async () => {
         try{
 
