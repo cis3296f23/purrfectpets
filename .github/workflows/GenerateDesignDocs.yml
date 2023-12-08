@@ -17,7 +17,7 @@ jobs:
     - name: JSDoc Action
       uses: andstor/jsdoc-action@v1.2.1
       with:
-        source_dir: ./purrfectpets/src
+        source_dir: src
         recurse: true
         output_dir: ./src
   utilsDocs:
@@ -26,7 +26,7 @@ jobs:
     - name: JSDoc Action
       uses: andstor/jsdoc-action@v1.2.1
       with:
-        source_dir: ./utils
+        source_dir: utils
         recurse: true
         output_dir: ./out/utils
     
