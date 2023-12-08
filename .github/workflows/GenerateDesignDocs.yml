@@ -33,8 +33,8 @@ jobs:
           output_dir: ./out/src
       - name: Push docs to repo
         run: |
-          git config --global user.name {{ github.actor }}
-          git config --global user.email "34664651+theronhalsey@users.noreply.github.com"
+          git config --global user.name github-actions[bot]
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ./out
           git commit -m "Updating Jsdoc documentation" || echo "No changes to commit"
       - name: Push changes
