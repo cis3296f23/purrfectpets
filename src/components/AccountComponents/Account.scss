@@ -10,6 +10,7 @@
     .account{
         color: white;
         display: flex;
+        flex-direction: column;
         justify-content:center;
         align-items: center;
         width: 90vw;
@@ -18,33 +19,22 @@
         margin-bottom: 50px;
         gap: 50px;
         height: 90vh;
+        
         //flex-wrap: wrap;
         
 
-        .account-user, .user-pref{
+        .account-user{
             display: flex;
-            flex-direction: column;
             align-items: center;
             background-color: rgba(245, 222, 179, 0.234);
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
             border-radius: 20px;
             margin-bottom: 40px;
-            height: 90vh;
-        
-        }
-        .account-user{
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 30vw;
-            height: 100%;
+            min-width: 1000px;
+            padding: 20px;
+            gap: 50px;
+            justify-content: space-evenly;
 
-
-            .account-edit{
-                display: flex;
-                background-color: rgb(185, 165, 165);
-                border-radius: 50%;
-            }
 
             
             .account-pic-container{
@@ -67,9 +57,9 @@
 
             .userName-container{
                 display: flex;
-                flex-direction: column;
                 justify-content: end;
                 align-items: center;
+                gap: 20px;
     
 
                 .account-username{
@@ -113,7 +103,6 @@
         margin: 0;
         padding: 0;
         width: 200px;
-        height: 100vh;
 
 
 
@@ -163,9 +152,32 @@
 
     }
 
+.account-user-info{
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.account-more-info{
+    min-width: 1000px;
+    background-color: rgb(222, 115, 222);
+    border-radius: 20px;
+}
 
 
-//modal
+//The update form
+
+.update-input-box{
+    border-style: none;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: 10px;
+
+
+}
 
 body.active-modal {
     overflow-y: hidden;
@@ -174,7 +186,7 @@ body.active-modal {
 .btn-modal {
     padding: 10px 20px;
     display: block;
-    margin: 100px auto 0;
+    background-color: none;
     font-size: 18px;
 }
 
@@ -186,6 +198,7 @@ body.active-modal {
     right: 0;
     bottom: 0;
     position: fixed;
+    
 }
 
 .overlay {
@@ -197,12 +210,13 @@ body.active-modal {
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
-    background: #a94545;
+    background: plum;
     padding: 14px 28px;
     border-radius: 3px;
     max-width: 600px;
     min-width: 300px;
     color: rgb(238, 232, 232);
+    border-radius: 10px;
 }
 .update-info-div{
     display: flex;

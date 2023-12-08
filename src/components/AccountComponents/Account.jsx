@@ -3,35 +3,19 @@ import { useState,useEffect, useRef } from "react";
 import './Account.scss'
 import SideBar from "./Sidebar";
 import FaceIcon from '@mui/icons-material/Face';
-import UserPreferences from "../UserPreferences";
-import bcrtpy from 'bcryptjs';
+import bcrypt from 'bcryptjs';
+import {render} from 'react-dom';
 
 
-
-
-
-//TODO:
-//1. fetch user data from database - done
-//2. display user data - done
-//3. open modal to update user info - done
-//4. enter data into the input boxes - done
-//5. if the input boxes are empty, then the data will remain unchanged - done
-//6. if the input boxes are filled, then the data will be updated - done
-    //check if the new email and new username are available
-    //if the new email and new username are not available, display error message
-    //check if password and verify password are the same
-    //if password and verify password are not the same, display error message
-    //hash the password and save it
-//7. the save button will save the changes
-//8. the cancel button will close the modal and not save the changes
+/**
+ * Account component for the account page that shows the user information.
+ * @component
+ * @returns {JSX.Element} The rendered Account component.
+ */
 
 function Account(){
 
     const hasRender = useRef(false);
-
-
-
-    
 
     //original user info on the page
     const [userName, getUsername] = useState('')
@@ -39,6 +23,7 @@ function Account(){
     const [userID, getUserID] = useState('')
     const [password, getPassword] = useState('')
     const [salt, getSalt] = useState('')
+    
 
     
     //user info added to the input boxes
@@ -48,7 +33,10 @@ function Account(){
     const [newPassword,setNewPassword] = useState('')
     const [verifyNewPassword, checkVerifyNewPassword] = useState('')
 
-
+    //send these to the DB
+    const[updateUsername, setUpdateUsername] = useState('')
+    const[updateEmail, setUpdateEmail] = useState('')
+    const [newHash, setNewHash] = useState('')
 
     //salt for the new password
     const [newSalt,setNewSalt] = useState('')
@@ -61,25 +49,59 @@ function Account(){
     const[validPassword, setValidPassword] = useState(true)
     
 
-    const [validationComplete, setValidationComplete] = useState(false);
+
 
     const[inModal, setInModal] = useState(false)
+
+
+    /**
+     * Function to handle when the username input box is changed.
+     * @function usernameOnChange
+     * @param {Event} event - The onChange event.
+     */
 
     //store the onChange values
     const usernameOnChange= (event) => {
         setNewUsername(event.target.value)
     }
+
+
+    /**
+     * Function to handle when the email input box is changed.
+     * @function emailOnChange
+     * @param {Event} event - The onChange event.
+     */
+
     const emailOnChange = (event) => {
         setNewEmail(event.target.value)
     }
 
+    /**
+     * Function to handle when the password input box is changed.
+     * @function passwordOnChange
+     * @param {Event} event - The onChange event.
+     */
+
     const passwordOnChange = (event) => {
         setNewPassword(event.target.value)
     }
+
+    /**
+     * Function to handle when the reenter password input box is changed.
+     * @function password2OnChange
+     * @param {Event} event - The onChange event.
+     */
     const password2OnChange = (event) => {
         checkVerifyNewPassword(event.target.value)
     }
 
+
+
+    /**
+     * Function to handle when the user cancels the update.
+     * @function handleCancel
+     * 
+     */
 
     //if the input boxes are empty, then the data will remain unchanged
     //setting the 'new' variables to the original variables
@@ -95,14 +117,14 @@ function Account(){
         toggleModal()
 
     }
+    /**
+     * Function to handle when the user saves the update.
+     * @function handleSave
+     * 
+     */
 
+    const handleSave =  () => {
 
-    const handleSave = async () => {
-        //check if the new email and new username are available
-        //if the new email and new username are not available, display error message
-        //check if password and verify password are the same
-        //if password and verify password are not the same, display error message
-        //hash the password and save it
         console.log('handleSaved Called')
         
 
@@ -110,16 +132,9 @@ function Account(){
         if (newUsername === ''){
             setValidUsername(true)
         }
-        // else if (newUsername !== ''){
-        //     await checkUsernameAvailability()
-        // }
         if (newEmail === ''){
             setValidEmail(true)
         }
-        // else if(newEmail !== ''){
-        //     await checkEmailAvailability()
-        // }
-
 
         if(newPassword !== verifyNewPassword){
             setValidPassword(false)
@@ -129,21 +144,15 @@ function Account(){
             
         } 
 
-    
 
     }
 
-
-    // useEffect(() => {
-        
-    //     renderCount.current += 1;
-
-    //     // Skip the effect on the first two renders
-    //     if (renderCount.current > 2) {
-    //         validInfo();
-    //     }
-    // }, [validationComplete, validUsername, validEmail, validPassword]);
-
+    /**
+     * Function to handle the validity of the user info.
+     * checks if the new username, email, and password are valid/available
+     * @function validInfo
+     * 
+     */
 
     const validInfo =  () => {
 
@@ -151,57 +160,71 @@ function Account(){
         console.log(validUsername,validEmail,validPassword)
         if (validUsername && validEmail&& validPassword){
             console.log('everything is valid')
-            if(newPassword === ''){
-
-                setNewPassword(password)
-                setNewSalt(salt)
-                
-            }
-            else if (newPassword !== ''){
-                 //hash the password
-                const salt = bcrtpy.genSaltSync(10)
-                const hash = bcrtpy.hashSync(newPassword,salt)
-                setNewPassword(hash)
-                console.log(hash)
-                setNewSalt(salt)
-                console.log(salt)
-                
-            }  
-
-
-            if (newUsername === ''){
-                setValidUsername(true)
-                setNewUsername(userName)
-            }
-
-            if (newEmail === ''){
-                setValidEmail(true)
-                setNewEmail(email)
-            }
-
             
-
-            //updateInfo();
-            //toggleModal()
+            sessionStorage.setItem("userinfo", updateEmail);
+            console.log(newEmail,'new email')
+            updateInfo();
+            toggleModal()
             setNewUsername('')
             setNewEmail('')
             setNewPassword('')
             checkVerifyNewPassword('')
-            //window.location.reload(false);
+            window.location.reload(false);
             
         }
     }
 
+    /**
+     * A React hook to checks if the input boxes' values are changed.
+     *
+     * @memberof module:React
+     */
+
     useEffect(() => {
-        console.log('new password:', newPassword);
-    }, [newPassword]);
-    
+
+        if (!render.current) {
+
+        if (newUsername === ''){
+            setValidUsername(true)
+            setUpdateUsername(userName)
+
+        }
+
+        if (newEmail === ''){
+            setValidEmail(true)
+            setUpdateEmail(email)
+        }
+
+        if(newPassword === ''){
+            setNewSalt(salt)
+            setNewHash(password)
+        }
+
+        else if (newPassword !== ''){
+             //hash the password
+            const salt = bcrypt.genSaltSync(10)
+            const hash = bcrypt.hashSync(newPassword,salt)
+            setNewHash(hash)
+            setNewSalt(salt)
+            
+        }  
+    }
+
+
+    }, [validPassword,newPassword,updateUsername,updateEmail,handleSave]);
 
 
 
 
     //display the update modal
     const [modal,setModal] = useState(false)
+
+
+    /**
+     * Function to toggle the update modal.
+     * @function toggleModal
+     * 
+     */
     const toggleModal = () =>{
         setModal(!modal)
     }
@@ -216,8 +239,23 @@ function Account(){
     //fetch user data from database
     let userEmail =  sessionStorage.getItem("userinfo");
 
+
+        
+    /**
+     * A React hook to fetch the user data from the database and to see if the updated username and email are available in the database.
+     *
+     * @memberof module:React
+     */
+
     useEffect(() => {
         if (!hasRender.current) {
+
+            /**
+             * Function to get the user info from the database to display on the account page.
+             * @async
+             * @function fetchUserData
+             * 
+             */
             const fetchUserData = async () => {
             try {
                 const response = await fetch(`/users/userInfo/${userEmail}`,{method: 'GET'});
@@ -228,6 +266,8 @@ function Account(){
                 getUserID(userData.id)
                 getPassword(userData.password)
                 getSalt(userData.salt)
+                setUpdateEmail(userData.email)
+                setUpdateUsername(userData.username)
             } catch (error) {
             console.error('Error fetching user data:', error)
             }
@@ -238,15 +278,25 @@ function Account(){
         }
     
         try{
-            //check if username is available
 
             if(inModal){
                 if(newUsername !== ''){
+
+                    /**
+                     * Function to check if the updated username is available in the database.
+                     * @async
+                     * @function checkUsernameAvailability
+                     * 
+                     */
+
                     const checkUsernameAvailability = async () => {
                         try {
                             const response = await fetch (`/users/checkusername/${newUsername}`,{method: 'GET'})
                             const data  = await response.json()
                             setValidUsername(data)
+                            if(data){
+                                setUpdateUsername(newUsername)
+                            }
 
                         }
                         catch (error) {
@@ -256,17 +306,22 @@ function Account(){
                         checkUsernameAvailability()
                     }
                     
-            
-
             if(newEmail !== ''){
-                //check if email is available
+
+                /**
+                 * Function to check if the updated username is available in the database.
+                 * @async
+                 * @function checkEmailAvailability
+                 * 
+                 */
                 const checkEmailAvailability = async () => {
                     try{
                         const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
-
-
                         const data = await response.json()
                         setValidEmail(data)
+                        if(data){
+                            setUpdateEmail(newEmail)
+                        }
                     }
                     catch (error) {
                         console.error('Error checking email availability:', error)
@@ -274,14 +329,18 @@ function Account(){
                 }
                 checkEmailAvailability()
 
-            
             }
-
+            if(newPassword !== verifyNewPassword){
+                setValidPassword(false)
+            }
+            else if (newPassword === verifyNewPassword){
+                setValidPassword(true)
+                
+            }
             
             }
         }
         
-
         catch (error){
             console.error('Error fetching user data:', error)
         }
@@ -291,36 +350,14 @@ function Account(){
 
 
 
-    // //check if username is available
-    // const checkUsernameAvailability = async () => {
-    //     try {
-    //         const response = await fetch (`/users/checkusername/${newUsername}`,{method: 'GET'})
-    //         const data  = await response.json()
-    //         setValidUsername(data)
 
-    //     }
-    //     catch (error) {
-    //         console.error('Error checking username availability:', error)
-    //     }
-    // }
-
-    // //check if email is available
-    // const checkEmailAvailability = async () => {
-    //     try{
-    //         const response = await fetch (`/users/checkemail/${newEmail}`,{method: 'GET'})
-
-
-    //         const data = await response.json()
-    //         setValidEmail(data)
-    //     }
-    //     catch (error) {
-    //         console.error('Error checking email availability:', error)
-    //     }
-    // }
-
-
-
-    //update user data
+    /**
+     * Function to update the user info in the database.
+     * @async
+     * @function updateInfo
+     * 
+     */
+    
     const updateInfo = async () => {
         try{
 
@@ -332,9 +369,9 @@ function Account(){
 
                 body: JSON.stringify({
                     'id': userID,
-                    'username': newUsername,
-                    'email': newEmail,
-                    'password': newPassword,
+                    'username': updateUsername,
+                    'email': updateEmail,
+                    'password': newHash,
                     'salt': newSalt,
                 })
             }
@@ -352,28 +389,22 @@ function Account(){
     <div className="account-container">
         <SideBar />
         <div className="account">
-
-            <div className="user-pref">
-                {/* <UserPreferences/> */}
-            </div>
-
             <div className="account-user">
                 <div className="account-pic-container">
                     <div className="account-pic">
                     <FaceIcon sx={{ fontSize: 150 }}/> 
-                    {/* Not sure how to do profile picture, might assign the user a number
-                    the number represents a preselected img */}
                     </div>
 
                 </div>
-                <div className="userName-container">
-                    <div className="account-username"><h2>{userName}</h2></div>
-                </div>
-
-
-                <div className="userName-container">
-                    <p>Email</p>
-                    <div className="account-username"><h2>{email}</h2></div>
+                <div className="account-user-info">
+                    <div className="userName-container">
+                        <p>Username:</p>
+                        <div className="account-username"><h2>{userName}</h2></div>
+                    </div>
+                    <div className="userName-container">
+                        <p>Email:</p>
+                        <div className="account-username"><h2>{email}</h2></div>
+                    </div>
                 </div>
 
                 <button onClick={()=>{
@@ -428,15 +459,13 @@ function Account(){
 
 
                     </div>
-                    {/* <button className="save-modal" onClick={updateInfo}>
-                        save</button> */}
-                    <button className="save-modal" onClick={async()=>{
-                        handleSave();
-                        validInfo();
 
+                    <button className="save-modal" onClick={()=>{
+                        handleSave();
+                        validInfo()
 
                     
-                        
+
                         
                     }}>
                     save</button>
@@ -453,12 +482,30 @@ function Account(){
 
             </div>
 
+
+            <div className="account-more-info">
+                <div className="account-more-info-container">
+                    <h2>More Info</h2>
+                    <h3>PurrfectPets is powered PetFinder</h3>
+                    <p>To learn more about PetFinder, <a href="https://www.petfinder.com/" target="blank">click here!</a></p>
+                    <br />
+                    <h3>Have a candidate for PurrfectPets?</h3>
+                    <p>Do you or someone you know have a pet that is in need of their perfect owner?</p>
+                    <p>PetFinder has resources that can help a pet find a new home</p>
+                    <p>To learn more about rehoming a pet,  <a href="https://www.petfinder.com/adopt-or-get-involved/adopting-pets/rehoming/" target="blank">click here!</a></p>
+
+
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
     )
 
-}
+    }
 
 
 
