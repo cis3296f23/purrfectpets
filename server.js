@@ -1,3 +1,9 @@
+/**
+ * Server entry point for Node.js server
+ * uses Vite SSR
+ * uses Express for handing front end requests to back end services
+ */
+
 // Dependencies
 // =============================================================
 import express from 'express';

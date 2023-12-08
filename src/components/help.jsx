@@ -1,6 +1,6 @@
 import React from "react";
-import AppLike from "../assets/App Like.png";
-import AppDislike from "../assets/App Dislike.png";
+import AppLike from "../assets/App like.png";
+import AppDislike from "../assets/App dislike.png";
 import SideBar from "./AccountComponents/Sidebar";
 
 
