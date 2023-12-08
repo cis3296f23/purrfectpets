@@ -94,7 +94,7 @@ function App() {
    * Then moves to the next pet.
    *
    * @async
-   * @function
+   * @function handleLike
    * @return {Promise} Resolves when the like action has been handled.
    */
   const handleLike = async () => {
@@ -125,7 +125,7 @@ function App() {
   /**
    * Handles the process of getting the next pet.
    * Displays the next pet on the page or displays the first pet on the next page.
-   * @function
+   * @function nextPet
    */
   const nextPet = () => {
     if (currentPetIndex < pets.length - 1) {
@@ -143,7 +143,7 @@ function App() {
    * Adds the current pet to the user preferences with a preference of 'dislike'.
    * Then moves to the next pet.
    *
-   * @function
+   * @function handleDislike
    */
   const handleDislike = () => {
     setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'dislike' }])
@@ -172,7 +172,7 @@ function App() {
    * Fetches the user's pet preferences from the server and updates the state.
    *
    * @param {Array} pref_list - The list of user preferences.
-   * @function
+   * @function getPreferences
    */
   const getPreferences = (pref_list) =>{
     let prefs = prefsToInt(pref_list);
@@ -189,7 +189,7 @@ function App() {
    * Decodes HTML entities in a string.
    *
    * @param {string} str - The string with HTML entities.
-   * @function
+   * @function decodeHtmlEntity
    * @returns {string} The decoded string.
    */
   function decodeHtmlEntity(str) {
