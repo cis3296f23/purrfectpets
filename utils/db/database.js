@@ -183,7 +183,7 @@ export default class Database {
  * @param {string} id - The ID of the user.
  * @param {string} data - The new petID to add to the user's likes.
  * @async
- * @function
+ * @function updateLikes
  * @returns {Promise<number>} The number of rows affected by the update.
  */
   async updateLikes(id, data) {
@@ -213,7 +213,7 @@ export default class Database {
    *
    * @param {string} email - The email of the user.
    * @async
-   * @function
+   * @function getUserLikesByEmail
    * @returns {Promise<string>} The likes of the user.
    */
   async getUserLikesByEmail(email){
