@@ -13,8 +13,8 @@ jobs:
   srcDocs:
     runs-on: ubuntu-latest
     steps:
-    - name: Build
-      uses: andstor/jsdoc-action@v1
+    - name: JSDoc Action
+      uses: andstor/jsdoc-action@v1.2.1
       with:
         source_dir: ./src
         recurse: true
@@ -22,8 +22,8 @@ jobs:
   utilsDocs:
     runs-on: ubuntu-latest
     steps:
-    - name: Build
-      uses: andstor/jsdoc-action@v1
+    - name: JSDoc Action
+      uses: andstor/jsdoc-action@v1.2.1
       with:
         source_dir: ./utils
         recurse: true
