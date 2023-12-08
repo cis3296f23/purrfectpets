@@ -3,6 +3,11 @@ import { useState } from 'react';
 import menu from '.././assets/menu.png'
 
 
+/**
+ * NavBar component for navigation around the website.
+ * @component
+ * @returns {JSX.Element} The rendered NavBar component.
+ */
 
 function NavBar() {
 const [isOpen, setIsOpen] = useState(false);

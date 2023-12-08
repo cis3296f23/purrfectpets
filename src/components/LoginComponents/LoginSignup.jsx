@@ -7,6 +7,17 @@ import Email from '../.././assets/Email.png'
 import Password from '../.././assets/Password.png'
 import bcrypt from 'bcryptjs'
 
+
+
+
+/**
+ * LoginSingup component for the login and signup page.
+ * Allows the user to login or create an account.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered LoginSignup component.
+ */
+
 function LoginSignup() {
     //states
     const [Login, setLogin] = useState("Create an Account")
@@ -34,20 +45,48 @@ function LoginSignup() {
     const [checkUsernameAvailabilityText, setUsernameAvailabilityText] = useState(true)
     const [checkEmailAvailabilityText, setEmailAvailabilityText] = useState(true)
 
+
+    /**
+     * Function to handle when the username input box is changed.
+     * @function usernameValue
+     * @param {Event} event - The onChange event.
+     */
     const usernameValue = (event) => {
         setUsernameInput(event.target.value);
     }
+
+    /**
+     * Function to handle when the email input box is changed.
+     * @function emailValue
+     * @param {Event} event - The onChange event.
+     */
     const emailValue = (event) => {
         setEmailInput(event.target.value);
     }
+    /**
+     * Function to handle when the password input box is changed.
+     * @function passwordValue
+     * @param {Event} event - The onChange event.
+     */
 
     const passwordValue = (event) => {
         setPasswordInput(event.target.value);
     }
+    /**
+     * Function to handle when the reenter password input box is changed.
+     * @function passwordValue2
+     * @param {Event} event - The onChange event.
+     */
+
     const passwordValue2 = (event) => {
         setPasswordInput2(event.target.value);
     }
 
+    /**
+     * Function to handle when the tab key is pressed.
+     * @function detectTabKeyDown
+     * @param {Event} event - The onKeyDown event.
+     */
     const detectTabKeyDown = (e) => {
         if (e.key === "Tab"){
             setIsTryingToLogin(true)
@@ -55,10 +94,26 @@ function LoginSignup() {
         }
     }
 
+    /**
+     * Checks if two passwords are equal.
+     *
+     * @function arePasswordsEqual
+     * @returns {boolean} Returns `true` if the passwords are equal, and `false` otherwise.
+     */
+
     //when registering, check if the passwords are the same
     const arePasswordsEqual = () => {
         return passwordInput === passwordInput2
     }
+
+    /**
+     * Checks if the password and email are a valid combination in the database
+     *
+     * @function passwordDatabaseCheck
+     * @async
+     * @param {string} hashedPass - The hashed password.
+     * @returns {boolean} Returns `true` if the combination is valid, and `false` otherwise.
+     */
 
     // when logging in,checks if the password input matches the the password in the DB
     const passwordDatabaseCheck = async (hashedPass) => {
@@ -67,8 +122,28 @@ function LoginSignup() {
         
         return pwCheck;
     }
+
+
+
+
+    /**
+     * A React hook that tracks when the user updates a input box.
+     * 
+     *
+     * @memberof module:React
+     */
     //fetches the user info from the DB
     useEffect(() => {
+
+
+
+        /**
+         * depending whether the user is logging in or signing up, will check if the email is available to sign up with,
+         * or if the email/password is a valid combination to log in with
+         *
+         * @function fetchUserEmail
+         * @async
+         */
         const fetchUserEmail = async () => {
             try {
                 if (isTryingToLogin) {
@@ -116,6 +191,14 @@ function LoginSignup() {
                 setVerifyPassword(false)
             }
         };
+
+
+        /**
+         * Checks if the username is available to sign up with
+         *
+         * @function fetchUserUsername
+         * @async
+         */
 
         const fetchUserUsername = async () => {
             try {

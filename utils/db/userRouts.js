@@ -1,3 +1,7 @@
+/**
+ * Rounter for sending fount end database requests to the back end
+ */
+
 import express from 'express';
 import { config } from './config.js';
 import Database from './database.js';
@@ -10,34 +14,12 @@ const database = new Database(config);
 
 //** GET routs **\\
 
-router.get('/', async (_, res) => {
-  try {
-    // Return a list of users
-    const users = await database.readAll();
-    console.log(`users: ${JSON.stringify(users)}`);
-    res.status(200).json(users);
-  } catch (err) {
-    res.status(500).json({ error: err?.message });
-  }
-});
-
-router.get('/id/:id', async (req, res) => {
-  try {
-    // Get the user with the specified ID
-    const userId = req.params.id;
-    console.log(`userId: ${userId}`);
-    if (userId) {
-      const result = await database.readById(userId);
-      console.log(`users: ${JSON.stringify(result)}`);
-      res.status(200).json(result);
-    } else {
-      res.status(404);
-    }
-  } catch (err) {
-    res.status(500).json({ error: err?.message });
-  }
-});
-
+/**
+* Get the user's id based on the provided username.
+* @function
+* @param {String} username - the username of the user
+* @returns {Object} - the user's id
+*/
 router.get('/id/:username', async (req, res) => {
   try {
     // Get the id with the specified username
@@ -55,6 +37,12 @@ router.get('/id/:username', async (req, res) => {
   }
 });
 
+/**
+* Get the user's username based on the provided email.
+* @function
+* @param {String} email - the email of the user
+* @returns {Object} - the user's username
+*/
 router.get('/username/:email', async (req, res) => {
   try {
     // Get the username with the specified email
@@ -71,6 +59,13 @@ router.get('/username/:email', async (req, res) => {
     res.status(500).json({ error: err?.message });
   }
 });
+
+/**
+* Get the user's info based on the provided email.
+* @function
+* @param {String} email - the email of the user
+* @returns {Object} - the user's info
+*/
 router.get('/userInfo/:email', async (req, res) => {
   try {
     // Get the user with the specified email
@@ -88,6 +83,12 @@ router.get('/userInfo/:email', async (req, res) => {
   }
 });
 
+/**
+* Checks if the username exists in the database
+* @function
+* @param {String} username - the username of the user
+* @returns {Boolean} - true if username exists in the database
+*/
 router.get('/checkusername/:username', async (req, res) => {
   try {
     // check if username is already used
@@ -105,6 +106,12 @@ router.get('/checkusername/:username', async (req, res) => {
   }
 });
 
+/**
+* Checks if the email exists in the database
+* @function
+* @param {String} email - the email of the user
+* @returns {Boolean} - true if email exists in the database
+*/
 router.get('/checkemail/:email', async (req, res) => {
   try {
     // check if email is already used
@@ -122,6 +129,12 @@ router.get('/checkemail/:email', async (req, res) => {
   }
 });
 
+/**
+* Gets the salt for the user with the specified email address
+* @function
+* @param {String} email - the email of the user
+* @returns {String} - user's salt
+*/
 router.get('/salt/:email', async (req, res) => {
   try {
     // Get the user with the specified email
@@ -139,6 +152,13 @@ router.get('/salt/:email', async (req, res) => {
   }
 });
 
+/**
+* Checks if the provided password hash and email are in the same row of the database
+* @function
+* @param {String} hashedPass - the hashedPass of the user
+* @param {String} email - the email of the user
+* @returns {Boolean} - true if hashed pass and email match row entries
+*/
 router.get('/login/:hashedPass/:email', async (req, res) => {
   try {
     // Get the user with the specified email
@@ -160,6 +180,12 @@ router.get('/login/:hashedPass/:email', async (req, res) => {
   }
 });
 
+/**
+* Get user's username by email
+* @function
+* @param {String} email - the email of the user
+* @returns {Object} - object containing user's username
+*/
 router.get('/userInfo/:email', async (req, res) => {
   try {
     // Get the user with the specified email
@@ -177,15 +203,21 @@ router.get('/userInfo/:email', async (req, res) => {
   }
 });
 
-
-router.get('/salt/:email', async (req, res) => {
+/**
+ * Route serving user likes based on email.
+ * @param {string} req.params.email - The email of the user.
+ * @returns {Object} 200 - An array of user likes
+ * @returns {Error}  404 - User not found
+ * @returns {Error}  500 - Server error
+ */
+router.get('/likes/:email', async (req, res) => {
   try {
     // Get the user with the specified email
     const email = req.params.email;
-    console.log(`email: ${email}`);
+    console.log(`email: ${email}`)
     if (email) {
-      const result = await database.getSalt(email);
-      console.log(`salt: ${JSON.stringify(result)}`);
+      const result = await database.getUserLikesByEmail(email);
+      console.log(`likes: ${JSON.stringify(result)}`)
       res.status(200).json(result);
     } else {
       res.status(404);
@@ -193,27 +225,16 @@ router.get('/salt/:email', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err?.message });
   }
-});
-
-router.get('/likes/:email', async (req, res) => {
-  try{
-    // Get the user with the specified email
-    const email = req.params.email;
-    console.log(`email: ${email}`)
-    if(email){
-      const result = await database.getUserLikesByEmail(email);
-      console.log(`likes: ${JSON.stringify(result)}`)
-      res.status(200).json(result);
-    } else {
-      res.status(404);
-    }
-  }catch (err){
-    res.status(500).json({ error: err?.message });
-  }
 })
 
 //** POST routs **\\
 
+/**
+ * Route for creating a new user
+ * @param {Object} req.body - new user's information
+ * @returns {Object} 201 - response for new user added to database
+ * @returns {Error}  500 - Server error
+ */
 router.post('/', async (req, res) => {
   try {
     // Create a user
@@ -228,6 +249,13 @@ router.post('/', async (req, res) => {
 
 //** PUT routs **\\
 
+/**
+ * update a user by a specific id
+ *
+ * @async
+ * @function
+ * @returns {int} rowsAffected - the number of rows affected
+ * */
 router.put('/id/:id', async (req, res) => {
   try {
     // Update the user with the specified ID
@@ -250,6 +278,14 @@ router.put('/id/:id', async (req, res) => {
   }
 });
 
+/**
+ * Route serving user likes update based on user ID and pet ID.
+ * @param {string} req.params.userID - The ID of the user.
+ * @param {string} req.params.petID - The ID of the pet.
+ * @returns {Object} 200 - An object containing the number of rows affected
+ * @returns {Error}  404 - User or pet not found
+ * @returns {Error}  500 - Server error
+ */
 router.put('/liked/:userID/:petID', async (req, res) => {
   try {
     // Update the user with the specified ID
@@ -294,6 +330,13 @@ router.put('/liked/:userID/:petID', async (req, res) => {
 
 //** DELETE routs **\\
 
+/**
+ * Route for deleting a row
+ * @param {Number} req.params.email - The email of the user.
+ * @returns {Object} 200 - An array of user likes
+ * @returns {Error}  404 - User not found
+ * @returns {Error}  500 - Server error
+ */
 router.delete('/:id', async (req, res) => {
   try {
     // Delete the user with the specified ID

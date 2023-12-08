@@ -1,3 +1,7 @@
+/**
+ * entry point for server SSR
+ */
+
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import App from './App'
