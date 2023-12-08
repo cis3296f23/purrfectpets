@@ -1,3 +1,7 @@
+/**
+ * Basic donfiguration for the Azure SQL database
+ */
+
 import * as dotenv from 'dotenv';
 dotenv.config();
 
