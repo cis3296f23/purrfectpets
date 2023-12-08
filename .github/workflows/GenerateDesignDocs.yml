@@ -15,4 +15,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: JSDoc Action
-      run: jsdoc ./src ./utils -r -d out
+      run: ./src ./utils -r -d out
