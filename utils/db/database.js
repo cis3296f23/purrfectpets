@@ -176,6 +176,16 @@ export default class Database {
     }
   }
 
+
+/**
+ * Updates the likes for a specific user in the database.
+ *
+ * @param {string} id - The ID of the user.
+ * @param {string} data - The new petID to add to the user's likes.
+ * @async
+ * @function
+ * @returns {Promise<number>} The number of rows affected by the update.
+ */
   async updateLikes(id, data) {
     await this.connect();
     console.log(`id: ${id}`)
@@ -198,6 +208,14 @@ export default class Database {
     return result.rowsAffected[0];
   }
 
+  /**
+   * Retrieves the likes for a specific user by email from the database.
+   *
+   * @param {string} email - The email of the user.
+   * @async
+   * @function
+   * @returns {Promise<string>} The likes of the user.
+   */
   async getUserLikesByEmail(email){
     await this.connect();
     const request = this.poolconnection.request();
