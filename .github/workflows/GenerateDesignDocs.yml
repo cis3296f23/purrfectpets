@@ -16,7 +16,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: purrfectpets
+        working-directory: .
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
