@@ -17,7 +17,8 @@ function Likes(){
 
 
       /**
-     * A React hook that fetches the users' likes from the database and queries the Petfinder API
+     * A React hook that fetches the users' likes from the database
+     * It then separates the likes by hyphens and appends it to the URL for the query to the PetFinder API
      * @async
      * @memberof module:React
      */
