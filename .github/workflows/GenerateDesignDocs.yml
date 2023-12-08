@@ -13,19 +13,19 @@ on:
 jobs:
   srcDocs:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: petfinder
     steps:
-    - name: JSDoc Action
-      uses: andstor/jsdoc-action@v1.2.1
-      with:
-        source_dir: './src'
-        recurse: true
-        output_dir: ./out/src
-  utilsDocs:
-    runs-on: ubuntu-latest
-    steps:
-    - name: JSDoc Action
-      uses: andstor/jsdoc-action@v1.2.1
-      with:
-        source_dir: 'utils'
-        recurse: true
-        output_dir: ./out/utils
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "20.x"
+      - name: JSDoc Action
+        uses: andstor/jsdoc-action@v1.2.1
+        with:
+          source_dir: ./src
+          recurse: true
+          output_dir: ./out/src
