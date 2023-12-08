@@ -16,7 +16,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: petfinder
+        working-directory: purrfectpets
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -28,7 +28,7 @@ jobs:
           source_dir: ./src
           recurse: true
           output_dir: ./out/src
-      - name: Commit changes in jsdoc build folder
+      - name: Push docs to repo
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "34664651+theronhalsey@users.noreply.github.com"
