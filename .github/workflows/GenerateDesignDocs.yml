@@ -15,18 +15,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: JSDoc Action
-      uses: andstor/jsdoc-action@v1.2.1
-      with:
-        source_dir: ../src
-        recurse: true
-        output_dir: ./out/src
-  utilsDocs:
-    runs-on: ubuntu-latest
-    steps:
-    - name: JSDoc Action
-      uses: andstor/jsdoc-action@v1.2.1
-      with:
-        source_dir: utils
-        recurse: true
-        output_dir: ./out/utils
-    
+      run: jsdoc ./src ./utils -r -d out
