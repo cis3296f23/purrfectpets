@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     
 jobs:
-  greet:
+  srcDocs:
     runs-on: ubuntu-latest
     steps:
     - name: Build
@@ -19,9 +19,13 @@ jobs:
         source_dir: ./src
         recurse: true
         output_dir: ./out/src
+  utilsDocs:
+    runs-on: ubuntu-latest
+    steps:
     - name: Build
       uses: andstor/jsdoc-action@v1
       with:
         source_dir: ./utils
         recurse: true
         output_dir: ./out/utils
+    
