@@ -2,12 +2,19 @@ import React from "react"
 import { useState, useEffect, useRef } from 'react'
 import './UserPreferences.css'
 
+/**
+ * Asks the user for their current location. Obtains the user's location if they allow it and returns it.
+ * @component
+ */
+
 const LocationGetter = () => {
 
     const [location, setLocation] = useState({
         loaded: false,
         coordinates: {lat: "", lng: ""} 
     });
+
+    
 
     const onSuccess = location => {
         setLocation({
