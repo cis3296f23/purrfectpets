@@ -19,7 +19,7 @@ jobs:
       with:
         source_dir: ./purrfectpets/src
         recurse: true
-        output_dir: ./out/src
+        output_dir: ./src
   utilsDocs:
     runs-on: ubuntu-latest
     steps:
