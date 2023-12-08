@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: App.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: App.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from 'react'
+import './App.css'
+import NavBar from './components/navbar'
+import { prefsToInt } from '../utils/encodeDecodeUserPrefs'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import UserPreferences from './components/UserPreferences'
+import LocationGetter from './components/LocationGetter'
+library.add(faThumbsUp, faThumbsDown);
+
+/**
+ * The main App component of the application. Displays current pet with details and a like or dislike button.
+ * 
+ *
+ * @component
+ * @returns {JSX.Element} The rendered App component.
+ */
+function App() {
+
+
+  const [modal, setModal] = useState(false);
+
+  /**
+   * Toggles whether the modal is displayed or not
+   * @function
+   */
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+
+
+
+  const [pets, setPets] = useState([]);
+  const [currentPetIndex, setCurrentPetIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [userPreferences, setUserPreferences] = useState([]);
+  //User info
+  const [userName, getUsername] = useState('')
+  const [email, getEmail] = useState('')
+  const [userID, getUserID] = useState('')
+  const location = LocationGetter();
+
+  
+  /**
+   * A React hook that takes the users' preferences and fetches pets from PetFinder to display
+   * 
+   * @memberof module:React
+   */
+  useEffect(() => {
+    // temp user prefs
+    let userPrefs = ['Dog', 'Cat', 'Small &amp; Furry', 'Scales, Fins &amp; Other', 'Barnyard', 'good_with_children', 'house_trained'];
+    let prefs = prefsToInt(userPrefs);
+    //
+    fetch(`/Petfinder/preferences/${currentPage}/${prefs}`) // 2507 is temp test value
+      .then(res => res.json())
+      .then(data => setPets(data))
+  }, [currentPage]);
+  let userEmail
+
+  //fetch user data from database
+  if (typeof window !== 'undefined') {
+    // Perform sessionStorage action
+    userEmail =  sessionStorage.getItem("userinfo")
+    console.log(`User Email: ${userEmail}`)
+  }
+      
+  /**
+   * A React hook that fetches the user data and stores it in sessionStorage
+   * 
+   * @memberof module:React
+   */    
+  useEffect(() => {
+      const fetchUserData = async () => {
+      try {
+          const response = await fetch(`/users/userInfo/${userEmail}`,{method: 'GET'});
+          const userData = await response.json();
+          console.log('User Data:', userData);
+
+          getUsername(userData.username);
+          getEmail(userData.email);
+          getUserID(userData.id);
+      } catch (error) {
+      console.error('Error fetching user data:', error);
+      }
+    }; 
+  fetchUserData();
+  }, []);
+
+  /**
+   * Asynchronously handles the like action for the current pet.
+   * Adds the current pet to the user preferences with a preference of 'like'.
+   * Then moves to the next pet.
+   *
+   * @async
+   * @function handleLike
+   * @return {Promise} Resolves when the like action has been handled.
+   */
+  const handleLike = async () => {
+    // Get the petID from the current pet
+    const petID = pets[currentPetIndex].id;
+    console.log(`PetID: ${petID}`);
+    console.log(`UserID: ${userID}`);
+    try{
+        let option = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        }
+    
+        const response = await fetch(`/users/liked/${userID}/${petID}`,option);
+        const data = await response.json();
+        console.log('User Data:', data);
+    } 
+    catch (error) {  
+        console.error('Error updating user data:', error);
+    }
+    finally {
+      nextPet();
+    }
+  }
+
+  /**
+   * Handles the process of getting the next pet.
+   * Displays the next pet on the page or displays the first pet on the next page.
+   * @function nextPet
+   */
+  const nextPet = () => {
+    if (currentPetIndex &lt; pets.length - 1) {
+      console.log(currentPetIndex)
+      console.log(pets[currentPetIndex]);
+      setCurrentPetIndex(currentPetIndex + 1);
+    } else {
+      setCurrentPage(currentPage + 1);
+      setCurrentPetIndex(0);
+    }
+  };
+
+  /**
+   * Handles the dislike action for the current pet.
+   * Adds the current pet to the user preferences with a preference of 'dislike'.
+   * Then moves to the next pet.
+   *
+   * @function handleDislike
+   */
+  const handleDislike = () => {
+    setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'dislike' }])
+    nextPet();
+  }
+  // const handleLike = () => {
+  //   //change where we store the pet ID to store in DB for the user and reference later in the bookmark page
+  //   setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'like' }])
+  //   nextPet();
+  // }
+  /**
+   * A React hook that takes logs the users preferences on change
+   * 
+   * @memberof module:React
+   */    
+  useEffect(() => {
+    console.log(userPreferences)
+
+    
+
+  }, [userPreferences]) //only runs when userPreferences changes, console log userPreferences
+    
+  /**
+   * Fetches the user's pet preferences from the server and updates the state.
+   *
+   * @param {Array} pref_list - The list of user preferences.
+   * @function getPreferences
+   */
+  const getPreferences = (pref_list) =>{
+    let prefs = prefsToInt(pref_list);
+    //
+    fetch(`/Petfinder/preferences/${currentPage}/${prefs}`) // 2507 is temp test value
+      .then(res => res.json())
+      .then(data => setPets(data))
+  }
+  //getPreferences(userPreferences)
+
+
+
+  /**
+   * Decodes HTML entities in a string.
+   *
+   * @param {string} str - The string with HTML entities.
+   * @function decodeHtmlEntity
+   * @returns {string} The decoded string.
+   */
+  function decodeHtmlEntity(str) {
+    let textArea = document.createElement('textarea');
+    textArea.innerHTML = str;
+    let decodedStr = textArea.value;
+    textArea.innerHTML = decodedStr;
+    return textArea.value;
+  }
+  
+  return (
+    &lt;>
+    &lt;NavBar />
+      &lt;div className="app-container">
+        &lt;ul style={{ listStyle: 'none' }} className="pet-details">
+          {pets[currentPetIndex] &amp;&amp; (
+            &lt;li key={pets[currentPetIndex].id}>
+              &lt;div className="pet-image-container">
+                &lt;img
+                  src={pets[currentPetIndex].photos[0]?.medium}
+                  alt={pets[currentPetIndex].name}
+                  onError={(e) => {
+                    e.target.style.display = 'none'; // Hide the image on error
+                  }}
+                />
+
+              &lt;/div>
+              &lt;p className="pet-name">&lt;strong>{pets[currentPetIndex].name}&lt;/strong>&lt;/p>
+              &lt;p className="pet-desc">&lt;strong>{decodeHtmlEntity(pets[currentPetIndex].description)}&lt;/strong>&lt;/p>
+              &lt;p className="pet-tags">&lt;strong>{pets[currentPetIndex].tags.join(', ')}&lt;/strong>&lt;/p>
+            &lt;/li>
+          )}
+        &lt;/ul>
+        &lt;div className="info-like-dislike">
+          &lt;ul style={{ listStyle: 'none' }} className="pet-info">
+          {pets[currentPetIndex] &amp;&amp; (
+            &lt;li>
+              &lt;div className="pet-info">
+                &lt;div className="animal-info">
+                  &lt;h1>Pet Info&lt;/h1>
+                  &lt;div className="info-list">
+                  &lt;p>&lt;strong>Type: {pets[currentPetIndex].type}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Age: {pets[currentPetIndex].age}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Gender: {pets[currentPetIndex].gender}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Primary Breed: {pets[currentPetIndex].breeds.primary}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Primary Color: {pets[currentPetIndex].colors.primary}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Size: {pets[currentPetIndex].size}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Coat: {pets[currentPetIndex].coat ? pets[currentPetIndex].coat : "N/A"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>House Trained: {pets[currentPetIndex].attributes.house_trained ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Good With Children: {pets[currentPetIndex].attributes.good_with_children ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Declawed: {pets[currentPetIndex].attributes.declawed ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Special Needs: {pets[currentPetIndex].attributes.special_needs ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Spayed/Neutered: {pets[currentPetIndex].attributes.spayed_neutered ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Shots Current: {pets[currentPetIndex].attributes.shots_current ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Good with children: {pets[currentPetIndex].environment.children ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Good with dogs: {pets[currentPetIndex].environment.dogs ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Good with cats: {pets[currentPetIndex].environment.cats ? "Yes" : "No"}&lt;/strong>&lt;/p>
+                  &lt;/div>
+                &lt;/div>
+                &lt;div className="contact-info">
+                  &lt;h1>Additional Info&lt;/h1>
+                  &lt;p>&lt;strong>Email: {pets[currentPetIndex].contact.email ? pets[currentPetIndex].contact.email : "N/A"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Phone: {pets[currentPetIndex].contact.phone ? pets[currentPetIndex].contact.phone : "N/A"}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>City: {pets[currentPetIndex].contact.address.city}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>State: {pets[currentPetIndex].contact.address.state}&lt;/strong>&lt;/p>
+                  &lt;p>&lt;strong>Published At: {pets[currentPetIndex].published_at}&lt;/strong>&lt;/p>
+                  &lt;a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer" className="learn-more">
+                  Learn More
+                  &lt;/a>
+                  &lt;div>
+                  Current Location: 
+                  {location.loaded ? JSON.stringify(location.coordinates) : "Location data not available yet"}
+                  &lt;/div>
+                &lt;/div>
+              &lt;/div>
+            &lt;/li>
+            )}
+          &lt;/ul>
+          &lt;div className="like-dislike">
+            &lt;FontAwesomeIcon icon="thumbs-down" onClick={handleDislike} />
+            &lt;FontAwesomeIcon icon="thumbs-up" onClick={handleLike} />
+          &lt;/div>
+          &lt;p className="read-the-docs">
+          &lt;/p>
+        &lt;/div>
+      &lt;/div>
+      &lt;button onClick={toggleModal} className="btn-modal">
+        preferences
+      &lt;/button>
+
+      {modal &amp;&amp; (
+        &lt;div className="modal">
+          &lt;div onClick={toggleModal} className="overlay">&lt;/div>
+          &lt;div className="modal-content">
+          &lt;UserPreferences onSubmit={getPreferences}/>
+            &lt;button className="close-modal" onClick={toggleModal}>
+              CLOSE
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
+      )}
+      &lt;footer>
+    &lt;a href="https://www.flaticon.com/free-icons/cats" title="cats icons" style={{ color: '#ffffff' }}>Cats icons created by Freepik - Flaticon&lt;/a>
+    &lt;/footer>
+      &lt;/>
+  );
+}
+
+export default App
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#decodeHtmlEntity">decodeHtmlEntity</a></li><li><a href="global.html#getPreferences">getPreferences</a></li><li><a href="global.html#handleDislike">handleDislike</a></li><li><a href="global.html#handleLike">handleLike</a></li><li><a href="global.html#nextPet">nextPet</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Dec 07 2023 21:47:40 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
