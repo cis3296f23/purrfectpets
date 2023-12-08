@@ -4,9 +4,23 @@ import './Likes.css'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
+
+/**
+ * The Likes page, renders all of the users likes.
+ * 
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Likes component.
+ */
 function Likes(){
     const [likes, setLikes] = useState([])
 
+
+      /**
+     * A React hook that fetches the users' likes from the database and queries the Petfinder API
+     * @async
+     * @memberof module:React
+     */
     useEffect(() => {
         const fetchLikes = async () => {
             const email = sessionStorage.getItem("userinfo");
@@ -33,7 +47,13 @@ function Likes(){
         fetchLikes();
     }, []);
 
-
+    /**
+   * Decodes HTML entities in a string.
+   *
+   * @param {string} str - The string with HTML entities.
+   * @function
+   * @returns {string} The decoded string.
+   */
     function decodeHtmlEntity(str) {
         let textArea = document.createElement('textarea');
         textArea.innerHTML = str;
