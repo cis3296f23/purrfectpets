@@ -19,7 +19,6 @@ jobs:
         working-directory: petfinder
     steps:
       - uses: actions/checkout@v2
-
       - uses: actions/setup-node@v2
         with:
           node-version: "20.x"
@@ -29,3 +28,10 @@ jobs:
           source_dir: ./src
           recurse: true
           output_dir: ./out/src
+      - name: Commit changes in jsdoc build folder
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "34664651+theronhalsey@users.noreply.github.com"
+          git add ./out
+          git commit -m "Updating Jsdoc documentation" || echo "No changes to commit"
+          git push
