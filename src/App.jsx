@@ -9,12 +9,22 @@ import UserPreferences from './components/UserPreferences'
 import LocationGetter from './components/LocationGetter'
 library.add(faThumbsUp, faThumbsDown);
 
-
+/**
+ * The main App component of the application. Displays current pet with details and a like or dislike button.
+ * 
+ *
+ * @component
+ * @returns {JSX.Element} The rendered App component.
+ */
 function App() {
 
 
   const [modal, setModal] = useState(false);
 
+  /**
+   * Toggles whether the modal is displayed or not
+   * @function
+   */
   const toggleModal = () => {
     setModal(!modal);
   };
@@ -33,7 +43,11 @@ function App() {
   const location = LocationGetter();
 
   
-  
+  /**
+   * A React hook that takes the users' preferences and fetches pets from PetFinder to display
+   * 
+   * @memberof module:React
+   */
   useEffect(() => {
     // temp user prefs
     let userPrefs = ['Dog', 'Cat', 'Small & Furry', 'Scales, Fins & Other', 'Barnyard', 'good_with_children', 'house_trained'];
@@ -52,7 +66,11 @@ function App() {
     console.log(`User Email: ${userEmail}`)
   }
       
-      
+  /**
+   * A React hook that fetches the user data and stores it in sessionStorage
+   * 
+   * @memberof module:React
+   */    
   useEffect(() => {
       const fetchUserData = async () => {
       try {
@@ -70,7 +88,15 @@ function App() {
   fetchUserData();
   }, []);
 
-  //update user data
+  /**
+   * Asynchronously handles the like action for the current pet.
+   * Adds the current pet to the user preferences with a preference of 'like'.
+   * Then moves to the next pet.
+   *
+   * @async
+   * @function
+   * @return {Promise} Resolves when the like action has been handled.
+   */
   const handleLike = async () => {
     // Get the petID from the current pet
     const petID = pets[currentPetIndex].id;
@@ -96,6 +122,11 @@ function App() {
     }
   }
 
+  /**
+   * Handles the process of getting the next pet.
+   * Displays the next pet on the page or displays the first pet on the next page.
+   * @function
+   */
   const nextPet = () => {
     if (currentPetIndex < pets.length - 1) {
       console.log(currentPetIndex)
@@ -107,6 +138,13 @@ function App() {
     }
   };
 
+  /**
+   * Handles the dislike action for the current pet.
+   * Adds the current pet to the user preferences with a preference of 'dislike'.
+   * Then moves to the next pet.
+   *
+   * @function
+   */
   const handleDislike = () => {
     setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'dislike' }])
     nextPet();
@@ -116,8 +154,11 @@ function App() {
   //   setUserPreferences([...userPreferences, { id: pets[currentPetIndex].id, preference: 'like' }])
   //   nextPet();
   // }
-
-  //console log userPreferences
+  /**
+   * A React hook that takes logs the users preferences on change
+   * 
+   * @memberof module:React
+   */    
   useEffect(() => {
     console.log(userPreferences)
 
@@ -127,7 +168,12 @@ function App() {
 
 
     
-
+  /**
+   * Fetches the user's pet preferences from the server and updates the state.
+   *
+   * @param {Array} pref_list - The list of user preferences.
+   * @function
+   */
   const getPreferences = (pref_list) =>{
     let prefs = prefsToInt(pref_list);
     //
@@ -139,6 +185,13 @@ function App() {
 
 
 
+  /**
+   * Decodes HTML entities in a string.
+   *
+   * @param {string} str - The string with HTML entities.
+   * @function
+   * @returns {string} The decoded string.
+   */
   function decodeHtmlEntity(str) {
     let textArea = document.createElement('textarea');
     textArea.innerHTML = str;
@@ -203,7 +256,7 @@ function App() {
                   <p><strong>City: {pets[currentPetIndex].contact.address.city}</strong></p>
                   <p><strong>State: {pets[currentPetIndex].contact.address.state}</strong></p>
                   <p><strong>Published At: {pets[currentPetIndex].published_at}</strong></p>
-                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer">
+                  <a href={pets[currentPetIndex].url} target="_blank" rel="noopener noreferrer" className="learn-more">
                   Learn More
                   </a>
                   <div>
